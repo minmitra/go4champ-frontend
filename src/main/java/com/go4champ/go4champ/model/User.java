@@ -4,7 +4,6 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import org.springframework.context.annotation.Primary;
 
 @Entity
 @Table(name = "\"user\"")
