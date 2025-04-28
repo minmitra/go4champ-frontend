@@ -4,35 +4,30 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import org.springframework.context.annotation.Primary;
 
 @Entity
 @Table(name = "\"user\"")
 public class User {
     @Id
     @Column(unique = true, nullable = false)
-    private int userId;
     private String username ;
 
     private String password;
 
     private String name;
+
     private int age;
+
     private boolean gender;
+
     private int weight;
+
     private int height;
+
     private int weightGoal;
 
-    public int getUserId() {
-        return userId;
-    }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
-    public int getHeight() {
-        return height;
-    }
 
     public void setHeight(int height) {
         this.height = height;
@@ -56,15 +51,11 @@ public class User {
         this.weightGoal = weightGoal;
         this.avatarID = avatarID;
     }
-// Test Konstuktor
-    public User(int userId, String username, String password) {
-        this.userId = userId;
-        this.username = username;
-        this.password = password;
-    }
-
     public String getUsername() {
         return username;
+    }
+    public int getHeight() {
+        return height;
     }
 
     public void setUsername(String username) {

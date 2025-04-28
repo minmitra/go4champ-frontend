@@ -2,10 +2,8 @@ package com.go4champ.go4champ.controller;
 
 import com.go4champ.go4champ.model.User;
 import com.go4champ.go4champ.service.UserService;
-import jakarta.persistence.Id;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.v3.oas.annotations.Operation;
@@ -30,11 +28,21 @@ public class UserController {
         return new ResponseEntity<>(newUser, HttpStatus.CREATED);
     }
     @Operation(summary = "Löscht einen bestimmten User")
-    @DeleteMapping("/user/{userId}")
-    public ResponseEntity<Void> deleteUser(@PathVariable int userId){
-        service.delete(userId);
+    @DeleteMapping("/user/{username}")
+    public ResponseEntity<Void> deleteUser(@PathVariable String username){
+        service.delete(username);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+    @Operation(summary = "Get One User")
+    @GetMapping ("/getUser/{username}")
+    public ResponseEntity<User> getUser(@PathVariable String username) {
+            User user = service.getUserById(username);
+            if(user != null)
+                return new ResponseEntity<>(user, HttpStatus.OK);
+            else
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
 
 
 }
