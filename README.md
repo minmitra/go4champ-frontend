@@ -150,7 +150,7 @@ This will launch the app at:
 - Frontend port: `3000`  
 - API requests from the frontend should use `http://localhost:8080`
 
----
+
 
 ## 🧪 Testing
 
@@ -166,7 +166,7 @@ mvn test
 npm test
 ```
 
----
+
 
 ## 💡 Suggestions
 
