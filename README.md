@@ -40,7 +40,7 @@ Replace the URL with the actual repository path.
 
 ## ⚙️ Backend Setup (Java + Spring Boot + Maven + H2)
 
-### 1. Install Java 17
+### 1. Install Java 21
 
 - **macOS**:
   ```bash
@@ -50,11 +50,11 @@ Replace the URL with the actual repository path.
 - **Linux**:
   ```bash
   sudo apt update
-  sudo apt install openjdk-17-jdk
+  sudo apt install openjdk-21-jdk
   ```
 
 - **Windows**:  
-  [Download Oracle JDK 17](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html)
+  [Download Oracle JDK 21](https://www.oracle.com/java/technologies/javase/jdk21-archive-downloads.html)
 
 **Check installation:**
 
