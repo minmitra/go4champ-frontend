@@ -1,88 +1,203 @@
-Developer-Dokumentation – Projektstart
+# 📘 Developer Guide – Project Setup & Local Development
 
-Einheitliches Setup für alle Teammitglieder
-  verwendete Versionen
-IntelliJ IDEA( 2025.1) 
-Java JDK 17  (Java JDK 17: 24.0.1)
-h2 (2024-08-11)
-Git (2.49.0)
-Node.js (v23.11.0)
-Node Package Manager (1cs0.9.2)
-Spring Boot (3.4.4)
-Maven (3.9.9)
+Welcome to this open-source project!  
+This guide explains how to set up and run the application locally. It ensures that all contributors use a consistent environment to streamline development and collaboration.
 
-1.Allgemein
-1.1.IntelliJ IDEA installieren (Version: )
-Download: https://www.jetbrains.com/idea/download
+---
 
-1.2.Git installieren und  Projekt starten (Version: 2.49.0)
-Windows/macOS/Linux: https://git-scm.com/downloads
+## ✅ Prerequisites
 
-1.3.Java JDK 17 installieren (Java JDK 17: 24.0.)
-Windows:
-Offizielle Oracle-Version herunterladen: https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html
-Mit MacOS
-brew install temurin
-Mit Linux
-sudo apt update
-sudo apt install openjdk-17-jdk
+To avoid compatibility issues, please use the following versions:
 
-2.Backend 
-2.1. Maven installieren:
- installieren:
-MacOS
-brew install maven
-Linux
-sudo apt update
-sudo apt install maven
-Windows
-https://maven.apache.org/download.cgi
+| Tool / Library           | Required Version |
+|--------------------------|------------------|
+| IntelliJ IDEA            | 2025.1           |
+| Java JDK                 | 17 (24.0.1)      |
+| Git                      | 2.49.0           |
+| Node.js                  | 23.11.0          |
+| npm                      | 10.9.2           |
+| Spring Boot              | 3.4.4            |
+| Maven                    | 3.9.9            |
+| H2 Database              | 2024-08-11       |
 
-2.2. H2 und Swagger API  konfigurieren  (nur eine Person im Team) :
-    src/main/resources/application.yml
+---
 
-spring:
-  datasource:
-    url: jdbc:h2:mem:testdb
-    driverClassName: org.h2.Driver
-    username: sa
-    password:
-  h2:
-    console:
-      enabled: true
-  jpa:
-    hibernate:
-      ddl-auto: update
+## 🔁 Clone the Repository
 
-springdoc:
-  swagger-ui:
-    path: /swagger-ui.html
+Make sure Git is installed:  
+👉 [Download Git](https://git-scm.com/downloads)
 
-2.3 Abhängigkeit in pom.xml (Falls nicht  im Projekt vorhanden ist, nur eine Person  im Team)
-<dependency>
-  <groupId>com.h2database</groupId>
-  <artifactId>h2</artifactId>
-  <scope>runtime</scope>
-</dependency>
+Then clone the project:
 
-2.4. H2-Konsole im Browser öffnen:????
+```bash
+git clone https://gitlab.com/your-org/project-name.git
+cd project-name
+```
 
-2.5 Backend starten
-Spring Boot  starten:
+Replace the URL with the actual repository path.
+
+---
+
+## ⚙️ Backend Setup (Java + Spring Boot + Maven + H2)
+
+### 1. Install Java 17
+
+- **macOS**:
+  ```bash
+  brew install temurin
+  ```
+
+- **Linux**:
+  ```bash
+  sudo apt update
+  sudo apt install openjdk-17-jdk
+  ```
+
+- **Windows**:  
+  [Download Oracle JDK 17](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html)
+
+**Check installation:**
+
+```bash
+java -version
+```
+
+---
+
+### 2. Install Maven
+
+- **macOS**:
+  ```bash
+  brew install maven
+  ```
+
+- **Linux**:
+  ```bash
+  sudo apt update
+  sudo apt install maven
+  ```
+
+- **Windows**:  
+  [Download Maven](https://maven.apache.org/download.cgi)
+
+**Check installation:**
+
+```bash
+mvn -v
+```
+
+---
+
+### 3. Start the Backend
+
+From the root folder (where `pom.xml` is):
+
+```bash
 mvn spring-boot:run
+```
 
-3.Frontend 
-3.1.Node.js installieren und testen: 
-Windows/macOS/Linux: https://nodejs.org/    
-Nach Installation testen(node  v23.11.0 und Node npm 10.9.2):
+When running:
+
+- Swagger UI: [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
+- H2 Console: [http://localhost:8080/h2-console](http://localhost:8080/h2-console)
+
+**H2 Login:**
+
+- JDBC URL: `jdbc:h2:mem:testdb`
+- Username: `sa`
+- Password: *(leave blank)*
+
+---
+
+## 💻 Frontend Setup (React + Node.js)
+
+### 1. Install Node.js and npm
+
+👉 [Download Node.js](https://nodejs.org/)
+
+**Verify installation:**
+
+```bash
 node -v
 npm -v
+```
 
-3.2. React-Projekt erstellen (nur eine Person im Team):
- Bsp. im Ordner frontend 
-npx create-react-app frontend
+---
 
-3.3.Projekt starten im Frontend-Ordner:
-npm install     # lädt alle benötigten Pakete
-npm start       # startet die React-App
+### 2. Install Frontend Dependencies
 
+```bash
+cd frontend
+npm install
+```
+
+---
+
+### 3. Start the React App
+
+```bash
+npm start
+```
+
+This will launch the app at:  
+👉 [http://localhost:3000](http://localhost:3000)
+
+---
+
+## 🧠 Notes & Conventions
+
+- Backend port: `8080`  
+- Frontend port: `3000`  
+- API requests from the frontend should use `http://localhost:8080`
+
+---
+
+## 🧪 Testing
+
+### Backend
+
+```bash
+mvn test
+```
+
+### Frontend
+
+```bash
+npm test
+```
+
+---
+
+## 💡 Suggestions
+
+To further improve the project setup:
+
+- Add `.env` files for API URLs and secrets  
+- Use ESLint and Prettier for consistent code formatting  
+- Provide Git hooks (e.g., Husky) to check commits  
+- Create a `CONTRIBUTING.md` with collaboration guidelines  
+
+---
+
+## 🚀 Quick Setup Summary
+
+```bash
+# Clone the project
+git clone https://gitlab.com/your-org/project-name.git
+cd project-name
+
+# Run backend
+mvn spring-boot:run
+
+# Run frontend
+cd frontend
+npm install
+npm start
+```
+
+---
+
+## 🙌 Contribution
+
+Feel free to fork, branch, and open merge requests!  
+We welcome all contributions.
