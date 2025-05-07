@@ -1,0 +1,32 @@
+@use "variables";
+
+
+@mixin header{
+        background-color: #f1f8fe;
+        border-bottom: 1px solid #ddd;
+        padding: 15px 30px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: sticky;
+      
+      
+      .logo {
+        font-size: 20px;
+        font-weight: bold;
+        color: #333;
+      }
+      
+      .nav-links a {
+        margin-left: 20px;
+        text-decoration: none;
+        color: #132942;
+        font-weight: bold;
+      }
+      
+      .nav-links a:hover {
+        text-decoration: underline;
+      }
+}
+
+
