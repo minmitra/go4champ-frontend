@@ -12,7 +12,7 @@ To avoid compatibility issues, please use the following versions:
 | Tool / Library           | Required Version |
 |--------------------------|------------------|
 | IntelliJ IDEA            | 2025.1           |
-| Java JDK                 | 17 (24.0.1)      |
+| Java JDK                 |     21           |
 | Git                      | 2.49.0           |
 | Node.js                  | 23.11.0          |
 | npm                      | 10.9.2           |
