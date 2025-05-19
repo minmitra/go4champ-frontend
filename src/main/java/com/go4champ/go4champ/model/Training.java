@@ -2,8 +2,11 @@ package com.go4champ.go4champ.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "\"trainig\"")
 public class Training {
     @Id
     private int TraingID;
@@ -11,6 +14,8 @@ public class Training {
     private String Titel;
 
     private String Description;
+    @ManyToOne
+    private User user;
 
     private float difficulty;
     //in oder outdoor
@@ -31,6 +36,12 @@ public class Training {
         this.Typ = typ;
         this.Description = description;
         this.Titel = titel;
+    }
+
+
+    public Training(String titel, User user) {
+        Titel = titel;
+        this.user = user;
     }
 
     public int getTraingID() {

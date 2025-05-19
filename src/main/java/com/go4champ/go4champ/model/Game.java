@@ -12,18 +12,29 @@ private int points;
 //userId oder so muss noch übergeben wereden
 private String badge;
 private int ranglist;
+
+@OneToOne(mappedBy = "game")
+private User user;
 public Game(){
 
     }
 
- public Game(int gameId, int points, User userId, String badge, int ranglist){
+ public Game(int gameId, int points, User userId, String badge, int ranglist ){
      this.gameId = gameId;
      this.badge =  badge;
      this.points = points;
      this.ranglist = ranglist;
+     this.user =userId;
 
  }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
 
     public int getGameId() {

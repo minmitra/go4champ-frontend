@@ -1,10 +1,10 @@
 package com.go4champ.go4champ.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import org.springframework.context.annotation.Primary;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "\"user\"")
@@ -26,6 +26,15 @@ public class User {
     private int height;
 
     private int weightGoal;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "game_id")
+    private Game game;
+    @OneToMany(
+            mappedBy = "user",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<Training> trainings = new ArrayList<>();
 
 
 
@@ -41,7 +50,11 @@ public class User {
 
     };
 
-    public User(String username,String password, String name, int age, boolean gender, int weight, int weightGoal, String allergies, String sickness, String avatarID) {
+    public User(String name) {
+        this.name = name;
+    }
+
+    public User(String username, String password, String name, int age, boolean gender, int weight, int weightGoal, String allergies, String sickness, String avatarID) {
         this.username = username;
         this.password = password;
         this.name = name;
@@ -51,11 +64,23 @@ public class User {
         this.weightGoal = weightGoal;
         this.avatarID = avatarID;
     }
+    public Game getGame() {
+        return game;
+    }
+
+    public void setGame(Game game) {
+        this.game = game;
+    }
+
     public String getUsername() {
         return username;
     }
     public int getHeight() {
         return height;
+    }
+
+    public void setTrainings(List<Training> trainings) {
+        this.trainings = trainings;
     }
 
     public void setUsername(String username) {
@@ -118,6 +143,10 @@ public class User {
     public void setAvatarID(String avatarID) {
         this.avatarID = avatarID;
     }
+
+
+
+
 
     @Override
     public String toString() {
