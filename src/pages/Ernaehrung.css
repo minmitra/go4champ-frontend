@@ -1,0 +1,76 @@
+.ernaehrung-page {
+    padding: 40px;
+    background-color: #f4f4f4;
+    font-family: 'Segoe UI', sans-serif;
+  }
+  
+  .ernaehrung-page h1 {
+    font-size: 2rem;
+    color: #2e7d32;
+    margin-bottom: 20px;
+  }
+  
+  .ernaehrung-page h2 {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 1.3rem;
+    color: #363c37;
+  }
+  
+  .ernaehrung-page h3 {
+    margin-top: 25px;
+    margin-bottom: 12px;
+    font-size: 1.2rem;
+    color: #2c4a35;
+  }
+  
+  .ernaehrung-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .ernaehrung-options label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #e6f2e6;
+    padding: 10px 13px;
+    border-radius: 8px;
+    font-size: 1.05rem;
+    color: #23562b;
+    cursor: pointer;
+    width: fit-content;
+    transition: background-color 0.3s ease;
+  }
+  
+  .ernaehrung-options label:hover {
+    background-color: #d0e8d0;
+  }
+  
+  .ernaehrung-options input[type="checkbox"] {
+    transform: scale(1.2);
+    cursor: pointer;
+  }
+  
+  .save-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #3e6449;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    transition: background-color 0.3s ease;
+    z-index: 1000;
+  }
+  
+  .save-button:hover {
+    background-color: #2c4a35;
+  }
+  
