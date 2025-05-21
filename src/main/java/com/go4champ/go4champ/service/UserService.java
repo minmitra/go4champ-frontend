@@ -13,14 +13,32 @@ public class UserService {
     @Autowired
     private UserRepo repo;
 
-  public List<User> getAllUser(){return repo.findAll();}
-
-    public User getUserById(String username){
-      return repo.findById(username).orElse(null);
+    public List<User> getAllUser() {
+        return repo.findAll();
     }
-    public User createUser(User user){return repo.save(user);}
 
-    public void delete(String username){
-      repo.deleteById(username);
+    public User getUserById(String username) {
+        return repo.findById(username).orElse(null);
+    }
+
+    public User createUser(User user) {
+        return repo.save(user);
+    }
+
+    public void delete(String username) {
+        // Nutzer holen
+        User user = getUserById(username);
+        if (user != null && user.getGame() != null) {
+            // Game-Beziehung auflösen
+            user.setGame(null);
+            // Speichern vor dem Löschen
+            repo.save(user);
+        }
+        repo.deleteById(username);
+    }
+
+    // Neue Methode zur Aktualisierung eines Benutzers
+    public User updateUser(User user) {
+        return repo.save(user);
     }
 }

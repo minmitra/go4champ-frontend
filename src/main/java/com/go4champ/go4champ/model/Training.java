@@ -1,55 +1,55 @@
 package com.go4champ.go4champ.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
-@Table(name = "\"trainig\"")
+@Table(name = "\"training\"")
 public class Training {
+
     @Id
-    private int TraingID;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int trainingId;
 
-    private String Titel;
+    private String title;
 
-    private String Description;
+    private String description;
+
     @ManyToOne
     private User user;
 
     private float difficulty;
-    //in oder outdoor
-    private boolean Typ;
-    //vielleicht float
-    private int duration;
-    //Ziel gruppe was ist damit gemeint muss noch eingefügt werden?
 
+    // true = indoor, false = outdoor (or use enum for better clarity)
+    private boolean type;
+
+    private int duration;
+
+    // TODO: Define targetGroup field once the requirement is clarified
 
     public Training() {
-
     }
 
-    public Training(int traingID, int duration, float difficulty, boolean typ, String description, String titel) {
-        this.TraingID = traingID;
+    public Training(int trainingId, int duration, float difficulty, boolean type, String description, String title) {
+        this.trainingId = trainingId;
         this.duration = duration;
         this.difficulty = difficulty;
-        this.Typ = typ;
-        this.Description = description;
-        this.Titel = titel;
+        this.type = type;
+        this.description = description;
+        this.title = title;
     }
 
-
-    public Training(String titel, User user) {
-        Titel = titel;
+    public Training(String title, User user) {
+        this.title = title;
         this.user = user;
     }
 
-    public int getTraingID() {
-        return TraingID;
+    // Getters and Setters
+    public int getTrainingId() {
+        return trainingId;
     }
 
-    public void setTraingID(int traingID) {
-        TraingID = traingID;
+    public void setTrainingId(int trainingId) {
+        this.trainingId = trainingId;
     }
 
     public int getDuration() {
@@ -60,12 +60,12 @@ public class Training {
         this.duration = duration;
     }
 
-    public boolean isTyp() {
-        return Typ;
+    public boolean isType() {
+        return type;
     }
 
-    public void setTyp(boolean typ) {
-        Typ = typ;
+    public void setType(boolean type) {
+        this.type = type;
     }
 
     public float getDifficulty() {
@@ -77,18 +77,26 @@ public class Training {
     }
 
     public String getDescription() {
-        return Description;
+        return description;
     }
 
     public void setDescription(String description) {
-        Description = description;
+        this.description = description;
     }
 
-    public String getTitel() {
-        return Titel;
+    public String getTitle() {
+        return title;
     }
 
-    public void setTitel(String titel) {
-        Titel = titel;
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
