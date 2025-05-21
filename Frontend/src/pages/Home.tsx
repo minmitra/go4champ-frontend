@@ -1,8 +1,6 @@
-import React from 'react';
+
 import './Home.css';
 import Navigation from '../components/Navigation';
-import Footer from '../components/Footer';
-
 import ernaehrung from '../assets/ernährung.png.png';
 import hantel from '../assets/hantel.png.png';
 import pixel from '../assets/pixel.png';
@@ -66,7 +64,6 @@ const Home = () => {
         </div>
 
       </div>
-      <Footer />
     </>
   );
 };

@@ -150,7 +150,7 @@ const Register = () => {
               className={errors.gender ? 'input-error':''}
               required
             >
-              <option value="">* -- Please select --</option>
+              <option value="">*Gender</option>
               <option value="male">Male</option>
               <option value="female">Female</option>
               <option value="diverse">Diverse</option>

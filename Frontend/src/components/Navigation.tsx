@@ -34,9 +34,9 @@ const Navigation= () => {
                     </div>
                     <div className="navigation-right">
                         {location.pathname === '/' ? (
-                            <Link to="/login" className="home-link">login</Link>
+                            <Link to="/login" className="home-link">Login</Link>
                         ):(
-                            <Link to="/" className="home-link">home</Link>
+                            <Link to="/" className="home-link">Home</Link>
                         )}        
                     </div>
                 </div>

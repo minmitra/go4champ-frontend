@@ -6,17 +6,17 @@ import Login from './pages/Login'
 import Register from './pages/Register';
 import ForgotPassword from './pages/ForgotPassword';
 import PasswordResetSuccess from './pages/PasswordResetSuccess';
-import Footer from './components/Footer';
 import ErnaehrungPage from './pages/Ernaehrung';
+import Footer from './components/Footer';
 
 function App() {
   return (
     <AuthentiProvider>
       <Router>
         <Navigation />
-
+  
         <div style ={{paddingTop: '60px'}}>
-
+        
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
@@ -26,6 +26,7 @@ function App() {
             <Route path="/ernaehrung" element={<ErnaehrungPage />} />
           </Routes>
         </div>
+        <Footer />
       </Router>
     </AuthentiProvider>
   );

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import Navigation from '../components/Navigation';
+import { useAuthenti } from '../context/AuthentiContext';
 import './Login.css';
 
 const Login = () => {
@@ -8,6 +9,8 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const {login} = useAuthenti();
+  
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -25,17 +28,18 @@ const Login = () => {
         return;
       }
 
-      console.log('Login erfolgreich:', data);
-      navigate('/home');
+      console.log('Login successful:', data);
+      login();
+      navigate('/mainpage');
+      
     } catch (err) {
-      setError('Fehler bei der Verbindung zum Server');
+      setError('Error connecting to the server');
       console.error(err);
     }
   };
 
   return (
     <>
-      <Navigation />
 
       <main>
         <form onSubmit={handleSubmit} noValidate>
