@@ -19,7 +19,7 @@ public class User {
 
     private int age;
 
-    private boolean gender;
+    private String gender;
 
     private int weight;
 
@@ -53,7 +53,7 @@ public class User {
         this.name = name;
     }
 
-    public User(String username, String password, String name, int age, boolean gender, int weight, int weightGoal, String allergies, String sickness, String avatarID) {
+    public User(String username, String password, String name, int age, String gender, int weight, int weightGoal, String allergies, String sickness, String avatarID) {
         this.username = username;
         this.password = password;
         this.name = name;
@@ -137,11 +137,11 @@ public class User {
         this.age = age;
     }
 
-    public boolean isGender() {
+    public String getGender() {
         return gender;
     }
 
-    public void setGender(boolean gender) {
+    public void setGender(String gender) {
         this.gender = gender;
     }
 
