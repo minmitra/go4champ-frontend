@@ -5,7 +5,9 @@ import Login from './pages/Login'
 import Register from './pages/Register';
 import ForgotPassword from './pages/ForgotPassword';
 import PasswordResetSuccess from './pages/PasswordResetSuccess';
-import ErnaehrungPage from './pages/Ernaehrung';
+import Nutrition from './pages/Nutrition';
+import Workout from './pages/Workout';
+import WorkoutForm from './pages/WorkoutForm';
 import Footer from './components/Footer';
 import Mainpage from './pages/Mainpage';
 
@@ -22,7 +24,8 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/password-reset-success" element={<PasswordResetSuccess />} />
-            <Route path="/ernaehrung" element={<ErnaehrungPage />} />
+            <Route path="/nutrition" element={<Nutrition />} />
+            <Route path="/workout" element={<Workout/>} />
             <Route path="/mainpage" element={<Mainpage />} />
           </Routes>
         </div>

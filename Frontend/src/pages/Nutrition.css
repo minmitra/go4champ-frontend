@@ -1,0 +1,166 @@
+.nutrition-page {
+    padding: 40px;
+    background-color: #f4f4f4;
+    font-family: 'Segoe UI', sans-serif;
+  }
+  
+  .nutrition-page h1 {
+  color: #746151; 
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+}
+  
+  .nutrition-page h2 {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 1.3rem;
+    color: #363c37;
+  }
+  
+  .nutrition-page h3 {
+    margin-top: 25px;
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+    color: #2c4a35;
+  }
+  
+  .nutrition-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .nutrition-options label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #e6f2e6;
+    padding: 10px 13px;
+    border-radius: 8px;
+    font-size: 1.05rem;
+    color: #23562b;
+    cursor: pointer;
+    width: fit-content;
+    transition: background-color 0.3s ease;
+    white-space: nowrap;
+  }
+  
+  .nutrition-options label:hover {
+    background-color: #d0e8d0;
+  }
+  
+  .nutrition-options input[type="checkbox"] {
+    transform: scale(1.2);
+    cursor: pointer;
+  }
+
+  .nutrition-input {
+  width: 120px;
+  padding: 8px 10px;
+  font-size: 1rem;
+  border: 1px solid #3e6449;
+  border-radius: 6px;
+  background-color: #fff;
+  color: #2c4a35;
+  margin-bottom: 20px;
+}
+
+  
+  .save-button {
+    
+  margin-top: 30px;
+  margin-bottom: 60px; /* Genügend Abstand zum Seitenende */
+  background-color: #3e6449;
+  color: white;
+  border: none;
+  padding: 9px 14px;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  transition: background-color 0.3s ease;
+  width: auto;
+  
+}
+
+  .save-button:hover {
+    background-color: #2c4a35;
+  }
+  
+  .question-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.avatar-image {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+}
+
+.speech-bubble {
+  position: relative;
+  background-color: #ffffff;
+  border: 2px solid #e0e0e0;
+  border-radius: 16px;
+  padding: 16px 20px;
+  font-size: 1.1rem;
+  color: #333;
+  max-width: 440px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  line-height: 1.4;
+  font-weight: 500;
+}
+
+/* Pfeil links */
+.speech-bubble::before {
+  content: '';
+  position: absolute;
+  left: -12px;
+  top: 20px;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 10px 12px 10px 0;
+  border-color: transparent #ffffff transparent transparent;
+  filter: drop-shadow(-1px 0px 1px rgba(0,0,0,0.05));
+}
+
+.mynutrition-button {
+  margin-bottom: 20px;
+  background-color: #3e6449;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  font-size: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.input-box {
+  width: 100%;
+  max-width: 500px;
+  height: 80px;
+  padding: 12px;
+  font-size: 1rem;
+  border: 1px solid #3e6449;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  resize: vertical;
+}
+
+.generated-plan {
+  margin-top: 20px;
+  padding: 16px;
+  background-color: #e6f2e6;
+  border-radius: 8px;
+  font-size: 1rem;
+  color: #23562b;
+}
+
+.custom-request {
+  margin-top: 40px;
+}
