@@ -1,6 +1,6 @@
 
 import './Home.css';
-import ernaehrung from '../assets/ernährung.png.png';
+import nutrition from '../assets/ernährung.png.png';
 import hantel from '../assets/hantel.png.png';
 import pixel from '../assets/pixel.png';
 import freunde from '../assets/freunde.png';
@@ -29,11 +29,11 @@ const Home = () => {
         <div className="card-container">
 
           {/* Ernährungs-Box */}
-          <div className="info-card ernaehrung-card">
-  <Link to="/ernaehrung">
-    <img src={ernaehrung} alt="Nutrition" className="card-image" />
+          <div className="info-card nutrition-card">
+  <Link to="/nutrition">
+    <img src={nutrition} alt="Nutrition" className="card-image" />
   </Link>
-  <p className="card-text ernaehrung-text">
+  <p className="card-text nutrition-text">
   Create your personalized nutrition plan tailored to your preferences and allergies.
   </p>
 </div>
