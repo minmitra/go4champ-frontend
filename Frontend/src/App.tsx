@@ -1,5 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { AuthentiProvider } from './context/AuthentiContext';
+import { Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Navigation from './components/Navigation';
 import Login from './pages/Login'
@@ -8,11 +7,11 @@ import ForgotPassword from './pages/ForgotPassword';
 import PasswordResetSuccess from './pages/PasswordResetSuccess';
 import ErnaehrungPage from './pages/Ernaehrung';
 import Footer from './components/Footer';
+import Mainpage from './pages/Mainpage';
 
 function App() {
   return (
-    <AuthentiProvider>
-      <Router>
+      <>
         <Navigation />
   
         <div style ={{paddingTop: '60px'}}>
@@ -24,13 +23,13 @@ function App() {
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/password-reset-success" element={<PasswordResetSuccess />} />
             <Route path="/ernaehrung" element={<ErnaehrungPage />} />
+            <Route path="/mainpage" element={<Mainpage />} />
           </Routes>
         </div>
         <Footer />
-      </Router>
-    </AuthentiProvider>
+      </>
   );
-}
+};
 
 export default App;
 

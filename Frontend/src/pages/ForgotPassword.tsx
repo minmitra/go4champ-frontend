@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Navigation from '../components/Navigation';
 import './ForgotPassword.css';
 
 const ForgotPassword: React.FC = () => {
@@ -37,7 +36,6 @@ const ForgotPassword: React.FC = () => {
         
     return(
         <>
-            <Navigation />
             
             <main className='forgot-password-container'>
                 <form onSubmit={handleSubmit}>

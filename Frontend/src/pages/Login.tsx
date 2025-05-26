@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import Navigation from '../components/Navigation';
 import { useAuthenti } from '../context/AuthentiContext';
 import './Login.css';
 
@@ -15,7 +14,7 @@ const Login = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:8080/api/users/login', {
+      const response = await fetch('http://localhost:8080/newUser', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password }),
