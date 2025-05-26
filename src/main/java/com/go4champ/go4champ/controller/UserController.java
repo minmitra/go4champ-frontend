@@ -13,55 +13,102 @@ import java.util.List;
 
 @Tag(name = "UserController", description = "Api für User")
 @RestController
-//@RequestMapping Optional für URL links
 public class UserController {
+
     @Autowired
     private UserService service;
 
-    @Operation(summary = "Gibt alle Produckte zurück")
+    @Operation(summary = "Gibt alle User zurück")
     @GetMapping("/allUsers")
-    public ResponseEntity<List<User>> getAllUser() {
-        return new ResponseEntity<>(service.getAllUser(), HttpStatus.OK);
+    public ResponseEntity<?> getAllUser() {
+        try {
+            List<User> users = service.getAllUser();
+            return ResponseEntity.ok(users);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Fehler beim Abrufen der User: " + e.getMessage());
+        }
     }
 
     @Operation(summary = "Erstellt neuen User")
     @PostMapping("/newUser")
-    public ResponseEntity<User> createUser(@RequestBody User user) {
-        User newUser = service.createUser(user);
-        return new ResponseEntity<>(newUser, HttpStatus.CREATED);
+    public ResponseEntity<?> createUser(@RequestBody User user) {
+        try {
+            if (service.existsByUsername(user.getUsername())) {
+                return ResponseEntity.badRequest().body("Username bereits vergeben");
+            }
+            User newUser = service.createUser(user);
+            return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Fehler beim Erstellen des Users: " + e.getMessage());
+        }
     }
 
     @Operation(summary = "Löscht einen bestimmten User")
     @DeleteMapping("/user/{username}")
-    public ResponseEntity<Void> deleteUser(@PathVariable String username) {
-        service.delete(username);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    public ResponseEntity<?> deleteUser(@PathVariable String username) {
+        try {
+            System.out.println("Versuche User zu löschen: " + username);
+
+            if (!service.existsByUsername(username)) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body("User '" + username + "' nicht gefunden");
+            }
+
+            boolean deleted = service.delete(username);
+            if (deleted) {
+                return ResponseEntity.ok("User '" + username + "' erfolgreich gelöscht");
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .body("Fehler beim Löschen des Users");
+            }
+        } catch (Exception e) {
+            System.err.println("Fehler beim Löschen: " + e.getMessage());
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Fehler beim Löschen: " + e.getMessage());
+        }
     }
 
-    @Operation(summary = "Get One User")
+    @Operation(summary = "Holt einen User")
     @GetMapping("/getUser/{username}")
-    public ResponseEntity<User> getUser(@PathVariable String username) {
-        User user = service.getUserById(username);
-        if (user != null)
-            return new ResponseEntity<>(user, HttpStatus.OK);
-        else
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    public ResponseEntity<?> getUser(@PathVariable String username) {
+        try {
+            User user = service.getUserById(username);
+            if (user != null) {
+                return ResponseEntity.ok(user);
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body("User '" + username + "' nicht gefunden");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Fehler beim Abrufen: " + e.getMessage());
+        }
     }
 
-
-
-    //muss dick überarbeitet werden wenn überhaupt nötisch
-    @Operation(summary = "Update User")
+    @Operation(summary = "Aktualisiert einen User")
     @PutMapping("/updateUser/{username}")
-    public ResponseEntity<User> updateUser(@PathVariable String username, @RequestBody User user) {
-        User existingUser = service.getUserById(username);
-        if (existingUser != null) {
-            // Stellen sicher, dass die ID nicht geändert wird
+    public ResponseEntity<?> updateUser(@PathVariable String username, @RequestBody User user) {
+        try {
+            if (!service.existsByUsername(username)) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body("User '" + username + "' nicht gefunden");
+            }
+
             user.setUsername(username);
             User updatedUser = service.updateUser(user);
-            return new ResponseEntity<>(updatedUser, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+            if (updatedUser != null) {
+                return ResponseEntity.ok(updatedUser);
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .body("Fehler beim Aktualisieren");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Fehler beim Aktualisieren: " + e.getMessage());
         }
     }
 }

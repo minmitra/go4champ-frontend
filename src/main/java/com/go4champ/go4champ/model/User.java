@@ -12,7 +12,8 @@ public class User {
     @Id
     @Column(unique = true, nullable = false)
     private String username;
-
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<String> roles = new ArrayList<>();
     private String password;
 
     private String name;
@@ -37,6 +38,14 @@ public class User {
             orphanRemoval = true
     )
     private List<Training> trainings = new ArrayList<>();
+
+    public List<String> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<String> roles) {
+        this.roles = roles;
+    }
 
     public void setHeight(int height) {
         this.height = height;
