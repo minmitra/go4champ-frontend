@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import Navigation from '../components/Navigation';
 import './Register.css'
 
 
@@ -72,7 +71,7 @@ const Register = () => {
     }
 
     try {
-      const res = await fetch('http://localhost:8080/api/users/register', {
+      const res = await fetch('http://localhost:8080/newUser', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
@@ -104,7 +103,6 @@ const Register = () => {
 
   return (
     <>
-      <Navigation />
 
       <main>
         <form onSubmit={handleSubmit} noValidate>
@@ -150,7 +148,7 @@ const Register = () => {
               className={errors.gender ? 'input-error':''}
               required
             >
-              <option value="">* -- Please select --</option>
+              <option value="">*Gender</option>
               <option value="male">Male</option>
               <option value="female">Female</option>
               <option value="diverse">Diverse</option>

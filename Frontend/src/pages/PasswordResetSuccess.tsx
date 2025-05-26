@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Navigation from '../components/Navigation';
 import './PasswordResetSuccess.css';
 
 const PasswordResetSuccess: React.FC = () => {
@@ -13,7 +12,7 @@ const PasswordResetSuccess: React.FC = () => {
         setResendMessage('');
 
         try {
-            const res = await fetch('http://localhost:3000/api/users/login', {
+            const res = await fetch('http://localhost:8080/api/users/login', {
                 method: 'POST',
             headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({email: localStorage.getItem('resetEmail')}),
@@ -42,7 +41,6 @@ const PasswordResetSuccess: React.FC = () => {
 
     return(
         <>
-            <Navigation />
             
             <main className='password-reset-success-container'>
                 

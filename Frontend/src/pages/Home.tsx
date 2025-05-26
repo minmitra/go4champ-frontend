@@ -1,8 +1,5 @@
-import React from 'react';
-import './Home.css';
-import Navigation from '../components/Navigation';
-import Footer from '../components/Footer';
 
+import './Home.css';
 import ernaehrung from '../assets/ernährung.png.png';
 import hantel from '../assets/hantel.png.png';
 import pixel from '../assets/pixel.png';
@@ -14,7 +11,6 @@ import { Link } from 'react-router-dom';
 const Home = () => {
   return (
     <>
-      <Navigation />
 
       <div className="home-container">
 
@@ -66,7 +62,6 @@ const Home = () => {
         </div>
 
       </div>
-      <Footer />
     </>
   );
 };

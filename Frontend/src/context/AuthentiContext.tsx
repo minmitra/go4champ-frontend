@@ -9,10 +9,18 @@ type AuthentiContextType = {
 const AuthentiContext = createContext<AuthentiContextType | undefined>(undefined);
 
 export const AuthentiProvider = ({children}: {children: ReactNode}) => {
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
+        return localStorage.getItem('isAuthenticated') === 'true';
+    })
 
-    const login = () => setIsAuthenticated(true);
-    const logout = () => setIsAuthenticated(true);
+    const login = () => {
+        setIsAuthenticated(true);
+        localStorage.setItem('isAuthenticated', 'true');
+    };
+    const logout = () => {
+        setIsAuthenticated(false);
+        localStorage.removeItem('isAuthenticated');
+    };
 
     return(
         <AuthentiContext.Provider value={{isAuthenticated, login, logout}}>
@@ -21,7 +29,7 @@ export const AuthentiProvider = ({children}: {children: ReactNode}) => {
     );
 };
 
-export const useAuthenti = () => {
+export const useAuthenti = (): AuthentiContextType => {
     const context = useContext(AuthentiContext);
     if(!context){
         throw new Error('useAuthenti must be used within an AuthentiProvider')
