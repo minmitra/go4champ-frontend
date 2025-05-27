@@ -1,8 +1,8 @@
 // NutritionForm.tsx
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
 import avatar from '../assets/pixel.png';
 import './Nutrition.css';
+import { motion } from 'framer-motion';
 
 const NutritionForm = ({ onSubmit }: { onSubmit: (data: any) => void }) => {
   const [step, setStep] = useState(0);

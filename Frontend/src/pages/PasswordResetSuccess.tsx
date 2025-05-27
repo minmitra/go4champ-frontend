@@ -7,25 +7,32 @@ const PasswordResetSuccess: React.FC = () => {
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
 
+    const resetEmail = localStorage.getItem('resetEmail') || '';
+
+
     const handleResend = async () => {
+        if(!resetEmail) {
+            setResendMessage('An account with this email does not exist.');
+            return;
+        }
         setIsLoading(true);
         setResendMessage('');
 
         try {
-            const res = await fetch('http://localhost:8080/api/users/login', {
+            const res = await fetch('http://localhost:8080/api/auth/forgot-password', {
                 method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({email: localStorage.getItem('resetEmail')}),
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({email: resetEmail}),
             });
 
             const data = await res.json();
 
 
             if (!res.ok) {
-                setResendMessage( data.error || 'Faild to resend');
+                setResendMessage( data.error || 'Failed to resend');
             }
             else{
-                setResendMessage('Reset email resent successfully.')
+                setResendMessage('Reset link was sent to your email successfully.')
             }
         } 
         catch (err) {
@@ -49,7 +56,7 @@ const PasswordResetSuccess: React.FC = () => {
                 <p>Reset link was send to your E-Mail successfuly!</p>
 
                 <button onClick={handleResend} disabled={isLoading}>
-                    {isLoading ? 'Resending...' : 'Resend E-Mail'}
+                    {isLoading ? 'Resending...' : 'Resend email'}
                 </button>
 
                 <button onClick={handleBackToLogin} className='back-button'>

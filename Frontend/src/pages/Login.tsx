@@ -14,21 +14,22 @@ const Login = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:8080/newUser', {
+      const response = await fetch('http://localhost:8080/api/auth/login', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({ username, password }),
       });
 
       const data = await response.json();
 
       if (!response.ok) {
-        setError(data.error || 'Login fehlgeschlagen');
+        const errorMessage = typeof data === 'string' ? data : data.message || 'Login fehlgeschlagen';
+        setError(errorMessage);
         return;
       }
 
-      console.log('Login successful:', data);
-      login();
+      localStorage.setItem('token', data.token);
+      login(data.token);
       navigate('/mainpage');
       
     } catch (err) {
