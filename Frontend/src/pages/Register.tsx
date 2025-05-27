@@ -4,24 +4,23 @@ import './Register.css'
 
 
 type RegisterForm = {
+  email: string;
   username: string;
-  password: string;
   name: string;
   age: string;
   gender: string;
-  weight: string;
-  height: string;
+  password: string;
+  
 };
 
 const Register = () => {
   const [formData, setFormData] = useState<RegisterForm>({
+    email: '',
     username: '',
-    password: '',
     name: '',
     age: '',
     gender: '',
-    weight: '',
-    height: '',
+    password: '',
   });
 
   const [errors, setErrors] = useState<{[key: string]: string}>({});
@@ -43,7 +42,7 @@ const Register = () => {
     const newErrors: { [key: string]: string} = {};
 
     Object.entries(formData).forEach(([key, value]) =>{
-      const requiredFields = [ 'username', 'password', 'age']
+      const requiredFields = [ 'email', 'username', 'password', 'age']
       if(requiredFields.includes(key) && !value.trim()){
         newErrors[key] = 'This field is required';
       }
@@ -66,32 +65,34 @@ const Register = () => {
     const payload={
       ...formData,
       age: Number(formData.age),
-      weight: Number(formData.weight),
-      height: Number(formData.height),
     }
 
     try {
-      const res = await fetch('http://localhost:8080/newUser', {
+      const res = await fetch('http://localhost:8080/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       });
 
-      const data = await res.json();
+      const contentType = res.headers.get('content-type');
+      const isJson = contentType && contentType.includes('application/json');
+      const data = isJson ? await res.json() : await res.text();
 
       if (!res.ok) {
-       if(data.error.includes("User already exists")){
+        const message = isJson ? data.error?.toLowerCase() : data.toLowerCase();
+
+       if(message?.includes("user")){
         setErrors({username: 'This username is already taken'});
         }
-        if(data.error.includes("Email already exists")){
-          setErrors({email: 'This E-Mail is already registered'});
+        else if(message?.includes('email')){
+          setErrors({email: 'This email is already registered'});
         }
         else{
-          setErrors({general: data.error || 'Registration failed'});
+          setErrors({general: data || 'Registration failed'});
         }
         return;
       }
-      alert("Registration successfull")
+      alert("Registration successful! Please check your email to verify your account before logging in.")
       navigate('/login');
     } 
 
@@ -110,7 +111,17 @@ const Register = () => {
 
           {errors.general && <p className="error">{errors.general}</p>}
 
-         
+         <input
+              id="email"
+              type="email"
+              placeholder='*Email'
+              value={formData.email}
+              onChange={handleChange}
+              className={errors.email ? 'input-error':''}
+              required
+            />
+            {errors.email && <p className="error">{errors.email}</p>}
+
             <input
               id="username"
               type="text"
@@ -123,20 +134,9 @@ const Register = () => {
             {errors.username && <p className="error">{errors.username}</p>}
 
             <input
-              id="password"
-              type="password"
-              placeholder='*Password'
-              value={formData.password}
-              onChange={handleChange}
-              className={errors.password ? 'input-error':''}
-              required
-            />
-            {errors.password && <p className="error">{errors.password}</p>}
-
-            <input
               id="name"
               type="text"
-              placeholder='Name'
+              placeholder='Displayname'
               value={formData.name}
               onChange={handleChange}
             />
@@ -146,9 +146,8 @@ const Register = () => {
               value={formData.gender}
               onChange={handleChange}
               className={errors.gender ? 'input-error':''}
-              required
             >
-              <option value="">*Gender</option>
+              <option value="">Gender</option>
               <option value="male">Male</option>
               <option value="female">Female</option>
               <option value="diverse">Diverse</option>
@@ -168,26 +167,15 @@ const Register = () => {
             {errors.age && <p className="error">{errors.age}</p>}
 
             <input
-              id="weight"
-              type="number"
-              step={0.1}
-              placeholder='Weight (kg)'
-              value={formData.weight}
+              id="password"
+              type="password"
+              placeholder='*Password'
+              value={formData.password}
               onChange={handleChange}
-              className={errors.weight ? 'input-error' : ''}
+              className={errors.password ? 'input-error':''}
+              required
             />
-            {errors.weight && <p className="error">{errors.weight}</p>}
-
-            <input
-              id="height"
-              type="number"
-              step={0.1}
-              placeholder='Height (cm)'
-              value={formData.height}
-              onChange={handleChange}
-              className={errors.height ? 'input-error' : ''}
-            />
-            {errors.height && <p className="error">{errors.height}</p>}
+            {errors.password && <p className="error">{errors.password}</p>}
 
           <input type="submit" value="Register" />
           <Link className="register-link" to="/login">

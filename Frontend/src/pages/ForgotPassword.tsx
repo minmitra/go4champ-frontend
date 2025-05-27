@@ -11,11 +11,16 @@ const ForgotPassword: React.FC = () => {
         e.preventDefault();
         setErrors('');
 
+        if(!email.trimEnd()){
+            setErrors('Please submit your email.');
+            return;
+        }
+
     
         try {
-            const res = await fetch('http://localhost:8080/api/users/login', {
+            const res = await fetch('http://localhost:8080/api/auth/forgot-password', {
                 method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({email}),
             });
 
@@ -48,7 +53,7 @@ const ForgotPassword: React.FC = () => {
                         type='email'
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        placeholder='E-Mail address'
+                        placeholder='Email address'
                     />
                     <button type='submit' className="submit">
                         Receive link
