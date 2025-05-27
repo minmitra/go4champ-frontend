@@ -4,6 +4,7 @@ import com.go4champ.go4champ.model.AuthRequest;
 import com.go4champ.go4champ.model.AuthResponse;
 import com.go4champ.go4champ.security.JwtTokenUtil;
 import com.go4champ.go4champ.service.UserService;
+import com.go4champ.go4champ.service.EmailService;
 import com.go4champ.go4champ.model.User;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -16,6 +17,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @Tag(name = "AuthController", description = "API für Authentifizierung")
 @RestController
@@ -31,8 +34,8 @@ public class AuthController {
     @Autowired
     private JwtTokenUtil jwtUtil;
 
-    // Request/Response DTOs
-
+    @Autowired
+    private EmailService emailService;
 
     @Operation(summary = "Registriert einen neuen User")
     @PostMapping("/register")
@@ -42,11 +45,52 @@ public class AuthController {
                 return ResponseEntity.badRequest().body("Username bereits vergeben");
             }
 
+            // Prüfen ob E-Mail bereits existiert
+            if (user.getEmail() != null && userService.findByEmail(user.getEmail()).isPresent()) {
+                return ResponseEntity.badRequest().body("E-Mail-Adresse bereits registriert");
+            }
+
+            // Verification Token generieren
+            String verificationToken = UUID.randomUUID().toString();
+            user.setVerificationToken(verificationToken);
+            user.setEmailVerified(false);
+
+            // User speichern
             User savedUser = userService.createUser(user);
-            return ResponseEntity.ok("Registrierung erfolgreich");
+
+            // Verification E-Mail senden (falls E-Mail angegeben)
+            if (user.getEmail() != null && !user.getEmail().isEmpty()) {
+                emailService.sendVerificationEmail(user.getEmail(), verificationToken);
+                return ResponseEntity.ok("Registrierung erfolgreich! Bitte bestätigen Sie Ihre E-Mail-Adresse über den Link in der E-Mail.");
+            } else {
+                return ResponseEntity.ok("Registrierung erfolgreich!");
+            }
+
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Fehler bei der Registrierung: " + e.getMessage());
+        }
+    }
+
+    @Operation(summary = "E-Mail-Adresse bestätigen")
+    @GetMapping("/verify-email")
+    public ResponseEntity<?> verifyEmail(@RequestParam String token) {
+        try {
+            User user = userService.findByVerificationToken(token);
+            if (user == null) {
+                return ResponseEntity.badRequest().body("Ungültiger oder abgelaufener Verification-Token");
+            }
+
+            // E-Mail als bestätigt markieren
+            user.setEmailVerified(true);
+            user.setVerificationToken(null); // Token löschen
+            userService.updateUser(user);
+
+            return ResponseEntity.ok("✅ E-Mail-Adresse erfolgreich bestätigt! Sie können sich jetzt vollständig anmelden.");
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Fehler bei der E-Mail-Bestätigung: " + e.getMessage());
         }
     }
 
@@ -62,15 +106,52 @@ public class AuthController {
             );
 
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            String token = jwtUtil.generateToken(userDetails);
 
+            // Prüfen ob E-Mail bestätigt wurde
+            User user = userService.getUserById(authRequest.getUsername());
+            if (user != null && user.getEmail() != null && !user.isEmailVerified()) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                        .body("⚠️ Bitte bestätigen Sie zuerst Ihre E-Mail-Adresse über den Link in der E-Mail.");
+            }
+
+            String token = jwtUtil.generateToken(userDetails);
             return ResponseEntity.ok(new AuthResponse(token, userDetails.getUsername()));
+
         } catch (BadCredentialsException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body("Ungültige Anmeldedaten");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Login Fehler: " + e.getMessage());
+        }
+    }
+
+    @Operation(summary = "Validation E-Mail erneut senden")
+    @PostMapping("/resend-verification")
+    public ResponseEntity<?> resendVerification(@RequestParam String email) {
+        try {
+            User user = userService.findByEmail(email).orElse(null);
+            if (user == null) {
+                return ResponseEntity.badRequest().body("E-Mail-Adresse nicht gefunden");
+            }
+
+            if (user.isEmailVerified()) {
+                return ResponseEntity.badRequest().body("E-Mail-Adresse ist bereits bestätigt");
+            }
+
+            // Neuen Token generieren
+            String verificationToken = UUID.randomUUID().toString();
+            user.setVerificationToken(verificationToken);
+            userService.updateUser(user);
+
+            // E-Mail erneut senden
+            emailService.sendVerificationEmail(email, verificationToken);
+
+            return ResponseEntity.ok("Bestätigungs-E-Mail wurde erneut gesendet");
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Fehler beim Senden der E-Mail: " + e.getMessage());
         }
     }
 

@@ -64,15 +64,10 @@ public class UserService implements UserDetailsService {
             return null;
         }
 
-        // Wenn Passwort geändert wird, verschlüsseln
-        if (user.getPassword() != null && !user.getPassword().isEmpty()) {
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
-        } else {
-            // Bestehendes Passwort beibehalten
-            User existingUser = userRepo.findById(user.getUsername()).orElse(null);
-            if (existingUser != null) {
-                user.setPassword(existingUser.getPassword());
-            }
+        // WICHTIG: Bestehendes Passwort beibehalten (nicht neu verschlüsseln)
+        User existingUser = userRepo.findById(user.getUsername()).orElse(null);
+        if (existingUser != null) {
+            user.setPassword(existingUser.getPassword());
         }
 
         return userRepo.save(user);
@@ -84,6 +79,20 @@ public class UserService implements UserDetailsService {
 
     public boolean existsByUsername(String username) {
         return userRepo.existsById(username);
+    }
+
+    // NEU: User nach E-Mail finden
+    public Optional<User> findByEmail(String email) {
+        return userRepo.findByEmail(email);
+    }
+
+    // NEU: User nach Verification Token finden
+    public User findByVerificationToken(String token) {
+        List<User> allUsers = userRepo.findAll();
+        return allUsers.stream()
+                .filter(user -> token.equals(user.getVerificationToken()))
+                .findFirst()
+                .orElse(null);
     }
 
     // UserDetailsService Implementation für Spring Security

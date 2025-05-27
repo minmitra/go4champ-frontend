@@ -1,6 +1,7 @@
 package com.go4champ.go4champ.controller;
 
 import com.go4champ.go4champ.model.User;
+import com.go4champ.go4champ.security.JwtTokenUtil;
 import com.go4champ.go4champ.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,7 +15,8 @@ import java.util.List;
 @Tag(name = "UserController", description = "Api für User")
 @RestController
 public class UserController {
-
+    @Autowired
+    private JwtTokenUtil jwtUtil;
     @Autowired
     private UserService service;
 
@@ -27,21 +29,6 @@ public class UserController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Fehler beim Abrufen der User: " + e.getMessage());
-        }
-    }
-
-    @Operation(summary = "Erstellt neuen User")
-    @PostMapping("/newUser")
-    public ResponseEntity<?> createUser(@RequestBody User user) {
-        try {
-            if (service.existsByUsername(user.getUsername())) {
-                return ResponseEntity.badRequest().body("Username bereits vergeben");
-            }
-            User newUser = service.createUser(user);
-            return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Fehler beim Erstellen des Users: " + e.getMessage());
         }
     }
 
@@ -72,7 +59,7 @@ public class UserController {
     }
 
     @Operation(summary = "Holt einen User")
-    @GetMapping("/getUser/{username}")
+    @GetMapping("/user/{username}")
     public ResponseEntity<?> getUser(@PathVariable String username) {
         try {
             User user = service.getUserById(username);
@@ -111,4 +98,31 @@ public class UserController {
                     .body("Fehler beim Aktualisieren: " + e.getMessage());
         }
     }
+
+    @Operation(summary = "Holt alle Trainingseinheiten des eingeloggten Users")
+    @GetMapping("/me/trainings")
+    public ResponseEntity<?> getMyTrainings(@RequestHeader("Authorization") String authHeader) {
+        try {
+            // JWT Token aus Header extrahieren
+            if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Kein gültiger Token");
+            }
+
+            String token = authHeader.substring(7);
+            String username = jwtUtil.getUsernameFromToken(token);
+
+            // User und seine Trainings holen
+            User user = service.getUserById(username);
+            if (user != null) {
+                return ResponseEntity.ok(user.getTrainings());
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body("User nicht gefunden");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Fehler beim Abrufen der Trainings: " + e.getMessage());
+        }
+    }
+
 }
