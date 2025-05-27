@@ -1,0 +1,278 @@
+/* ========================== */
+/* GRUNDLAYOUT                */
+/* ========================== */
+.main-container {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    overflow-x: hidden;
+  }
+  
+  /* ========================== */
+  /* HERO-BEREICH               */
+  /* ========================== */
+  .hero-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    justify-content: center;
+    background-color: #d4e7d8; 
+    padding: 80px 60px;
+    height: 100vh;
+    color: rgb(41, 106, 51);
+    text-align: center;
+    flex-direction: column;
+    margin-bottom: -345px;
+    margin-top: 200px;
+  }
+  
+  body.dark .hero-section {
+    background-color: #1b361b; /* dunkler sattgrün */
+    color: #e6f2e6;
+  }
+  
+  .hero-text {
+    text-align: center;
+  }
+  
+  .hero-text h1 {
+    margin-top: -250px;
+    margin-bottom: 30px;
+    font-size: 2.6rem;
+    font-weight: 900;
+    line-height: 1.2;
+    text-transform: uppercase;
+    /* word-break: break-word; */
+    
+  }
+  
+  .hero-text p {
+    font-size: 1.5rem;
+    margin: 20px 0;
+    text-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);
+    
+  }
+  
+  .hero-button {
+    background-color: #FFD700;
+    border: none;
+    padding: 12px 24px;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 6px;
+    color: black;
+    transition: background 0.3s ease;
+  }
+  
+  .hero-button:hover {
+    background-color: #e6c200;
+  }
+
+  .hero-image {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+  }
+  
+  .pixel-hero {
+    max-width: 100px;
+    width: 100%;
+    height: auto;
+    margin-bottom: 250px;
+  }
+  
+  /* ========================== */
+  /* FEATURE-BEREICHE ALLGEMEIN */
+  /* ========================== */
+  .feature-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    padding: 60px 20px;
+    text-align: left;
+    flex-wrap: wrap;
+    width: 100%;
+    overflow-x: hidden;
+  }
+  
+  .feature-box.reverse {
+    flex-direction: row-reverse;
+  }
+  
+  .yellow {
+    background-color: #afceb5;
+  }
+  
+  .green {
+    background-color: #4e6759;
+  }
+  
+  
+  /* Global fix to prevent overflow */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    
+  }
+  
+  body {
+    overflow-x: hidden;
+  }
+
+  /* Hintergrund für die gesamte Seite */
+.home-container {
+    background-color: #D4E7D8;
+    padding: 40px 20px;
+  }
+
+body.dark .home-container {
+    background-color: #122214;
+  }
+  
+  /* Gemeinsames Card-Layout */
+  .card-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+    margin-top: 40px;
+  }
+  
+  .info-card {
+    width: 90%;
+    max-width: 500px;
+    border-radius: 20px;
+    padding: 30px 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    text-align: center;
+
+    /* SMOOTH Übergang */
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    cursor: pointer;
+  }
+  
+  /* HOVER-ZOOM */
+  .info-card:hover {
+    transform: scale(1.03);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  }
+  
+  /* Bilder */
+  .card-image {
+    width: 100%;
+    max-height: 200px;
+    object-fit: contain;
+    margin-bottom: 20px;
+  }
+  
+  /* Texte */
+  .card-text {
+    font-size: 1.2rem;
+    font-weight: 600;
+    line-height: 1.6;
+  }
+  
+  /* Ernährungs-Design */
+  .ernaehrung-card {
+    background-color: #AFCFB5;
+  }
+
+  body.dark .ernaehrung-card {
+    background-color: #1a2e1a;
+    color: #d7ecd7;
+  }
+
+  .ernaehrung-text {
+    color: rgb(35, 86, 43);
+  }
+
+  body.dark .ernaehrung-text {
+    color: #cde9d5;
+  } 
+
+  /* Hantel-Design */
+  .hantel-card {
+    background-color: #50674e;
+  }
+
+  body.dark .hantel-card {
+    background-color: #1a2e1a;
+    color: #cfeacb;
+  }
+  
+  .hantel-text {
+    color: #bdd8c2;
+  }
+
+  /* FREUNDE-BOX DESIGN */
+.freunde-card {
+    background-color: #afbaaa; 
+  }
+
+
+  body.dark .freunde-card {
+    background-color: #1a2e1a;
+    color:  #cfeacb;
+  }
+
+
+  
+  .freunde-text {
+    color: #2c4a35; 
+  }
+
+  
+  body.dark .freunde-text {
+    color: white;
+}
+
+  
+ 
+  
+@media (min-width: 1024px) {
+    .info-card {
+      max-width: 800px; /* vorher war z. B. 500px */
+    }
+    .pixel-hero {
+      max-width: 150px;
+      width: 100%;
+      height: auto;
+      margin-bottom: 250px;
+      margin-top: -100px;
+    }
+  }
+
+/* avater */
+
+.floating-avatar {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+ width: 80px;
+  background-color: white;
+  border: 1px solid #313131; 
+  height: 80px;
+  border-radius: 50%;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+}
+
+.floating-avatar:hover {
+  transform: scale(1.1);
+}
+
+.floating-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+

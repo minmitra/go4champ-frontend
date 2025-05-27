@@ -55,7 +55,8 @@ const Home = () => {
           </div>
 
           <div className="mitglied-button-wrapper">
-          <a href="/register" className="mitglied-button">Become a Member</a>
+          <Link to="/register" className="mitglied-button">Become a Member</Link>
+
           </div>
 
 
