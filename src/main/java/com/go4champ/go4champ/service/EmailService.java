@@ -76,7 +76,7 @@ public class EmailService {
         return "Hallo,\n\n" +
                 "Sie haben eine Passwort-Zurücksetzung für Ihr Go4Champ-Konto angefordert.\n\n" +
                 "Klicken Sie auf den folgenden Link, um Ihr Passwort zurückzusetzen:\n" +
-                "http://localhost:8080/reset-password?token=" + resetToken + "\n\n" +
+                "http://localhost:5173/reset-password?token=" + resetToken + "\n\n" +
                 "Dieser Link ist 24 Stunden gültig.\n\n" +
                 "Falls Sie diese Anfrage nicht gestellt haben, ignorieren Sie diese E-Mail.\n\n" +
                 "Mit freundlichen Grüßen,\n" +

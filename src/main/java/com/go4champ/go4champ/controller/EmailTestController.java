@@ -1,4 +1,4 @@
-// Speichern unter: src/main/java/com/go4champ/go4champ/controller/EmailTestController.java
+
 
 package com.go4champ.go4champ.controller;
 
