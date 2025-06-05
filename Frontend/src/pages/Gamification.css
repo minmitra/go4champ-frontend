@@ -1,0 +1,102 @@
+.coming-soon-fullscreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(192, 188, 188, 0.355); /* halbtransparentes Rot */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  pointer-events: none; /* damit Buttons und Inputs darunter weiterhin klickbar bleiben */
+}
+
+.coming-soon-fullscreen span {
+  color: white;
+  font-size: 36px;
+  font-weight: bold;
+  background-color: rgba(14, 177, 30, 0.5); /* optional: etwas dunklerer Text-Hintergrund */
+  padding: 20px 40px;
+  border-radius: 20px;
+}
+
+
+
+
+
+.gamification-page h1 {
+  color: rgb(6, 77, 6);
+}
+
+
+.gamification-page {
+  padding: 20px;
+  font-family: sans-serif;
+  text-align: center;
+}
+
+.stats-card {
+  background-color: #fafff0;
+  padding: 20px;
+  border-radius: 20px;
+  margin: 20px auto;
+  max-width: 400px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.friends-section {
+  margin-top: 30px;
+}
+
+.friends-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 auto;
+  max-width: 400px;
+}
+
+.friends-list li {
+  background-color: #fafff0;
+  margin: 10px 0;
+  padding: 12px 20px;
+  border-radius: 15px;
+  display: flex;
+  justify-content: space-between;
+  font-weight: 500;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.friend-name {
+  color: #333;
+}
+
+.friend-points {
+  color: #3f4917;
+}
+
+.add-friend {
+  margin-top: 20px;
+}
+
+.add-friend input {
+  padding: 8px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  width: 60%;
+  margin-right: 10px;
+}
+
+.add-friend button {
+  padding: 8px 16px;
+  background-color: #538655;
+  border: none;
+  color: white;
+  font-weight: bold;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.add-friend button:hover {
+  background-color: #385b39;
+}
