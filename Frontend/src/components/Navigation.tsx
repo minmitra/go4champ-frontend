@@ -2,6 +2,7 @@ import './Navigation.css';
 import { useAuthenti } from '../context/AuthentiContext';
 import platzhalter from '../assets/platzhalter.png';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { FaSignInAlt, FaSignOutAlt, FaHome, FaBars } from 'react-icons/fa';
 
 const Navigation= () => {
     const {isAuthenticated, logout} = useAuthenti();
@@ -18,13 +19,17 @@ const Navigation= () => {
             {isAuthenticated ? (
                 <div className ="nav-logged-in">
                     <div className="left">
-                        <button onClick={()=> alert("Menu clicked")}>MENU</button>
+                        <button onClick={()=> alert("Menu clicked")}>
+                            <FaBars size={20} />
+                        </button>
                     </div>
                     <div className='center'>
                         <img src={platzhalter} alt="App Logo" className="logo"/>
                     </div>
                     <div className='right'>
-                        <button onClick={handleLogout}>Logout</button>
+                        <button onClick={handleLogout}>
+                            <FaSignOutAlt size={20} />
+                        </button>
                     </div>
                 </div>
             ):(
@@ -34,9 +39,13 @@ const Navigation= () => {
                     </div>
                     <div className="navigation-right">
                         {location.pathname === '/' ? (
-                            <Link to="/login" className="home-link">Login</Link>
+                            <Link to="/login" className="home-link">
+                                <FaSignInAlt size={18} />
+                            </Link>
                         ):(
-                            <Link to="/" className="home-link">Home</Link>
+                            <Link to="/" className="home-link">
+                                <FaHome size={18} />
+                            </Link>
                         )}        
                     </div>
                 </div>
