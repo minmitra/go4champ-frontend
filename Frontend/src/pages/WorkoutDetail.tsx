@@ -1,6 +1,8 @@
+// src/components/Workoutdetail.tsx
+
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import './WorkoutDetail.css';
+import './Workoutdetail.css';
 
 interface Exercise {
   name: string;
@@ -9,25 +11,28 @@ interface Exercise {
   instructions?: string;
 }
 
-interface WorkoutDetailProps {
-  workoutName?: string;
-  exercises: Exercise[];
-}
+const Workoutdetail = () => {
+  const navigate = useNavigate();
+  const { workoutName } = useParams(); // z. B. /workout/LEGS WORKOUT
 
-const WorkoutDetail: React.FC<WorkoutDetailProps> = ({ workoutName, exercises }) => {
+  // Dummy-Übungen – später durch KI-generierte Daten ersetzen
+  const exercises: Exercise[] = [
+    { name: 'Squats', sets: 4, reps: 12, instructions: 'Keep your back straight and go deep.' },
+    { name: 'Lunges', sets: 3, reps: 10, instructions: 'Alternate legs, slow and steady.' },
+    { name: 'Leg Press', sets: 3, reps: 15 },
+    { name: 'Calf Raises', sets: 4, reps: 20, instructions: 'Pause at the top for a second.' }
+  ];
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showExitConfirm, setShowExitConfirm] = useState(false);
-  const navigate = useNavigate();
-  const { name } = useParams(); // fallback to param if needed
 
   const currentExercise = exercises[currentIndex];
-  const totalExercises = exercises.length;
 
   const handleNext = () => {
-    if (currentIndex < totalExercises - 1) {
+    if (currentIndex < exercises.length - 1) {
       setCurrentIndex(currentIndex + 1);
     } else {
-      navigate('/my-workouts'); // done with workout
+      navigate('/my-workouts');
     }
   };
 
@@ -44,7 +49,7 @@ const WorkoutDetail: React.FC<WorkoutDetailProps> = ({ workoutName, exercises })
 
   return (
     <div className="workout-detail-container">
-      <h1>{workoutName || name || 'Workout'}</h1>
+      <h1>{workoutName || 'Your Workout'}</h1>
 
       <div className="exercise-card">
         <h2>{currentExercise.name}</h2>
@@ -60,7 +65,7 @@ const WorkoutDetail: React.FC<WorkoutDetailProps> = ({ workoutName, exercises })
       <div className="navigation-buttons">
         <button className="exit-button" onClick={handleExit}>Exit</button>
         <button className="next-button" onClick={handleNext}>
-          {currentIndex < totalExercises - 1 ? 'Next' : 'Finish'}
+          {currentIndex < exercises.length - 1 ? 'Next' : 'Finish'}
         </button>
       </div>
 
@@ -77,4 +82,4 @@ const WorkoutDetail: React.FC<WorkoutDetailProps> = ({ workoutName, exercises })
   );
 };
 
-export default WorkoutDetail;
+export default Workoutdetail;
