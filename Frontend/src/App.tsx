@@ -17,6 +17,7 @@ import MyWorkout from './pages/MyWorkout';
 import Gamification from './pages/Gamification';
 import MyProfile from './pages/MyProfile';
 
+
 function App() {
   return (
       <>
@@ -39,8 +40,8 @@ function App() {
             <Route path="/nutrition" element={<PrivateRoute><Nutrition /></PrivateRoute>} />
             <Route path="/workout" element={<PrivateRoute><Workout /></PrivateRoute>} />
             <Route path="/myworkout" element={<PrivateRoute><MyWorkout /></PrivateRoute>}/>
-            <Route path="/myworkout" element={<PrivateRoute><Gamification/></PrivateRoute>}/>
-            <Route path="/myworkout" element={<PrivateRoute><MyProfile/></PrivateRoute>}/>
+            <Route path="/gamification" element={<PrivateRoute><Gamification/></PrivateRoute>}/>
+            <Route path="/myprofile" element={<PrivateRoute><MyProfile/></PrivateRoute>}/>
           </Routes>
         </div>
         <Footer />
