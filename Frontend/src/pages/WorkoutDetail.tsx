@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import './Workoutdetail.css';
+import './WorkoutDetail.css';
 
 interface Exercise {
   name: string;
