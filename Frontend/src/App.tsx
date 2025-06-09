@@ -37,6 +37,8 @@ function App() {
             <Route path='/mainpage' element={<PrivateRoute><Mainpage /></PrivateRoute>} />
             <Route path="/nutrition" element={<PrivateRoute><Nutrition /></PrivateRoute>} />
             <Route path="/workout" element={<PrivateRoute><Workout /></PrivateRoute>} />
+            <Route path="/myworkout" element={<PrivateRoute><MyWorkout /></PrivateRoute>}/>
+            <Route path="/training" element={<PrivateRoute><Training /></PrivateRoute>} />
           </Routes>
         </div>
         <Footer />
