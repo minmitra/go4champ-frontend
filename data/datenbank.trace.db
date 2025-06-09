@@ -234,3 +234,7 @@ Caused by: java.lang.AssertionError
 	at org.h2.mvstore.FileStore.executeFileStoreOperation(FileStore.java:1893)
 	at org.h2.mvstore.MVStore.executeFilestoreOperation(MVStore.java:922)
 	... 13 more
+2025-06-09 19:22:42.122074+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Wert zu groß / lang für Feld "DESCRIPTION CHARACTER VARYING(255)": "U&'Trainingsplan f\\00fcr den Oberk\\00f6rper\\000a\\000aName: Max Mustermann\\000aAl... (1567)"
+Value too long for column "DESCRIPTION CHARACTER VARYING(255)": "U&'Trainingsplan f\\00fcr den Oberk\\00f6rper\\000a\\000aName: Max Mustermann\\000aAl... (1567)"; SQL statement:
+insert into "training" (description,difficulty,duration,title,type,"user_username",training_id) values (?,?,?,?,?,?,default) [22001-232]

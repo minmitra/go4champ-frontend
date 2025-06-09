@@ -13,6 +13,8 @@ public class Training {
 
     private String title;
 
+    @Lob
+    @Column(length = 10000)
     private String description;
 
     @ManyToOne
