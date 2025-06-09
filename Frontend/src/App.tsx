@@ -6,7 +6,6 @@ import Register from './pages/Register';
 import ForgotPassword from './pages/ForgotPassword';
 import PasswordResetSuccess from './pages/PasswordResetSuccess';
 import Nutrition from './pages/Nutrition';
-import Workout from './pages/Workout';
 import Footer from './components/Footer';
 import Mainpage from './pages/Mainpage';
 import VerifyEmail from './pages/VerifyEmail';
@@ -17,6 +16,7 @@ import MyWorkout from './pages/MyWorkout';
 import Gamification from './pages/Gamification';
 import MyProfile from './pages/MyProfile';
 
+import TodaysWorkout from './pages/TodaysWorkout';
 
 function App() {
   return (
@@ -38,10 +38,10 @@ function App() {
             {/* PRIVATE ROUTE, nach dem login */}
             <Route path='/mainpage' element={<PrivateRoute><Mainpage /></PrivateRoute>} />
             <Route path="/nutrition" element={<PrivateRoute><Nutrition /></PrivateRoute>} />
-            <Route path="/workout" element={<PrivateRoute><Workout /></PrivateRoute>} />
             <Route path="/myworkout" element={<PrivateRoute><MyWorkout /></PrivateRoute>}/>
             <Route path="/gamification" element={<PrivateRoute><Gamification/></PrivateRoute>}/>
             <Route path="/myprofile" element={<PrivateRoute><MyProfile/></PrivateRoute>}/>
+            <Route path="/todaysworkout" element={<PrivateRoute><TodaysWorkout/></PrivateRoute>}/>
           </Routes>
         </div>
         <Footer />
