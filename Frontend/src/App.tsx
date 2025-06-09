@@ -17,7 +17,7 @@ import MyWorkout from './pages/MyWorkout';
 import Gamification from './pages/Gamification';
 import MyProfile from './pages/MyProfile';
 import TodaysWorkout from './pages/TodaysWorkout';
-import Workoutdetail from './pages/Workoutdetail';
+import Workoutdetail from './pages/WorkoutDetail';
 
 
 function App() {
