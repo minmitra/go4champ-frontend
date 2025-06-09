@@ -12,6 +12,7 @@ const MyWorkout = () => {
     bodyPart: '',
     exercises: '',
     location: '',
+    workoutName: '',
   });
 
   const steps = ['bodyPart', 'exercises', 'location', 'summary'];
@@ -107,13 +108,33 @@ const MyWorkout = () => {
                   ))}
                 </div>
               )}
-
+              
               {steps[step] === 'summary' && (
                 <div>
-                  <pre>{JSON.stringify(formData, null, 2)}</pre>
-                  <p>You're ready!</p>
-                </div>
-              )}
+                  {/* 🔽 Hier kommt das Eingabefeld für den Namen */}
+                  <div style={{ marginTop: '1rem' }}>
+                    <label htmlFor="workoutName">Workout Name:</label>
+                    <input
+                    type="text"
+                    id="workoutName"
+                    value={formData.workoutName}
+                    onChange={e => handleInputChange('workoutName', e.target.value)}
+                    placeholder="Enter workout name"
+                    style={{
+                      padding: '8px',
+                      fontSize: '1rem',
+                      width: '100%',
+                      maxWidth: '300px',
+                      borderRadius: '6px',
+                      border: '1px solid #ccc',
+                      marginTop: '0.5rem',
+                    }}
+                    />
+                    </div>
+                    <p style={{ marginTop: '1rem' }}>You're ready!</p>
+                    </div>
+                  )}
+
             </motion.div>
 
             <div className="form-nav">
