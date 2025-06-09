@@ -1,5 +1,5 @@
 
-import './mainpage.css';
+import './Mainpage.css';
 import ernaehrung from '../assets/ernährung.png.png';
 import hantel from '../assets/hantel.png.png';
 import pixel from '../assets/pixel.png';
