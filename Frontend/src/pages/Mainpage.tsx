@@ -1,6 +1,5 @@
 
 import './mainpage.css';
-import Navigation from '../components/Navigation';
 import ernaehrung from '../assets/ernährung.png.png';
 import hantel from '../assets/hantel.png.png';
 import pixel from '../assets/pixel.png';
@@ -13,7 +12,7 @@ import { Link } from 'react-router-dom';
 const Mainpage = () => {
   return (
     <>
-      <Navigation />
+      
 
       <div className="main-container">
 
