@@ -1,0 +1,66 @@
+.myworkout-page {
+  flex: 1;
+  padding: 40px 20px;
+  background-color: #d4e7d8;;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.myworkout-page h1 {
+  color: #4e6759;
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+}
+
+
+.section-title {
+  font-size: 1.5rem;
+  color: #4e6759;
+  margin-top: 30px;
+  margin-bottom: 10px;
+}
+
+.todaysworkout-section,
+.createworkout-section {
+  background-color: #b3d8ba;
+  border-radius: 12px;
+  padding: 20px 40px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 100%;
+  max-width: 400px;
+  color: #4e6759;
+  transition: background-color 0.3s ease;
+}
+
+.todaysworkout-section:hover,
+.createworkout-section:hover {
+  background-color: #9dc5a7;
+  cursor: pointer;
+}
+
+.divider {
+  width: 100%;
+  border: 0;
+  height: 1px;
+  background-color: #4e6759;
+  margin: 40px 0;
+  opacity: 0.3;
+}
+
+
+.myworkout-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 80vh;
+}
+
+.todaysworkout-section {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.createworkout-section {
+    text-align: center;
+    margin-top: 20px;
+}

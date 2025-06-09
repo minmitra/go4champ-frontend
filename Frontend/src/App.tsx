@@ -14,6 +14,7 @@ import PrivateRoute from './routes/PrivateRoute';
 import CheckEmailRegister from './pages/CheckEmailRegister';
 import ResetPassword from './pages/ResetPassword';
 import Training from './pages/Training';
+import MyWorkout from './pages/MyWorkout';
 
 function App() {
   return (
@@ -36,7 +37,6 @@ function App() {
             <Route path='/mainpage' element={<PrivateRoute><Mainpage /></PrivateRoute>} />
             <Route path="/nutrition" element={<PrivateRoute><Nutrition /></PrivateRoute>} />
             <Route path="/workout" element={<PrivateRoute><Workout /></PrivateRoute>} />
-            <Route path="/training" element={<PrivateRoute><Training /></PrivateRoute>} />
           </Routes>
         </div>
         <Footer />
