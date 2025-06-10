@@ -1,22 +1,23 @@
 // src/components/TodaysWorkout.tsx
-
 import React from 'react';
 import './Workout.css';
+import { useTranslation } from 'react-i18next';
 
 const TodaysWorkout = () => {
+  const { t } = useTranslation();
+
   const handleStart = () => {
-    alert("Let's start today's workout!");
-    // Optional: hier kannst du Navigation oder Animation hinzufügen
+    alert(t('todaysWorkoutStart')); // Dynamisch übersetzte Alert-Nachricht
   };
 
   return (
     <div className="workout-wrapper">
       <div className="workout-page">
-        <h1>Today's Workout</h1>
+        <h1>{t('todaysWorkout')}</h1> {/* Übersetzter Titel */}
         <div className="workout-form">
-          <p>Get ready for your daily session. Stay consistent!</p>
+          <p>{t('todaysWorkoutMotivation')}</p> {/* Motivations-Text */}
           <button className="workout-button" onClick={handleStart}>
-            Start
+            {t('myWorkout.start')} {/* Start-Button aus dem myWorkout-Block */}
           </button>
         </div>
       </div>

@@ -1,135 +1,104 @@
-// src/components/MyProfile.tsx
 import React, { useState, useEffect } from 'react';
-import './MyProfile.css'; // Your CSS file for styling
-import { apiFetch } from '../api/fetchClient'; // Adjust this path if 'apiFetch' is elsewhere
-import { getUsernameFromToken } from '../utils/jwtUtils'; // Import the utility function
+import './MyProfile.css';
+import { apiFetch } from '../api/fetchClient';
+import { getUsernameFromToken } from '../utils/jwtUtils';
+import { useTranslation } from 'react-i18next';
 
 const MyProfile = () => {
-  // State variables for profile data
-  const [username, setUsername] = useState('');
+  const { t } = useTranslation();
+
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [age, setAge] = useState<number | ''>('');
-  const [gender, setGender] = useState('');
-  const [height, setHeight] = useState<number | ''>('');
   const [weight, setWeight] = useState<number | ''>('');
-  const [weightGoal, setWeightGoal] = useState<number | ''>('');
+  const [fitnessLevel, setFitnessLevel] = useState('');
+  const [workoutGoal, setWorkoutGoal] = useState('');
   const [equipment, setEquipment] = useState<string[]>([]);
-  const [availableEquipmentOptions, setAvailableEquipmentOptions] = useState<{[key: string]: string}>({});
-
-  // State variables for loading and error handling
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Retrieve the token from localStorage
   const token = localStorage.getItem('token');
+  const [loggedInUsername, setLoggedInUsername] = useState<string | null>(null);
 
-  // Effect to fetch available equipment options
+  const equipmentOptions = [
+    'Mat',
+    'Dumbbells',
+    'Resistance Band',
+    'Kettlebell',
+    'Pull-up Bar',
+    'Jump Rope',
+  ];
+
   useEffect(() => {
-    const fetchEquipmentOptions = async () => {
-      try {
-        const data = await apiFetch<any>('/equipment/available');
-        console.log('Equipment options received:', data);
-        setAvailableEquipmentOptions(data.equipmentMap || {});
-      } catch (err) {
-        console.error('Fehler beim Laden der Equipment-Optionen:', err);
+    if (token) {
+      const username = getUsernameFromToken(token);
+      if (username) {
+        setLoggedInUsername(username);
+      } else {
+        setError(t('profile.tokenError'));
+        setIsLoading(false);
       }
-    };
+    } else {
+      setError(t('profile.notLoggedIn'));
+      setIsLoading(false);
+    }
+  }, [token, t]);
 
-    fetchEquipmentOptions();
-  }, []);
-
-  // Effect to fetch profile data
   useEffect(() => {
     const fetchProfileData = async () => {
-      if (!token) {
-        setError('Sie sind nicht angemeldet. Bitte melden Sie sich an, um Ihr Profil anzuzeigen.');
-        setIsLoading(false);
-        return;
-      }
+      if (!token || !loggedInUsername) return;
 
       try {
-        console.log('Fetching profile data...');
-        
-        // Use the /me/profile endpoint
-        const data = await apiFetch<any>('/me/profile', {
+        const data = await apiFetch<any>(`/user/${loggedInUsername}`, {
           headers: {
             'Authorization': `Bearer ${token}`,
           },
         });
 
-        console.log('Profil-Daten vom Backend erhalten:', data);
-        
-        // WICHTIGER DEBUG: Zeige alle Felder einzeln an
-        console.log('username:', data.username);
-        console.log('name:', data.name);
-        console.log('email:', data.email);
-        console.log('age:', data.age);
-        console.log('gender:', data.gender);
-        console.log('height:', data.height);
-        console.log('weight:', data.weight);
-        console.log('weightGoal:', data.weightGoal);
-        console.log('availableEquipment:', data.availableEquipment);
-
-        // Set state with fetched data from your User entity
-        setUsername(data.username || '');
         setName(data.name || '');
         setEmail(data.email || '');
-        setAge(data.age === null || data.age === undefined ? '' : data.age);
-        setGender(data.gender || '');
-        setHeight(data.height === null || data.height === undefined ? '' : data.height);
-        setWeight(data.weight === null || data.weight === undefined ? '' : data.weight);
-        setWeightGoal(data.weightGoal === null || data.weightGoal === undefined ? '' : data.weightGoal);
-        
-        // Equipment aus availableEquipment setzen
-        setEquipment(data.availableEquipment || []);
-
+        setAge(data.age ?? '');
+        setWeight(data.weight ?? '');
+        setFitnessLevel(data.fitnessLevel || '');
+        setWorkoutGoal(data.workoutGoal || '');
+        setEquipment(data.equipment || []);
       } catch (err) {
-        console.error('Fehler beim Abrufen der Profildaten:', err);
-        if (err instanceof Error && err.message.includes('401')) {
-          setError('Ihre Sitzung ist abgelaufen. Bitte melden Sie sich erneut an.');
-        } else {
-          setError('Fehler beim Laden der Profildaten. Bitte versuchen Sie es erneut.');
-        }
+        console.error('Error fetching profile data:', err);
+        setError(t('profile.loadError'));
       } finally {
         setIsLoading(false);
       }
     };
 
-    fetchProfileData();
-  }, [token]);
+    if (loggedInUsername) {
+      fetchProfileData();
+    }
+  }, [loggedInUsername, token, t]);
 
-  // Handler for equipment checkbox changes
-  const handleEquipmentChange = (equipmentKey: string) => {
+  const handleEquipmentChange = (item: string) => {
     setEquipment((prev) =>
-      prev.includes(equipmentKey) ? prev.filter((i) => i !== equipmentKey) : [...prev, equipmentKey]
+      prev.includes(item) ? prev.filter((i) => i !== item) : [...prev, item]
     );
   };
 
-  // Handler to save profile data
   const handleSave = async () => {
-    if (!token) {
-      setError('Nicht angemeldet. Bitte melden Sie sich an, um Änderungen zu speichern.');
+    if (!token || !loggedInUsername) {
+      setError(t('profile.notLoggedInSave'));
       return;
     }
 
-    // Assemble profile data according to your User entity structure
     const profileData = {
-      username, // Username from current state
       name,
       email,
       age: age === '' ? null : age,
-      gender,
-      height: height === '' ? null : height,
       weight: weight === '' ? null : weight,
-      weightGoal: weightGoal === '' ? null : weightGoal,
-      availableEquipment: equipment, // Das entspricht dem Feld in der User-Entity
+      fitnessLevel,
+      workoutGoal,
+      equipment,
     };
 
     try {
-      console.log('Saving profile data:', profileData);
-      
-      const data = await apiFetch<any>('/me/profile', {
+      const data = await apiFetch<any>(`/user/${loggedInUsername}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -137,47 +106,38 @@ const MyProfile = () => {
         },
         body: JSON.stringify(profileData),
       });
-      
-      console.log('Profil gespeichert:', data);
-      alert('Profil erfolgreich gespeichert!');
+
+      console.log('Profile saved:', data);
+      alert(t('profile.saved'));
       setError(null);
     } catch (err) {
-      console.error('Fehler beim Speichern des Profils:', err);
-      if (err instanceof Error && err.message.includes('401')) {
-        setError('Ihre Sitzung ist abgelaufen. Bitte melden Sie sich erneut an.');
-      } else {
-        setError('Fehler beim Speichern der Profildaten. Bitte versuchen Sie es erneut.');
-      }
+      console.error('Error saving profile:', err);
+      setError(t('profile.saveError'));
     }
   };
 
-  // Handler to cancel changes and reload original data
   const handleCancel = () => {
-    // Reload the page to get fresh data
-    window.location.reload();
+    setName('');
+    setEmail('');
+    setAge('');
+    setWeight('');
+    setFitnessLevel('');
+    setWorkoutGoal('');
+    setEquipment([]);
+    setError(null);
   };
 
-  // Display loading message
   if (isLoading) {
-    return <div className="profile-container">Profil wird geladen...</div>;
+    return <div className="profile-container">{t('profile.loading')}</div>;
   }
 
-  // Render the profile form
   return (
     <div className="profile-container">
-      <h2>Mein Profil</h2>
+      <h2>{t('profile.title')}</h2>
 
       {error && <p className="error-message">{error}</p>}
 
-      <label htmlFor="username">Benutzername</label>
-      <input
-        id="username"
-        type="text"
-        value={username}
-        disabled // Username sollte nicht änderbar sein
-      />
-
-      <label htmlFor="name">Name</label>
+      <label htmlFor="name">{t('profile.name')}</label>
       <input
         id="name"
         type="text"
@@ -185,7 +145,7 @@ const MyProfile = () => {
         onChange={(e) => setName(e.target.value)}
       />
 
-      <label htmlFor="email">Email</label>
+      <label htmlFor="email">{t('profile.email')}</label>
       <input
         id="email"
         type="email"
@@ -193,7 +153,7 @@ const MyProfile = () => {
         onChange={(e) => setEmail(e.target.value)}
       />
 
-      <label htmlFor="age">Alter</label>
+      <label htmlFor="age">{t('profile.age')}</label>
       <input
         id="age"
         type="number"
@@ -201,27 +161,7 @@ const MyProfile = () => {
         onChange={(e) => setAge(e.target.value === '' ? '' : parseInt(e.target.value, 10))}
       />
 
-      <label htmlFor="gender">Geschlecht</label>
-      <select
-        id="gender"
-        value={gender}
-        onChange={(e) => setGender(e.target.value)}
-      >
-        <option value="">Auswählen</option>
-        <option value="MALE">Männlich</option>
-        <option value="FEMALE">Weiblich</option>
-        <option value="OTHER">Divers</option>
-      </select>
-
-      <label htmlFor="height">Größe (cm)</label>
-      <input
-        id="height"
-        type="number"
-        value={height}
-        onChange={(e) => setHeight(e.target.value === '' ? '' : parseInt(e.target.value, 10))}
-      />
-
-      <label htmlFor="weight">Gewicht (kg)</label>
+      <label htmlFor="weight">{t('profile.weight')}</label>
       <input
         id="weight"
         type="number"
@@ -229,36 +169,54 @@ const MyProfile = () => {
         onChange={(e) => setWeight(e.target.value === '' ? '' : parseInt(e.target.value, 10))}
       />
 
-      <label htmlFor="weightGoal">Zielgewicht (kg)</label>
-      <input
-        id="weightGoal"
-        type="number"
-        value={weightGoal}
-        onChange={(e) => setWeightGoal(e.target.value === '' ? '' : parseInt(e.target.value, 10))}
-      />
-
       <hr />
 
-      <label>Verfügbare Ausrüstung</label>
+      <label htmlFor="fitnessLevel">{t('profile.fitnessLevel')}</label>
+      <select
+        id="fitnessLevel"
+        value={fitnessLevel}
+        onChange={(e) => setFitnessLevel(e.target.value)}
+      >
+        <option value="">{t('profile.select')}</option>
+        <option value="beginner">{t('profile.beginner')}</option>
+        <option value="intermediate">{t('profile.intermediate')}</option>
+        <option value="advanced">{t('profile.advanced')}</option>
+      </select>
+
+      <label htmlFor="workoutGoal">{t('profile.workoutGoal')}</label>
+      <select
+        id="workoutGoal"
+        value={workoutGoal}
+        onChange={(e) => setWorkoutGoal(e.target.value)}
+      >
+        <option value="">{t('profile.select')}</option>
+        <option value="muscle">{t('profile.muscle')}</option>
+        <option value="cardio">{t('profile.cardio')}</option>
+        <option value="fatloss">{t('profile.fatloss')}</option>
+      </select>
+
+      <label>{t('profile.equipment')}</label>
       <div className="equipment-options">
-        {Object.entries(availableEquipmentOptions).map(([key, displayName]) => (
-          <label key={key}>
-            <input
-              type="checkbox"
-              checked={equipment.includes(key)}
-              onChange={() => handleEquipmentChange(key)}
-            />
-            {displayName}
-          </label>
+        {equipmentOptions.map((item) => (
+          <label key={item}>
+  {item}
+  <input
+    type="checkbox"
+    checked={equipment.includes(item)}
+    onChange={() => handleEquipmentChange(item)}
+    style={{ marginLeft: 'auto' }}
+  />
+</label>
+
         ))}
       </div>
 
       <div className="buttons">
         <button className="save-btn" onClick={handleSave}>
-          Speichern
+          {t('profile.save')}
         </button>
         <button className="cancel-btn" onClick={handleCancel}>
-          Abbrechen
+          {t('profile.cancel')}
         </button>
       </div>
     </div>

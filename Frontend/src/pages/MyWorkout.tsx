@@ -3,6 +3,7 @@ import './Workout.css';
 import { motion } from 'framer-motion';
 import avatar from '../assets/pixel.png';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 type WorkoutData = {
   bodyPart: string;
@@ -12,8 +13,8 @@ type WorkoutData = {
 };
 
 const MyWorkout = () => {
-  // -------------- Neu: useNavigate Hook initialisieren --------------
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const [showForm, setShowForm] = useState(false);
   const [step, setStep] = useState(0);
@@ -23,13 +24,13 @@ const MyWorkout = () => {
     location: '',
     workoutName: '',
   });
-  
+
   const [savedWorkouts, setSavedWorkouts] = useState<WorkoutData[]>(() => {
     const saved = localStorage.getItem('savedWorkouts');
     return saved ? JSON.parse(saved) : [];
   });
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
-  
+
   useEffect(() => {
     localStorage.setItem('savedWorkouts', JSON.stringify(savedWorkouts));
   }, [savedWorkouts]);
@@ -37,10 +38,10 @@ const MyWorkout = () => {
   const steps = ['bodyPart', 'exercises', 'location', 'summary'];
 
   const questions: Record<string, string> = {
-    bodyPart: 'Which body part do you want to train?',
-    exercises: 'How many exercises do you want in the workout?',
-    location: 'Where are you right now?',
-    summary: 'Ready to generate your workout plan?',
+    bodyPart: t('myWorkout.q_bodyPart'),
+    exercises: t('myWorkout.q_exercises'),
+    location: t('myWorkout.q_location'),
+    summary: t('myWorkout.q_summary'),
   };
 
   const handleInputChange = (field: string, value: string) => {
@@ -58,16 +59,14 @@ const MyWorkout = () => {
     setEditingIndex(index);
   };
 
-  // -------------- Neu: Navigation beim Start-Button --------------
-const handleStartClick = (index: number) => {
-  const workout = savedWorkouts[index];
-  if (!workout.workoutName) {
-    alert('Workout name is missing.');
-    return;
-  }
-  navigate(`/workoutdetail/${encodeURIComponent(workout.workoutName)}`);
-};
-
+  const handleStartClick = (index: number) => {
+    const workout = savedWorkouts[index];
+    if (!workout.workoutName) {
+      alert(t('myWorkout.alert_missingName'));
+      return;
+    }
+    navigate(`/workoutdetail/${encodeURIComponent(workout.workoutName)}`);
+  };
 
   const handleDeleteClick = (index: number) => {
     setSavedWorkouts(prev => prev.filter((_, i) => i !== index));
@@ -81,7 +80,7 @@ const handleStartClick = (index: number) => {
 
   const handleSubmit = () => {
     if (!formData.workoutName.trim()) {
-      alert('Please enter a workout name before creating.');
+      alert(t('myWorkout.alert_enterName'));
       return;
     }
 
@@ -96,12 +95,7 @@ const handleStartClick = (index: number) => {
       setSavedWorkouts(prev => [formData, ...prev]);
     }
 
-    setFormData({
-      bodyPart: '',
-      exercises: '',
-      location: '',
-      workoutName: '',
-    });
+    setFormData({ bodyPart: '', exercises: '', location: '', workoutName: '' });
     setStep(0);
     setShowForm(false);
   };
@@ -109,11 +103,11 @@ const handleStartClick = (index: number) => {
   return (
     <div className="workout-wrapper">
       <div className="workout-page">
-        <h1>My Workout</h1>
+        <h1>{t('myWorkout.title')}</h1>
 
         {!showForm && (
           <button className="myworkout-button" onClick={() => setShowForm(true)}>
-            ➕ Create New Workout
+            ➕ {t('myWorkout.createNew')}
           </button>
         )}
 
@@ -126,14 +120,13 @@ const handleStartClick = (index: number) => {
                   onClick={() => handleEditClick(index)}
                   style={{ cursor: 'pointer' }}
                 >
-                  <strong>{workout.workoutName}</strong> — {workout.bodyPart}, {workout.exercises} exercises, at {workout.location}
+                  <strong>{workout.workoutName}</strong> — {workout.bodyPart}, {workout.exercises} {t('myWorkout.exercises')}, {t('myWorkout.at')} {workout.location}
                 </div>
-                {/* -------------- Neu: Start-Button ruft handleStartClick auf -------------- */}
                 <button onClick={() => handleStartClick(index)} className="start-button">
-                  ▶️ Start
+                  ▶️ {t('myWorkout.start')}
                 </button>
                 <button onClick={() => handleDeleteClick(index)} className="delete-button">
-                  🗑️ Delete
+                  🗑️ {t('myWorkout.delete')}
                 </button>
               </li>
             ))}
@@ -156,17 +149,21 @@ const handleStartClick = (index: number) => {
             >
               {steps[step] === 'bodyPart' && (
                 <div className="options">
-                  {['Arms', 'Back', 'Abs', 'Legs', 'Glutes', 'Full Body'].map(part => (
-                    <label key={part}>
-                      <input
-                        type="radio"
-                        name="bodyPart"
-                        checked={formData.bodyPart === part}
-                        onChange={() => handleInputChange('bodyPart', part)}
-                      />
-                      {part}
-                    </label>
-                  ))}
+                 {['Arms', 'Back', 'Abs', 'Legs', 'Glutes', 'Full Body'].map(part => {
+  const translationKey = part.toLowerCase().replace(/\s/g, '');
+  return (
+    <label key={part}>
+      <input
+        type="radio"
+        name="bodyPart"
+        checked={formData.bodyPart === part}
+        onChange={() => handleInputChange('bodyPart', part)}
+      />
+      {t(`bodyParts.${translationKey}`)}
+    </label>
+  );
+})}
+
                 </div>
               )}
 
@@ -205,58 +202,40 @@ const handleStartClick = (index: number) => {
               {steps[step] === 'summary' && (
                 <div>
                   <div style={{ marginTop: '1rem' }}>
-                    <label htmlFor="workoutName">Workout Name:</label>
+                    <label htmlFor="workoutName">{t('myWorkout.name')}</label>
                     <input
                       type="text"
                       id="workoutName"
                       value={formData.workoutName}
                       onChange={e => handleInputChange('workoutName', e.target.value)}
-                      placeholder="Enter workout name"
-                      style={{
-                        padding: '8px',
-                        fontSize: '1rem',
-                        width: '100%',
-                        maxWidth: '300px',
-                        borderRadius: '6px',
-                        border: '1px solid #ccc',
-                        marginTop: '0.5rem',
-                      }}
+                      placeholder={t('myWorkout.placeholder')}
                     />
                   </div>
-                  <p style={{ marginTop: '1rem' }}>You're ready!</p>
+                  <p style={{ marginTop: '1rem' }}>{t('myWorkout.ready')}</p>
                 </div>
               )}
             </motion.div>
-            
+
             <div className="form-nav">
-              <div>
-                {step === 0 ? (
-                  <button className="save-button" onClick={() => setShowForm(false)}>
-                    Exit
-                    </button>
-                    ) : (
-                    <button className="save-button" onClick={handleBack}>
-                      Back
-                      </button>
-                    )}
-                    </div>
-                    
-                    <div>
-                      {step < steps.length - 1 ? (
-                        <button className="save-button" onClick={handleNext}>
-                          Next
-                          </button>
-                          ) : (
-                          <button className="save-button" onClick={handleSubmit}>
-                            {editingIndex !== null ? 'Save Changes' : 'Create Workout'}
-                            </button>
-                          )}
-                          </div>
-                          </div>
-                          </div>
-                        )}
-                        </div>
-                        </div>
+              {step > 0 && (
+                <button className="save-button" onClick={handleBack}>
+                  {t('myWorkout.back')}
+                </button>
+              )}
+              {step < steps.length - 1 ? (
+                <button className="save-button" onClick={handleNext}>
+                  {t('myWorkout.next')}
+                </button>
+              ) : (
+                <button className="save-button" onClick={handleSubmit}>
+                  {editingIndex !== null ? t('myWorkout.saveChanges') : t('myWorkout.create')}
+                </button>
+              )}
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
   );
 };
 
