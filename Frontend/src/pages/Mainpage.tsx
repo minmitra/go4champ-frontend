@@ -40,16 +40,17 @@ const Mainpage = () => {
          
         {/* Todays-workout  */}
         <div className="info-card todays-workout-card">
-          <Link to="/todaysworkout">
-            <p>{today}: Go to Today's workouts</p>
-          </Link>
-        </div>
+                   <Link to="/todaysworkout"> 
+                  </Link>
+                    <p className="card-text todaysworkout-text"> 
+                      {today}: Go to Today's workouts</p>
+                
+                </div>
 
          {/* Workouts */}
         <div className="info-card myworkouts-card">
           <Link to="/myworkout">
           <img src={hantel} alt="Workouts" className="card-image" />
-            <h3>Workouts</h3>
           </Link>
           <p className="card-text workouts-text">
           Create your workouts<br /> 
@@ -61,7 +62,6 @@ const Mainpage = () => {
           <div className="info-card nutrition-card">
          <Link to="/nutrition">
         <img src={ernährung} alt="Nutrition" className="card-image" />
-         <h3> Nutrition </h3>
        </Link>
        <p className="card-text nutrition-text">
       Create your personalized nutrition plan tailored to your preferences and allergies.
@@ -73,7 +73,6 @@ const Mainpage = () => {
           <div className="info-card freunde-card">
             <Link to="/gamification">
             <img src={freunde} alt="Gamification" className="card-image" />
-            <h3> Gamification </h3>
             </Link>
             <p className="card-text gamification-text">
             Join exciting challenges with your friends and collect the most points!

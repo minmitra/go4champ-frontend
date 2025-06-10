@@ -1,22 +1,17 @@
-/* body{
-  background-color: #d4e7d8;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+body {
+  background-color: white;
+  color: black;
 }
 
-html,
-body,
-#root{
-  height: 100%;
-  margin: 0;
-  padding: 0;
+body.dark {
+  background-color: #121212;
+  color: white;
 }
 
-#root{
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
+.navlink-like {
+  color: inherit;
 }
 
-.footer{
-  margin: 0;
-} */
+body.dark .navlink-like {
+  color: #ddd;
+}
