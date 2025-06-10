@@ -42,3 +42,17 @@ label {
   padding: 5px 10px;
   font-size: 14px;
 }
+
+ .equipment-options label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  white-space: nowrap;
+  padding: 5px 10px;
+  background-color: #f9f9f948;
+  border-radius: 5px;
+}
+
+.equipment-options label:hover {
+  background-color:#f9f9f9b9;
+}

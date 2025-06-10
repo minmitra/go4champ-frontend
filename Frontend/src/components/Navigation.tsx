@@ -43,8 +43,8 @@ const Navigation = () => {
 
   const privateLinks: NavItem[] = [
     { to: '/mainpage', label: 'Home' },
-    { to: '/todaysworkouts', label: "Today's Workouts" },
-    { to: '/workouts', label: 'Workouts' },
+    { to: '/todaysworkout', label: "Today's Workout" },
+    { to: '/myworkout', label: 'Workout' },
     { to: '/gamification', label: 'Gamification' },
     { to: '/nutrition', label: 'Nutrition' },
     { label: darkMode ? <IoSunny size={20} /> : <IoIosMoon size={20} />, isToggle: true },
