@@ -199,7 +199,7 @@ public class AiController {
 
             RestTemplate restTemplate = new RestTemplate();
             HttpHeaders headers = new HttpHeaders();
-            headers.set("x-api-key", "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");
+            headers.set("x-api-key", "Claude Key"); // Ersetze "Claude Key" mit deinem tatsächlichen API-Schlüssel
             headers.set("anthropic-version", "2023-06-01");
             headers.setContentType(MediaType.APPLICATION_JSON);
 
@@ -234,7 +234,7 @@ public class AiController {
     private String callCloudAI(String prompt) {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
-        headers.set("x-api-key", "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"); // Claude API Key
+        headers.set("x-api-key", "Claude Key"); // Claude API Key
         headers.set("anthropic-version", "2023-06-01");
         headers.setContentType(MediaType.APPLICATION_JSON);
 
