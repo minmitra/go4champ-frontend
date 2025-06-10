@@ -6,13 +6,16 @@ import { getUsernameFromToken } from '../utils/jwtUtils'; // Import the utility 
 
 const MyProfile = () => {
   // State variables for profile data
+  const [username, setUsername] = useState('');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [age, setAge] = useState<number | ''>('');
+  const [gender, setGender] = useState('');
+  const [height, setHeight] = useState<number | ''>('');
   const [weight, setWeight] = useState<number | ''>('');
-  const [fitnessLevel, setFitnessLevel] = useState('');
-  const [workoutGoal, setWorkoutGoal] = useState('');
+  const [weightGoal, setWeightGoal] = useState<number | ''>('');
   const [equipment, setEquipment] = useState<string[]>([]);
+  const [availableEquipmentOptions, setAvailableEquipmentOptions] = useState<{[key: string]: string}>({});
 
   // State variables for loading and error handling
   const [isLoading, setIsLoading] = useState(true);
@@ -20,139 +23,138 @@ const MyProfile = () => {
 
   // Retrieve the token from localStorage
   const token = localStorage.getItem('token');
-  // State to hold the username extracted from the token
-  const [loggedInUsername, setLoggedInUsername] = useState<string | null>(null);
 
-  // Equipment options for checkboxes
-  const equipmentOptions = [
-    'Mat',
-    'Dumbbells',
-    'Resistance Band',
-    'Kettlebell',
-    'Pull-up Bar',
-    'Jump Rope',
-  ];
-
-  // Effect to extract username from token when the component mounts or token changes
+  // Effect to fetch available equipment options
   useEffect(() => {
-    if (token) {
-      const username = getUsernameFromToken(token);
-      if (username) {
-        setLoggedInUsername(username);
-      } else {
-        // This means the token is present but couldn't be decoded or is invalid/expired
-        setError('Problem mit Ihrem Anmeldetoken. Bitte melden Sie sich erneut an.');
-        setIsLoading(false);
+    const fetchEquipmentOptions = async () => {
+      try {
+        const data = await apiFetch<any>('/equipment/available');
+        console.log('Equipment options received:', data);
+        setAvailableEquipmentOptions(data.equipmentMap || {});
+      } catch (err) {
+        console.error('Fehler beim Laden der Equipment-Optionen:', err);
       }
-    } else {
-      // No token found at all
-      setError('Sie sind nicht angemeldet. Bitte melden Sie sich an, um Ihr Profil anzuzeigen.');
-      setIsLoading(false);
-    }
-  }, [token]); // Re-run if the token itself changes
+    };
 
-  // Effect to fetch profile data once the username is available
+    fetchEquipmentOptions();
+  }, []);
+
+  // Effect to fetch profile data
   useEffect(() => {
     const fetchProfileData = async () => {
-      // Only proceed if we have a valid token AND a username extracted from it
-      if (!token || !loggedInUsername) {
-        // Error will already be set by the previous useEffect if token/username is missing
+      if (!token) {
+        setError('Sie sind nicht angemeldet. Bitte melden Sie sich an, um Ihr Profil anzuzeigen.');
+        setIsLoading(false);
         return;
       }
 
       try {
-        // Use the /user/{username} endpoint as per your Swagger spec
-        const data = await apiFetch<any>(`/user/${loggedInUsername}`, {
+        console.log('Fetching profile data...');
+        
+        // Use the /me/profile endpoint
+        const data = await apiFetch<any>('/me/profile', {
           headers: {
-            'Authorization': `Bearer ${token}`, // Pass the token for authorization
+            'Authorization': `Bearer ${token}`,
           },
         });
 
-        console.log('Profil-Daten vom Backend erhalten:', data); // **Sehr wichtig:** Prüfe dies in der Konsole!
+        console.log('Profil-Daten vom Backend erhalten:', data);
+        
+        // WICHTIGER DEBUG: Zeige alle Felder einzeln an
+        console.log('username:', data.username);
+        console.log('name:', data.name);
+        console.log('email:', data.email);
+        console.log('age:', data.age);
+        console.log('gender:', data.gender);
+        console.log('height:', data.height);
+        console.log('weight:', data.weight);
+        console.log('weightGoal:', data.weightGoal);
+        console.log('availableEquipment:', data.availableEquipment);
 
-        // Set state with fetched data, providing fallbacks for null/undefined values
-        // **IMPORTANT:** Adjust these keys (e.g., data.name) if your backend response
-        // has a different structure (e.g., data.user.name, data.profile.name)
+        // Set state with fetched data from your User entity
+        setUsername(data.username || '');
         setName(data.name || '');
         setEmail(data.email || '');
         setAge(data.age === null || data.age === undefined ? '' : data.age);
+        setGender(data.gender || '');
+        setHeight(data.height === null || data.height === undefined ? '' : data.height);
         setWeight(data.weight === null || data.weight === undefined ? '' : data.weight);
-        setFitnessLevel(data.fitnessLevel || '');
-        setWorkoutGoal(data.workoutGoal || '');
-        setEquipment(data.equipment || []); // Ensure it's an array
+        setWeightGoal(data.weightGoal === null || data.weightGoal === undefined ? '' : data.weightGoal);
+        
+        // Equipment aus availableEquipment setzen
+        setEquipment(data.availableEquipment || []);
 
       } catch (err) {
         console.error('Fehler beim Abrufen der Profildaten:', err);
-        setError('Fehler beim Laden der Profildaten. Bitte versuchen Sie es erneut.');
+        if (err instanceof Error && err.message.includes('401')) {
+          setError('Ihre Sitzung ist abgelaufen. Bitte melden Sie sich erneut an.');
+        } else {
+          setError('Fehler beim Laden der Profildaten. Bitte versuchen Sie es erneut.');
+        }
       } finally {
-        setIsLoading(false); // End loading state
+        setIsLoading(false);
       }
     };
 
-    // Only call fetchProfileData if loggedInUsername is set
-    if (loggedInUsername) {
-      fetchProfileData();
-    }
-  }, [loggedInUsername, token]); // Depends on both token and the extracted username
+    fetchProfileData();
+  }, [token]);
 
   // Handler for equipment checkbox changes
-  const handleEquipmentChange = (item: string) => {
+  const handleEquipmentChange = (equipmentKey: string) => {
     setEquipment((prev) =>
-      prev.includes(item) ? prev.filter((i) => i !== item) : [...prev, item]
+      prev.includes(equipmentKey) ? prev.filter((i) => i !== equipmentKey) : [...prev, equipmentKey]
     );
   };
 
   // Handler to save profile data
   const handleSave = async () => {
-    if (!token || !loggedInUsername) {
+    if (!token) {
       setError('Nicht angemeldet. Bitte melden Sie sich an, um Änderungen zu speichern.');
       return;
     }
 
-    // Assemble profile data
+    // Assemble profile data according to your User entity structure
     const profileData = {
+      username, // Username from current state
       name,
       email,
       age: age === '' ? null : age,
+      gender,
+      height: height === '' ? null : height,
       weight: weight === '' ? null : weight,
-      fitnessLevel,
-      workoutGoal,
-      equipment,
+      weightGoal: weightGoal === '' ? null : weightGoal,
+      availableEquipment: equipment, // Das entspricht dem Feld in der User-Entity
     };
 
     try {
-      // **IMPORTANT:** If your backend's PUT endpoint for profile updates is also /user/{username},
-      // adjust this path similarly. If it's still /profile and it automatically uses the JWT,
-      // then the path is fine as is. Assuming it's /user/{username} for consistency.
-      const data = await apiFetch<any>(`/user/${loggedInUsername}`, {
-        method: 'PUT', // Use PUT for updates
+      console.log('Saving profile data:', profileData);
+      
+      const data = await apiFetch<any>('/me/profile', {
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify(profileData),
       });
+      
       console.log('Profil gespeichert:', data);
       alert('Profil erfolgreich gespeichert!');
-      setError(null); // Clear any previous errors on successful save
+      setError(null);
     } catch (err) {
       console.error('Fehler beim Speichern des Profils:', err);
-      setError('Fehler beim Speichern der Profildaten. Bitte versuchen Sie es erneut.');
+      if (err instanceof Error && err.message.includes('401')) {
+        setError('Ihre Sitzung ist abgelaufen. Bitte melden Sie sich erneut an.');
+      } else {
+        setError('Fehler beim Speichern der Profildaten. Bitte versuchen Sie es erneut.');
+      }
     }
   };
 
-  // Handler to cancel changes and revert (currently clears form)
+  // Handler to cancel changes and reload original data
   const handleCancel = () => {
-    // For a true "cancel," you'd typically re-fetch the data or store a copy of the original data.
-    // For simplicity, this clears the form and any errors.
-    setName('');
-    setEmail('');
-    setAge('');
-    setWeight('');
-    setFitnessLevel('');
-    setWorkoutGoal('');
-    setEquipment([]);
-    setError(null);
+    // Reload the page to get fresh data
+    window.location.reload();
   };
 
   // Display loading message
@@ -165,7 +167,15 @@ const MyProfile = () => {
     <div className="profile-container">
       <h2>Mein Profil</h2>
 
-      {error && <p className="error-message">{error}</p>} {/* Error display */}
+      {error && <p className="error-message">{error}</p>}
+
+      <label htmlFor="username">Benutzername</label>
+      <input
+        id="username"
+        type="text"
+        value={username}
+        disabled // Username sollte nicht änderbar sein
+      />
 
       <label htmlFor="name">Name</label>
       <input
@@ -191,6 +201,26 @@ const MyProfile = () => {
         onChange={(e) => setAge(e.target.value === '' ? '' : parseInt(e.target.value, 10))}
       />
 
+      <label htmlFor="gender">Geschlecht</label>
+      <select
+        id="gender"
+        value={gender}
+        onChange={(e) => setGender(e.target.value)}
+      >
+        <option value="">Auswählen</option>
+        <option value="MALE">Männlich</option>
+        <option value="FEMALE">Weiblich</option>
+        <option value="OTHER">Divers</option>
+      </select>
+
+      <label htmlFor="height">Größe (cm)</label>
+      <input
+        id="height"
+        type="number"
+        value={height}
+        onChange={(e) => setHeight(e.target.value === '' ? '' : parseInt(e.target.value, 10))}
+      />
+
       <label htmlFor="weight">Gewicht (kg)</label>
       <input
         id="weight"
@@ -199,42 +229,26 @@ const MyProfile = () => {
         onChange={(e) => setWeight(e.target.value === '' ? '' : parseInt(e.target.value, 10))}
       />
 
+      <label htmlFor="weightGoal">Zielgewicht (kg)</label>
+      <input
+        id="weightGoal"
+        type="number"
+        value={weightGoal}
+        onChange={(e) => setWeightGoal(e.target.value === '' ? '' : parseInt(e.target.value, 10))}
+      />
+
       <hr />
 
-      <label htmlFor="fitnessLevel">Fitnesslevel</label>
-      <select
-        id="fitnessLevel"
-        value={fitnessLevel}
-        onChange={(e) => setFitnessLevel(e.target.value)}
-      >
-        <option value="">Auswählen</option>
-        <option value="beginner">Anfänger</option>
-        <option value="intermediate">Fortgeschritten</option>
-        <option value="advanced">Experte</option>
-      </select>
-
-      <label htmlFor="workoutGoal">Trainingsziel</label>
-      <select
-        id="workoutGoal"
-        value={workoutGoal}
-        onChange={(e) => setWorkoutGoal(e.target.value)}
-      >
-        <option value="">Auswählen</option>
-        <option value="muscle">Muskelaufbau</option>
-        <option value="cardio">Cardio</option>
-        <option value="fatloss">Fettabbau</option>
-      </select>
-
-      <label>Ausrüstung</label>
+      <label>Verfügbare Ausrüstung</label>
       <div className="equipment-options">
-        {equipmentOptions.map((item) => (
-          <label key={item}>
+        {Object.entries(availableEquipmentOptions).map(([key, displayName]) => (
+          <label key={key}>
             <input
               type="checkbox"
-              checked={equipment.includes(item)}
-              onChange={() => handleEquipmentChange(item)}
+              checked={equipment.includes(key)}
+              onChange={() => handleEquipmentChange(key)}
             />
-            {item}
+            {displayName}
           </label>
         ))}
       </div>
