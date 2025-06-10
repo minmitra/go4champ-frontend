@@ -1,6 +1,9 @@
 package com.go4champ.go4champ.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.go4champ.go4champ.controller.TrainingController;
+import com.go4champ.go4champ.controller.TrainingsPlanController;
+import com.go4champ.go4champ.model.TrainingsPlan;
 import jakarta.persistence.*;
 
 @Entity
@@ -19,7 +22,10 @@ public class Training {
 
     @ManyToOne
     @JsonIgnore
+    private TrainingsPlan trainingsPlan;
 
+    @ManyToOne
+    @JsonIgnore
     private User user;
 
     private float difficulty;
@@ -28,6 +34,19 @@ public class Training {
     private boolean type;
 
     private int duration;
+
+
+    @Transient
+    private String typeString;
+
+    public String getTypeString() {
+        return typeString;
+    }
+
+    public void setTypeString(String typeString) {
+        this.typeString = typeString;
+        this.type = "indoor".equalsIgnoreCase(typeString); // setzt automatisch true/false
+    }
 
     //  Define targetGroup field once the requirement is clarified
 
@@ -43,9 +62,9 @@ public class Training {
         this.title = title;
     }
 
-    public Training(String title, User user) {
+    public Training(String title, TrainingsPlan trainingsPlan) {
         this.title = title;
-        this.user = user;
+        this.trainingsPlan = trainingsPlan;
     }
 
     // Getters and Setters
@@ -97,6 +116,14 @@ public class Training {
         this.title = title;
     }
 
+    public TrainingsPlan getTrainingsPlan() {
+        return trainingsPlan;
+    }
+
+    public void setTrainingsPlan(TrainingsPlan trainingsPlan) {
+        this.trainingsPlan = trainingsPlan; ;
+    }
+
     public User getUser() {
         return user;
     }
@@ -104,4 +131,5 @@ public class Training {
     public void setUser(User user) {
         this.user = user;
     }
+
 }
