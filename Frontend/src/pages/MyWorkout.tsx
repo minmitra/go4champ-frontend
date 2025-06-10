@@ -156,7 +156,7 @@ const handleStartClick = (index: number) => {
             >
               {steps[step] === 'bodyPart' && (
                 <div className="options">
-                  {['Arms', 'Back', 'Abs', 'Legs', 'Glutes'].map(part => (
+                  {['Arms', 'Back', 'Abs', 'Legs', 'Glutes', 'Full Body'].map(part => (
                     <label key={part}>
                       <input
                         type="radio"
