@@ -42,6 +42,16 @@
   justify-content: space-between;
   margin-top: 40px;
 }
+.left {
+  flex: 1;
+  display: flex;
+  justify-content: flex-start;
+}
+.right {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}
 
 .workout-wrapper {
   display: flex;
@@ -87,8 +97,9 @@
   display: flex;
   flex-direction: row; /* horizontal */
   gap: 16px;           /* Abstand zwischen Optionen */
-  flex-wrap: nowrap;   /* Kein Zeilenumbruch */
-  overflow-x: auto;    /* Falls zu viele, kann man horizontal scrollen */
+  max-width: 100%;
+  box-sizing: border-box;
+  flex-wrap: wrap;   /* Kein Zeilenumbruch */
   padding-bottom: 8px; /* Optional: etwas Abstand unten */
 }
 
@@ -131,3 +142,8 @@
 .delete-button:hover {
   background-color: #8b201c; /* dunkleres Rot beim Hover */
 }
+
+html, body {
+  overflow-x: hidden;
+}
+

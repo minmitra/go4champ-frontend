@@ -227,27 +227,36 @@ const handleStartClick = (index: number) => {
                 </div>
               )}
             </motion.div>
-
+            
             <div className="form-nav">
-              {step > 0 && (
-                <button className="save-button" onClick={handleBack}>
-                  Back
-                </button>
-              )}
-              {step < steps.length - 1 ? (
-                <button className="save-button" onClick={handleNext}>
-                  Next
-                </button>
-              ) : (
-                <button className="save-button" onClick={handleSubmit}>
-                  {editingIndex !== null ? 'Save Changes' : 'Create Workout'}
-                </button>
-              )}
-            </div>
-          </div>
-        )}
-      </div>
-    </div>
+              <div>
+                {step === 0 ? (
+                  <button className="save-button" onClick={() => setShowForm(false)}>
+                    Exit
+                    </button>
+                    ) : (
+                    <button className="save-button" onClick={handleBack}>
+                      Back
+                      </button>
+                    )}
+                    </div>
+                    
+                    <div>
+                      {step < steps.length - 1 ? (
+                        <button className="save-button" onClick={handleNext}>
+                          Next
+                          </button>
+                          ) : (
+                          <button className="save-button" onClick={handleSubmit}>
+                            {editingIndex !== null ? 'Save Changes' : 'Create Workout'}
+                            </button>
+                          )}
+                          </div>
+                          </div>
+                          </div>
+                        )}
+                        </div>
+                        </div>
   );
 };
 
