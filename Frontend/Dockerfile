@@ -7,7 +7,7 @@ COPY package*.json ./
 
 # Install dependencies
 RUN npm install
-RUN npm list i18next  # Debug line
+
 
 # Copy source code
 COPY . .
