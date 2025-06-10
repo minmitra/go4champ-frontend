@@ -1,18 +1,24 @@
 
 import './Home.css';
-import nutrition from '../assets/ernährung.png.png';
+import ernährung from '../assets/ernährung.png.png';
 import hantel from '../assets/hantel.png.png';
 import pixel from '../assets/pixel.png';
 import freunde from '../assets/freunde.png';
 import { Link } from 'react-router-dom';
+
+const today = new Date().toLocaleDateString('en-GB', {
+  day: 'numeric',
+  month: 'long'
+});
 
 
 
 const Home = () => {
   return (
     <>
+     
 
-      <div className="home-container">
+      <div className="main-container">
 
         {/* HERO-BEREICH */}
         <section className="hero-section">
@@ -23,33 +29,52 @@ const Home = () => {
           <div className="hero-image">
             <img src={pixel} alt="Pixel-character" className="pixel-hero" />
           </div>
+
+          
+
         </section>
 
         {/* CARDS-BEREICH */}
         <div className="card-container">
+         
+        {/* Todays-workout  */}
+        <div className="info-card todays-workout-card">
+          <Link to="/todaysworkout">
+            <p>{today}: Go to Today's workouts</p>
+          </Link>
+        </div>
 
-          {/* Ernährungs-Box */}
+         {/* Workouts */}
+        <div className="info-card myworkouts-card">
+          <Link to="/myworkout">
+          <img src={hantel} alt="Workouts" className="card-image" />
+            <h3>Workouts</h3>
+          </Link>
+          <p className="card-text workouts-text">
+          Create your workouts<br /> 
+          </p>
+        </div>
+         
+         
+          {/* Nutrition */}
           <div className="info-card nutrition-card">
-  <Link to="/nutrition">
-    <img src={nutrition} alt="Nutrition" className="card-image" />
-  </Link>
-  <p className="card-text nutrition-text">
-  Create your personalized nutrition plan tailored to your preferences and allergies.
-  </p>
-</div>
+         <Link to="/nutrition">
+        <img src={ernährung} alt="Nutrition" className="card-image" />
+         <h3> Nutrition </h3>
+       </Link>
+       <p className="card-text nutrition-text">
+      Create your personalized nutrition plan tailored to your preferences and allergies.
+      </p>
+      </div>
+        
 
-          {/* Hantel-Box */}
-          <div className="info-card hantel-card">
-            <img src={hantel} alt="Workout Plan" className="card-image" />
-            <p className="card-text hantel-text">
-            Your coach creates a fully customized workout plan based on your goals and available equipment.
-            </p>
-          </div>
-
-          {/* Freunde-Box */}
+          {/* Gamification */}
           <div className="info-card freunde-card">
-            <img src={freunde} alt="Freunde Challenge" className="card-image" />
-            <p className="card-text freunde-text">
+            <Link to="/gamification">
+            <img src={freunde} alt="Gamification" className="card-image" />
+            <h3> Gamification </h3>
+            </Link>
+            <p className="card-text gamification-text">
             Join exciting challenges with your friends and collect the most points!
             </p>
           </div>

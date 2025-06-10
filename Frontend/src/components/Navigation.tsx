@@ -1,23 +1,26 @@
-import './Navigation.css';
+import './Navigation.css'; 
 import React, { useState, useRef, useEffect } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { MdAccountCircle } from 'react-icons/md';
-import { FaSignInAlt } from 'react-icons/fa';
+import {  IoSunny } from 'react-icons/io5';
 import { IoIosMoon } from 'react-icons/io';
-import { IoSunny } from 'react-icons/io5';
+import { RiLogoutBoxFill } from "react-icons/ri";
+import { RiLoginBoxFill } from "react-icons/ri";
 
-
+import { useAuthenti } from '../context/AuthentiContext';
 type NavItem = {
   to?: string;
   label: React.ReactNode;
-  isToggle?: boolean;
-  isLogout?: boolean;
+  isToggle?: boolean; 
+  isLogout?: boolean; 
 };
 
 const Navigation = () => {
   const [menuOpen, setMenuopen] = useState(false);
   const [darkMode, setDarkMode] = useState(() => localStorage.getItem('theme') === 'dark');
-  const [isAuthenticated, setIsAuthenticated] = useState(() => !!localStorage.getItem('token'));
+
+  const { isAuthenticated, logout } = useAuthenti();
+  const navigate = useNavigate();
   const menuRef = useRef<HTMLElement | null>(null);
   const linkRefs = useRef<(HTMLAnchorElement | HTMLDivElement | null)[]>([]);
 
@@ -26,30 +29,27 @@ const Navigation = () => {
     localStorage.setItem('theme', darkMode ? 'dark' : 'light');
   }, [darkMode]);
 
-  useEffect(() => {
-    const checkAuth = () => {
-      setIsAuthenticated(!!localStorage.getItem('token'));
-    };
-    checkAuth();
-    window.addEventListener('storage', checkAuth);
-    return () => window.removeEventListener('storage', checkAuth);
-  }, []);
-
-  const publicLinks: NavItem[] = [
-    { to: '/', label: 'Home' },
-    { label: darkMode ? <IoSunny size={20} /> : <IoIosMoon size={20} />, isToggle: true },
-    { to: '/login', label: <FaSignInAlt size={20} /> },
-  ];
+  const handleLogout = () => {
+    logout();
+    setMenuopen(false);
+    navigate('/login');
+  };
 
   const privateLinks: NavItem[] = [
     { to: '/mainpage', label: 'Home' },
-    { to: '/todaysworkout', label: "Today's Workout" },
-    { to: '/myworkout', label: 'Workout' },
+    { to: '/todaysworkouts', label: "Today's Workout" },
+    { to: '/workouts', label: 'My Workout' },
     { to: '/gamification', label: 'Gamification' },
     { to: '/nutrition', label: 'Nutrition' },
     { label: darkMode ? <IoSunny size={20} /> : <IoIosMoon size={20} />, isToggle: true },
     { to: '/myprofile', label: <MdAccountCircle size={20} /> },
-    { label: <FaSignInAlt size={20} />, isLogout: true },
+    { label: <RiLogoutBoxFill size={20} />, isLogout: true },
+  ];
+
+  const publicLinks: NavItem[] = [
+    { to: '/', label: 'Home' },
+    { label: darkMode ? <IoSunny size={20} /> : <IoIosMoon size={20} />, isToggle: true },
+    { to: '/login', label: <RiLoginBoxFill size={20} /> },
   ];
 
   const allLinks = isAuthenticated ? privateLinks : publicLinks;
@@ -65,13 +65,14 @@ const Navigation = () => {
   }, []);
 
   useEffect(() => {
-    if (menuOpen) {
+    if (menuOpen && allLinks.length > 0) {
       const timer = setTimeout(() => {
         linkRefs.current[0]?.focus?.();
       }, 50);
       return () => clearTimeout(timer);
     }
-  }, [menuOpen]);
+  }, [menuOpen, allLinks]);
+
 
   const handleKeyDown = (e: React.KeyboardEvent, index: number) => {
     if (!allLinks.length) return;
@@ -95,13 +96,13 @@ const Navigation = () => {
   };
 
   return (
-    <nav ref={menuRef}>
+    <nav ref={menuRef}> 
       <Link to="/" className="title" tabIndex={0}>
         Go4Champion
       </Link>
 
       <div
-        className="menu"
+        className={`menu ${menuOpen ? 'open' : ''}`} 
         onClick={() => setMenuopen(!menuOpen)}
         role="button"
         tabIndex={0}
@@ -135,17 +136,12 @@ const Navigation = () => {
                 role="menuitem"
                 tabIndex={0}
                 ref={(el) => { linkRefs.current[index] = el }}
-                onClick={() => {
-                  localStorage.removeItem('token');
-                  setIsAuthenticated(false);
-                  setMenuopen(false);
-                  window.location.href = '/';
-                }}
+                onClick={handleLogout}
                 onKeyDown={(e) => handleKeyDown(e, index)}
               >
                 {item.label}
               </div>
-            ) : (
+            ) : ( 
               <div
                 className="navlink-like"
                 role="menuitem"
