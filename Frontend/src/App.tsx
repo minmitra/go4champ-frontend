@@ -27,7 +27,7 @@ function App() {
         <div style ={{paddingTop: '60px'}}>
         
           <Routes>
-            <Route path="/" element={<MyWorkout />} />
+            <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
