@@ -19,7 +19,7 @@ const VerifyEmail = () => {
             }
 
             try {
-                const res = await fetch(`http://localhost:8080/api/auth/verify-email?token=${token}`, {
+                const res = await fetch(`https://go4champ-backend-x.onrender.com/api/auth/verify-email?token=${token}`, {
                 method: 'GET',
                 });
 

@@ -1,5 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
-import Home from './pages/Home';
+
 import Navigation from './components/Navigation';
 import Login from './pages/Login'
 import Register from './pages/Register';
@@ -12,13 +12,12 @@ import VerifyEmail from './pages/VerifyEmail';
 import PrivateRoute from './routes/PrivateRoute';
 import CheckEmailRegister from './pages/CheckEmailRegister';
 import ResetPassword from './pages/ResetPassword';
-import Training from './pages/Training';
 import MyWorkout from './pages/MyWorkout';
 import Gamification from './pages/Gamification';
 import MyProfile from './pages/MyProfile';
-import TodaysWorkout from './pages/TodaysWorkout';
-import Workoutdetail from './pages/WorkoutDetail';
 
+import TodaysWorkout from './pages/TodaysWorkout';
+import Home from './pages/Home';
 
 function App() {
   return (
@@ -28,7 +27,7 @@ function App() {
         <div style ={{paddingTop: '60px'}}>
         
           <Routes>
-            <Route path="/" element={<Home/>} />
+            <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
@@ -44,13 +43,6 @@ function App() {
             <Route path="/gamification" element={<PrivateRoute><Gamification/></PrivateRoute>}/>
             <Route path="/myprofile" element={<PrivateRoute><MyProfile/></PrivateRoute>}/>
             <Route path="/todaysworkout" element={<PrivateRoute><TodaysWorkout/></PrivateRoute>}/>
-            <Route path="/training" element={<PrivateRoute><Training /></PrivateRoute>} />
-
-             NEU: Detaillierte Workout-Ansicht
-          <Route path="/workout/:workoutName" element={
-            <PrivateRoute><Workoutdetail /></PrivateRoute>
-          } />
-          
           </Routes>
         </div>
         <Footer />

@@ -15,7 +15,7 @@ const ResetPassword: React.FC = () => {
     useEffect(() => {
         const validateToken = async () => {
             try{
-                const res = await fetch(`http://localhost:8080/api/auth/validate-reset-token?token=${token}`);
+                const res = await fetch(`https://go4champ-backend-x.onrender.com/api/auth/validate-reset-token?token=${token}`);
                 const data = await res.json();
                 
                 if(!res.ok || !data.valid){
