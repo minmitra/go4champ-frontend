@@ -32,7 +32,7 @@ const Workoutdetail = () => {
     if (currentIndex < exercises.length - 1) {
       setCurrentIndex(currentIndex + 1);
     } else {
-      navigate('/my-workouts');
+      navigate('/myworkout');
     }
   };
 
@@ -43,7 +43,7 @@ const Workoutdetail = () => {
   const confirmExit = (confirm: boolean) => {
     setShowExitConfirm(false);
     if (confirm) {
-      navigate('/my-workouts');
+      navigate('/myworkout');
     }
   };
 

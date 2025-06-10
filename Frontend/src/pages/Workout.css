@@ -12,7 +12,7 @@
 }
 
 
-.myworkout-button {
+.workout-button {
   margin-bottom: 20px;
   background-color: #3e6449;
   color: white;
@@ -90,4 +90,44 @@
   flex-wrap: nowrap;   /* Kein Zeilenumbruch */
   overflow-x: auto;    /* Falls zu viele, kann man horizontal scrollen */
   padding-bottom: 8px; /* Optional: etwas Abstand unten */
+}
+
+.workout-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: #a2d88a;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  color: #2e7d32;
+  font-weight: 500;
+}
+
+.workout-info {
+  flex-grow: 1;
+}
+
+.start-button {
+  padding: 8px 10px;  /* weniger horizontaler Innenabstand */
+  min-width: 40px;   /* kleinere minimale Breite */
+  width: auto;       /* Breite an Inhalt anpassen */
+  font-size: 1rem;   /* Schriftgröße beibehalten */
+}
+
+.start-button:hover {
+  background-color: #2e4a35;
+}
+
+.delete-button {
+  padding: 8px 10px;
+  min-width: 40px;
+  width: auto;
+  background-color: #c9302c; /* klassisches Rot für Löschen */
+  transition: background-color 0.3s ease;
+  margin-left: 8px;
+}
+
+.delete-button:hover {
+  background-color: #8b201c; /* dunkleres Rot beim Hover */
 }
