@@ -3,13 +3,21 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { MdAccountCircle } from 'react-icons/md';
 import { FaSignInAlt } from 'react-icons/fa';
-import { IoIosMoon } from "react-icons/io";
-import { IoSunny } from "react-icons/io5";
+import { IoIosMoon } from 'react-icons/io';
+import { IoSunny } from 'react-icons/io5';
+
+
+type NavItem = {
+  to?: string;
+  label: React.ReactNode;
+  isToggle?: boolean;
+  isLogout?: boolean;
+};
 
 const Navigation = () => {
   const [menuOpen, setMenuopen] = useState(false);
   const [darkMode, setDarkMode] = useState(() => localStorage.getItem('theme') === 'dark');
-  const isLoggedIn = false; // später dynamisch
+  const [isAuthenticated, setIsAuthenticated] = useState(() => !!localStorage.getItem('token'));
   const menuRef = useRef<HTMLElement | null>(null);
   const linkRefs = useRef<(HTMLAnchorElement | HTMLDivElement | null)[]>([]);
 
@@ -18,24 +26,33 @@ const Navigation = () => {
     localStorage.setItem('theme', darkMode ? 'dark' : 'light');
   }, [darkMode]);
 
-  const publicLinks = [
+  useEffect(() => {
+    const checkAuth = () => {
+      setIsAuthenticated(!!localStorage.getItem('token'));
+    };
+    checkAuth();
+    window.addEventListener('storage', checkAuth);
+    return () => window.removeEventListener('storage', checkAuth);
+  }, []);
+
+  const publicLinks: NavItem[] = [
     { to: '/', label: 'Home' },
     { label: darkMode ? <IoSunny size={20} /> : <IoIosMoon size={20} />, isToggle: true },
-    { to: '/login', label: <FaSignInAlt size={20} /> }
+    { to: '/login', label: <FaSignInAlt size={20} /> },
   ];
 
-  const privateLinks = [
+  const privateLinks: NavItem[] = [
     { to: '/mainpage', label: 'Home' },
     { to: '/todaysworkouts', label: "Today's Workouts" },
     { to: '/workouts', label: 'Workouts' },
     { to: '/gamification', label: 'Gamification' },
     { to: '/nutrition', label: 'Nutrition' },
     { label: darkMode ? <IoSunny size={20} /> : <IoIosMoon size={20} />, isToggle: true },
-    { to: '/profil', label: <MdAccountCircle size={20} /> },
-    { to: '/logout', label: <FaSignInAlt size={20} /> }
+    { to: '/myprofile', label: <MdAccountCircle size={20} /> },
+    { label: <FaSignInAlt size={20} />, isLogout: true },
   ];
 
-  const allLinks = isLoggedIn ? [...publicLinks, ...privateLinks] : publicLinks;
+  const allLinks = isAuthenticated ? privateLinks : publicLinks;
 
   useEffect(() => {
     const handler = (event: MouseEvent) => {
@@ -106,23 +123,34 @@ const Navigation = () => {
                 to={item.to}
                 role="menuitem"
                 tabIndex={0}
-                ref={(el: HTMLAnchorElement | null) => {
-          linkRefs.current[index] = el;
-        }}
+                ref={(el) => { linkRefs.current[index] = el }}
                 onKeyDown={(e) => handleKeyDown(e, index)}
                 onClick={() => setMenuopen(false)}
               >
                 {item.label}
               </NavLink>
+            ) : item.isLogout ? (
+              <div
+                className="navlink-like"
+                role="menuitem"
+                tabIndex={0}
+                ref={(el) => { linkRefs.current[index] = el }}
+                onClick={() => {
+                  localStorage.removeItem('token');
+                  setIsAuthenticated(false);
+                  setMenuopen(false);
+                  window.location.href = '/';
+                }}
+                onKeyDown={(e) => handleKeyDown(e, index)}
+              >
+                {item.label}
+              </div>
             ) : (
               <div
                 className="navlink-like"
                 role="menuitem"
                 tabIndex={0}
-              ref={(el) => {
-  linkRefs.current[index] = el;
-}}
-
+                ref={(el) => { linkRefs.current[index] = el }}
                 onKeyDown={(e) => handleKeyDown(e, index)}
                 onClick={() => setDarkMode(prev => !prev)}
               >

@@ -1,5 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
-import Home from './pages/Home';
+
 import Navigation from './components/Navigation';
 import Login from './pages/Login'
 import Register from './pages/Register';
@@ -17,6 +17,7 @@ import Gamification from './pages/Gamification';
 import MyProfile from './pages/MyProfile';
 
 import TodaysWorkout from './pages/TodaysWorkout';
+import Home from './pages/Home';
 
 function App() {
   return (
@@ -26,7 +27,7 @@ function App() {
         <div style ={{paddingTop: '60px'}}>
         
           <Routes>
-            <Route path="/" element={<MyWorkout />} />
+            <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
