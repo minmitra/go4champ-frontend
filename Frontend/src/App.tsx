@@ -15,7 +15,6 @@ import ResetPassword from './pages/ResetPassword';
 import MyWorkout from './pages/MyWorkout';
 import Gamification from './pages/Gamification';
 import MyProfile from './pages/MyProfile';
-
 import TodaysWorkout from './pages/TodaysWorkout';
 import Home from './pages/Home';
 import Workoutdetail from './pages/WorkoutDetail';
@@ -28,8 +27,8 @@ function App() {
         <div style ={{paddingTop: '60px'}}>
         
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
+            <Route path="/" element={<MyWorkout />} />
+            <Route path="/login" element={<Workoutdetail />} />
             <Route path="/register" element={<Register />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/password-reset-success" element={<PasswordResetSuccess />} />
@@ -44,7 +43,7 @@ function App() {
             <Route path="/gamification" element={<PrivateRoute><Gamification/></PrivateRoute>}/>
             <Route path="/myprofile" element={<PrivateRoute><MyProfile/></PrivateRoute>}/>
             <Route path="/todaysworkout" element={<PrivateRoute><TodaysWorkout/></PrivateRoute>}/>
-            <Route path="/workoutdetail" element={<PrivateRoute><Workoutdetail/></PrivateRoute>}/>
+            <Route path="/workoutdetail/:workoutName" element={<PrivateRoute><Workoutdetail/></PrivateRoute>}/>
             
           </Routes>
         </div>

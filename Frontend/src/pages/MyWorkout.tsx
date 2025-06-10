@@ -1,19 +1,38 @@
-// src/components/MyWorkout.tsx
-
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Workout.css';
 import { motion } from 'framer-motion';
 import avatar from '../assets/pixel.png';
+import { useNavigate } from 'react-router-dom';
+
+type WorkoutData = {
+  bodyPart: string;
+  exercises: string;
+  location: string;
+  workoutName: string;
+};
 
 const MyWorkout = () => {
+  // -------------- Neu: useNavigate Hook initialisieren --------------
+  const navigate = useNavigate();
+
   const [showForm, setShowForm] = useState(false);
   const [step, setStep] = useState(0);
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<WorkoutData>({
     bodyPart: '',
     exercises: '',
     location: '',
     workoutName: '',
   });
+  
+  const [savedWorkouts, setSavedWorkouts] = useState<WorkoutData[]>(() => {
+    const saved = localStorage.getItem('savedWorkouts');
+    return saved ? JSON.parse(saved) : [];
+  });
+  const [editingIndex, setEditingIndex] = useState<number | null>(null);
+  
+  useEffect(() => {
+    localStorage.setItem('savedWorkouts', JSON.stringify(savedWorkouts));
+  }, [savedWorkouts]);
 
   const steps = ['bodyPart', 'exercises', 'location', 'summary'];
 
@@ -30,10 +49,61 @@ const MyWorkout = () => {
 
   const handleNext = () => setStep(prev => Math.min(prev + 1, steps.length - 1));
   const handleBack = () => setStep(prev => Math.max(prev - 1, 0));
-  const handleSubmit = () => {
-    alert('Workout created:\n' + JSON.stringify(formData, null, 2));
-    setShowForm(false);
+
+  const handleEditClick = (index: number) => {
+    const workoutToEdit = savedWorkouts[index];
+    setFormData(workoutToEdit);
     setStep(0);
+    setShowForm(true);
+    setEditingIndex(index);
+  };
+
+  // -------------- Neu: Navigation beim Start-Button --------------
+const handleStartClick = (index: number) => {
+  const workout = savedWorkouts[index];
+  if (!workout.workoutName) {
+    alert('Workout name is missing.');
+    return;
+  }
+  navigate(`/workoutdetail/${encodeURIComponent(workout.workoutName)}`);
+};
+
+
+  const handleDeleteClick = (index: number) => {
+    setSavedWorkouts(prev => prev.filter((_, i) => i !== index));
+    if (editingIndex === index) {
+      setShowForm(false);
+      setEditingIndex(null);
+      setFormData({ bodyPart: '', exercises: '', location: '', workoutName: '' });
+      setStep(0);
+    }
+  };
+
+  const handleSubmit = () => {
+    if (!formData.workoutName.trim()) {
+      alert('Please enter a workout name before creating.');
+      return;
+    }
+
+    if (editingIndex !== null) {
+      setSavedWorkouts(prev => {
+        const copy = [...prev];
+        copy[editingIndex] = formData;
+        return copy;
+      });
+      setEditingIndex(null);
+    } else {
+      setSavedWorkouts(prev => [formData, ...prev]);
+    }
+
+    setFormData({
+      bodyPart: '',
+      exercises: '',
+      location: '',
+      workoutName: '',
+    });
+    setStep(0);
+    setShowForm(false);
   };
 
   return (
@@ -45,6 +115,29 @@ const MyWorkout = () => {
           <button className="myworkout-button" onClick={() => setShowForm(true)}>
             ➕ Create New Workout
           </button>
+        )}
+
+        {!showForm && savedWorkouts.length > 0 && (
+          <ul className="todo-list">
+            {savedWorkouts.map((workout, index) => (
+              <li key={index} className="workout-item">
+                <div
+                  className="workout-info"
+                  onClick={() => handleEditClick(index)}
+                  style={{ cursor: 'pointer' }}
+                >
+                  <strong>{workout.workoutName}</strong> — {workout.bodyPart}, {workout.exercises} exercises, at {workout.location}
+                </div>
+                {/* -------------- Neu: Start-Button ruft handleStartClick auf -------------- */}
+                <button onClick={() => handleStartClick(index)} className="start-button">
+                  ▶️ Start
+                </button>
+                <button onClick={() => handleDeleteClick(index)} className="delete-button">
+                  🗑️ Delete
+                </button>
+              </li>
+            ))}
+          </ul>
         )}
 
         {showForm && (
@@ -108,33 +201,31 @@ const MyWorkout = () => {
                   ))}
                 </div>
               )}
-              
+
               {steps[step] === 'summary' && (
                 <div>
-                  {/* 🔽 Hier kommt das Eingabefeld für den Namen */}
                   <div style={{ marginTop: '1rem' }}>
                     <label htmlFor="workoutName">Workout Name:</label>
                     <input
-                    type="text"
-                    id="workoutName"
-                    value={formData.workoutName}
-                    onChange={e => handleInputChange('workoutName', e.target.value)}
-                    placeholder="Enter workout name"
-                    style={{
-                      padding: '8px',
-                      fontSize: '1rem',
-                      width: '100%',
-                      maxWidth: '300px',
-                      borderRadius: '6px',
-                      border: '1px solid #ccc',
-                      marginTop: '0.5rem',
-                    }}
+                      type="text"
+                      id="workoutName"
+                      value={formData.workoutName}
+                      onChange={e => handleInputChange('workoutName', e.target.value)}
+                      placeholder="Enter workout name"
+                      style={{
+                        padding: '8px',
+                        fontSize: '1rem',
+                        width: '100%',
+                        maxWidth: '300px',
+                        borderRadius: '6px',
+                        border: '1px solid #ccc',
+                        marginTop: '0.5rem',
+                      }}
                     />
-                    </div>
-                    <p style={{ marginTop: '1rem' }}>You're ready!</p>
-                    </div>
-                  )}
-
+                  </div>
+                  <p style={{ marginTop: '1rem' }}>You're ready!</p>
+                </div>
+              )}
             </motion.div>
 
             <div className="form-nav">
@@ -149,7 +240,7 @@ const MyWorkout = () => {
                 </button>
               ) : (
                 <button className="save-button" onClick={handleSubmit}>
-                  Create Workout
+                  {editingIndex !== null ? 'Save Changes' : 'Create Workout'}
                 </button>
               )}
             </div>

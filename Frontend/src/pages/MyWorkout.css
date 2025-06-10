@@ -90,3 +90,30 @@
   overflow-x: auto;    /* Falls zu viele, kann man horizontal scrollen */
   padding-bottom: 8px; /* Optional: etwas Abstand unten */
 }
+
+.workout-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: #a2d88a;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  color: #2e7d32;
+  font-weight: 500;
+}
+
+.workout-info {
+  flex-grow: 1;
+}
+
+.start-button {
+  padding: 8px 10px;  /* weniger horizontaler Innenabstand */
+  min-width: 40px;   /* kleinere minimale Breite */
+  width: auto;       /* Breite an Inhalt anpassen */
+  font-size: 1rem;   /* Schriftgröße beibehalten */
+}
+
+.start-button:hover {
+  background-color: #2e4a35;
+}
