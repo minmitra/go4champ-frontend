@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import  {useEffect, useState} from "react";
 import {useNavigate, useSearchParams} from 'react-router-dom';
 import './Register.css'
 
@@ -52,7 +52,8 @@ const ResetPassword: React.FC = () => {
         }
 
         try{
-            const res = await fetch('http://localhost:8080/api/auth/reset-password', {
+            const res = await fetch('https://go4champ-backend-x.onrender.com/api/auth/reset-password', {
+
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({token, newPassword}),
