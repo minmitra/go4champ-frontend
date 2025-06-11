@@ -43,7 +43,7 @@ function App() {
             <Route path="/gamification" element={<PrivateRoute><Gamification/></PrivateRoute>}/>
             <Route path="/myprofile" element={<PrivateRoute><MyProfile/></PrivateRoute>}/>
             <Route path="/todaysworkout" element={<PrivateRoute><TodaysWorkout/></PrivateRoute>}/>
-            <Route path="/workoutdetail/:workoutName" element={<PrivateRoute><Workoutdetail/></PrivateRoute>}/>
+            <Route path="/workoutdetail/:workoutName" element={<Workoutdetail />} />
             
           </Routes>
         </div>

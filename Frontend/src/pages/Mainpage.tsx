@@ -25,7 +25,7 @@ const Mainpage = () => {
           <div className="hero-text">
             <h1>CREATE YOUR<br /> WORKOUT PLAN</h1>
             <p>With your personal companion</p>
-             <p>Welcome, !</p>
+             <p>Welcome!</p>
           </div>
           <div className="hero-image">
             <img src={pixel} alt="Pixel-character" className="pixel-hero" />
