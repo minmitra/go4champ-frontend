@@ -9,10 +9,9 @@ const MyProfile = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [age, setAge] = useState<number | ''>('');
-  const [gender, setGender] = useState('');
-  const [height, setHeight] = useState<number | ''>('');
   const [weight, setWeight] = useState<number | ''>('');
-  const [weightGoal, setWeightGoal] = useState<number | ''>('');
+  const [fitnessLevel, setFitnessLevel] = useState('');
+  const [workoutGoal, setWorkoutGoal] = useState('');
   const [equipment, setEquipment] = useState<string[]>([]);
   const [availableEquipmentOptions, setAvailableEquipmentOptions] = useState<{[key: string]: string}>({});
 
@@ -26,32 +25,36 @@ const MyProfile = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Retrieve the token from localStorage
   const token = localStorage.getItem('token');
+  const [loggedInUsername, setLoggedInUsername] = useState<string | null>(null);
 
-  // Effect to fetch available equipment options
+  const equipmentOptions = [
+    'Mat',
+    'Dumbbells',
+    'Resistance Band',
+    'Kettlebell',
+    'Pull-up Bar',
+    'Jump Rope',
+  ];
+
   useEffect(() => {
-    const fetchEquipmentOptions = async () => {
-      try {
-        const data = await apiFetch<any>('/equipment/available');
-        console.log('Equipment options received:', data);
-        setAvailableEquipmentOptions(data.equipmentMap || {});
-      } catch (err) {
-        console.error('Fehler beim Laden der Equipment-Optionen:', err);
+    if (token) {
+      const username = getUsernameFromToken(token);
+      if (username) {
+        setLoggedInUsername(username);
+      } else {
+        setError(t('profile.tokenError'));
+        setIsLoading(false);
       }
-    };
+    } else {
+      setError(t('profile.notLoggedIn'));
+      setIsLoading(false);
+    }
+  }, [token, t]);
 
-    fetchEquipmentOptions();
-  }, []);
-
-  // Effect to fetch profile data
   useEffect(() => {
     const fetchProfileData = async () => {
-      if (!token) {
-        setError('Sie sind nicht angemeldet. Bitte melden Sie sich an, um Ihr Profil anzuzeigen.');
-        setIsLoading(false);
-        return;
-      }
+      if (!token || !loggedInUsername) return;
 
       try {
         console.log('Fetching profile data...');
@@ -89,24 +92,21 @@ const MyProfile = () => {
         });
 
       } catch (err) {
-        console.error('Fehler beim Abrufen der Profildaten:', err);
-        if (err instanceof Error && err.message.includes('401')) {
-          setError('Ihre Sitzung ist abgelaufen. Bitte melden Sie sich erneut an.');
-        } else {
-          setError('Fehler beim Laden der Profildaten. Bitte versuchen Sie es erneut.');
-        }
+        console.error('Error fetching profile data:', err);
+        setError(t('profile.loadError'));
       } finally {
         setIsLoading(false);
       }
     };
 
-    fetchProfileData();
-  }, [token]);
+    if (loggedInUsername) {
+      fetchProfileData();
+    }
+  }, [loggedInUsername, token, t]);
 
-  // Handler for equipment checkbox changes
-  const handleEquipmentChange = (equipmentKey: string) => {
+  const handleEquipmentChange = (item: string) => {
     setEquipment((prev) =>
-      prev.includes(equipmentKey) ? prev.filter((i) => i !== equipmentKey) : [...prev, equipmentKey]
+      prev.includes(item) ? prev.filter((i) => i !== item) : [...prev, item]
     );
   };
 
@@ -118,12 +118,11 @@ const MyProfile = () => {
 
   // Handler to save profile data
   const handleSave = async () => {
-    if (!token) {
-      setError('Nicht angemeldet. Bitte melden Sie sich an, um Änderungen zu speichern.');
+    if (!token || !loggedInUsername) {
+      setError(t('profile.notLoggedInSave'));
       return;
     }
 
-    // Assemble profile data according to your User entity structure
     const profileData = {
       // These fields are only sent if they are indeed editable in your backend via this endpoint.
       // Assuming username is NOT editable based on your disabled input.
@@ -131,17 +130,13 @@ const MyProfile = () => {
       // name,
       // email,
       age: age === '' ? null : age,
-      gender,
-      height: height === '' ? null : height,
       weight: weight === '' ? null : weight,
       weightGoal: weightGoal === '' ? null : weightGoal,
       availableEquipment: equipment,
     };
 
     try {
-      console.log('Saving profile data:', profileData);
-      
-      const data = await apiFetch<any>('/me/profile', {
+      const data = await apiFetch<any>(`/user/${loggedInUsername}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -149,9 +144,9 @@ const MyProfile = () => {
         },
         body: JSON.stringify(profileData),
       });
-      
-      console.log('Profil gespeichert:', data);
-      alert('Profil erfolgreich gespeichert!');
+
+      console.log('Profile saved:', data);
+      alert(t('profile.saved'));
       setError(null);
       setIsEditing(false); // Exit edit mode after successful save
       // Update originalProfileData with the newly saved values
@@ -168,12 +163,8 @@ const MyProfile = () => {
       });
 
     } catch (err) {
-      console.error('Fehler beim Speichern des Profils:', err);
-      if (err instanceof Error && err.message.includes('401')) {
-        setError('Ihre Sitzung ist abgelaufen. Bitte melden Sie sich erneut an.');
-      } else {
-        setError('Fehler beim Speichern der Profildaten. Bitte versuchen Sie es erneut.');
-      }
+      console.error('Error saving profile:', err);
+      setError(t('profile.saveError'));
     }
   };
 
@@ -195,12 +186,10 @@ const MyProfile = () => {
     setError(null); // Clear any error messages
   };
 
-  // Display loading message
   if (isLoading) {
-    return <div className="profile-container">Profil wird geladen...</div>;
+    return <div className="profile-container">{t('profile.loading')}</div>;
   }
 
-  // Render the profile form
   return (
     <div className="profile-container">
       <div className="profile-header">
@@ -233,7 +222,7 @@ const MyProfile = () => {
         disabled={!isEditing} // Editierbar im Bearbeitungsmodus
       />
 
-      <label htmlFor="email">Email</label>
+      <label htmlFor="email">{t('profile.email')}</label>
       <input
         id="email"
         type="email"

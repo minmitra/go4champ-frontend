@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import './WorkoutDetail.css';
+import { useTranslation } from 'react-i18next';
 
 // Die Struktur der Übungen MUSS der GeneratedExercise im MyWorkout.tsx entsprechen
 interface Exercise {
@@ -14,6 +15,7 @@ interface Exercise {
 }
 
 const Workoutdetail = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { workoutName } = useParams();
   const location = useLocation();
@@ -146,7 +148,7 @@ const Workoutdetail = () => {
 
   return (
     <div className="workout-detail-container">
-      <h1>{workoutName || 'Your Workout'}</h1>
+      <div className="workout-title">{workoutName || t('workoutDetail.defaultTitle')}</div>
 
       {isPaused && pauseTimeLeft > 0 ? (
         // Pausen-Ansicht
@@ -202,9 +204,11 @@ const Workoutdetail = () => {
       {showExitConfirm && (
         <div className="exit-confirm-modal">
           <div className="modal-content">
-            <p>Are you sure you want to quit your super duper workout?</p>
-            <button onClick={() => confirmExit(true)}>Yes</button>
-            <button onClick={() => confirmExit(false)}>No</button>
+            <p>{t('workoutDetail.confirmExit')}</p>
+            <div className="modal-content-buttons">
+              <button onClick={() => confirmExit(true)}>{t('yes')}</button>
+              <button onClick={() => confirmExit(false)}>{t('no')}</button>
+            </div>
           </div>
         </div>
       )}
