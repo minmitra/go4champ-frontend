@@ -15,7 +15,7 @@ body {
 .home-container {
   width: 100%;
   overflow-x: hidden;
-  
+
   padding: 40px 20px 0;
 }
 
@@ -136,7 +136,7 @@ body {
   text-align: center;
   transition: transform 0.4s ease, box-shadow 0.4s ease;
   cursor: pointer;
-  
+
 }
 
 .info-card:hover {
@@ -161,14 +161,16 @@ body {
 }
 
 .nutrition-text {
-  color:  #172554;
+  color:   #172554;
 }
 .nutrition-text.dark {
-  color:  #172554;
+  color:   #172554;
 }
 
 .todaysworkout-text {
-  color:  #172554;
+  text-decoration: none; /* Beibehalten, da dies eine gute Praxis für Links ist */
+  color: inherit; /* Beibehalten, da dies eine gute Praxis für Links ist */
+  color:   #172554;
 }
 
 .hantel-card {
@@ -181,11 +183,11 @@ body {
 
 .freunde-card {
   background-color: #364d8465;
-   margin-bottom: 80px;
+    margin-bottom: 80px;
 }
 
 .freunde-text {
-  color:  #172554;
+  color:   #172554;
   text-decoration: none;
 }
 
@@ -208,9 +210,9 @@ body {
 }
 
 .section-wrapper {
-  background-color:  #1d4ed8;
+  background-color:   #1d4ed8;
 }
 
 .gamification-section {
-  margin-bottom: 60px; 
+  margin-bottom: 60px;
 }
