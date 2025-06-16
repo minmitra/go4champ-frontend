@@ -6,15 +6,15 @@
 }
 
 .workout-page h1 {
-  color: #746151; 
+  color: #746151;
   font-size: 1.8rem;
   margin-bottom: 10px;
 }
 
-
+/* ABSCHNITT GEÄNDERT: Hintergrundfarbe des Buttons wurde angepasst. */
 .myworkout-button {
   margin-bottom: 20px;
-  background-color: #3e6449;
+  background-color: #1d4ed8; /* Von ihrer Version übernommen */
   color: white;
   border: none;
   padding: 10px 16px;
@@ -22,6 +22,13 @@
   border-radius: 8px;
   cursor: pointer;
 }
+
+/* ABSCHNITT HINZUGEFÜGT: Hover-Effekt für .myworkout-button. */
+.myworkout-button:hover {
+  background-color: #1d4ed8; /* Beibehalten, da es in ihrer Version so war. Du könntest hier eine dunklere Farbe wählen, um den Hover-Effekt zu verdeutlichen. */
+  color: white;
+}
+
 
 .todo-list {
   list-style-type: none;
@@ -43,25 +50,42 @@
   margin-top: 40px;
 }
 
+/* ABSCHNITT HINZUGEFÜGT: Stile für Buttons innerhalb von .form-nav (aus der vorherigen Abgleichung). */
+.form-nav button {
+  background-color: #172554;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  font-size: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* ABSCHNITT HINZUGEFÜGT: Hover-Effekt für .form-nav button (aus der vorherigen Abgleichung). */
+.form-nav button:hover {
+  background-color: #1d4ed8;
+}
+
 .workout-wrapper {
   display: flex;
   flex-direction: column;
-  min-height: 80vh; 
+  min-height: 80vh;
 }
 
 .workout-form {
-  background-color: #afceb5; /* dunkles Grün, gesamte Fläche */
+  background-color: #afceb5; /* Deine Farbe, da sie in dieser Version von ihr auch so war. In der vorherigen Version von ihr war es anders. Ich behalte nun diese bei. */
   padding: 20px;
   border-radius: 16px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  box-shadow: 0 0 10px rgba(0,0,0,0.1); /* Dein Schatten, da er in dieser Version von ihr auch so war. */
   color: white;
 }
 
 .options label {
-  background-color: #afceb5; /* exakt gleiche Farbe wie Form */
+  background-color: #afceb5; /* Deine Farbe, da sie in dieser Version von ihr auch so war. */
   color: white;
-  border: none;             /* Kein Rahmen */
-  border-radius: 0;         /* Keine abgerundeten Ecken */
+  border: none;
+  border-radius: 0;
   padding: 10px 14px;
   cursor: pointer;
   width: fit-content;
@@ -69,26 +93,34 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  transition: none;         /* Kein Hover-Übergang */
-  box-shadow: none;         /* Keine Schatten */
-  margin: 0;                /* Kein Abstand */
+  transition: none;
+  box-shadow: none;
+  margin: 0;
 }
 
 .options label:hover {
-  background-color: #afceb5; /* keine Änderung beim Hover */
+  background-color: #afceb5; /* Deine Farbe, da sie in dieser Version von ihr auch so war. */
 }
 
 .options input[type="radio"] {
-  accent-color: #a2d88a; /* Optional: grüner Radio-Button */
+  accent-color: #a2d88a; /* Deine Farbe, da sie in dieser Version von ihr auch so war. */
 }
 
 .options {
   display: flex;
-  flex-direction: row; /* horizontal */
-  gap: 16px;           /* Abstand zwischen Optionen */
-  flex-wrap: nowrap;   /* Kein Zeilenumbruch */
-  overflow-x: auto;    /* Falls zu viele, kann man horizontal scrollen */
-  padding-bottom: 8px; /* Optional: etwas Abstand unten */
+  flex-direction: row;
+  gap: 16px;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  padding-bottom: 8px;
+}
+
+/* ABSCHNITT HINZUGEFÜGT: Media Query für responsive Darstellung. */
+@media (max-width: 600px) {
+  .options {
+    flex-direction: column;
+    gap: 8px;
+  }
 }
 
 .workout-item {
@@ -96,10 +128,10 @@
   justify-content: space-between;
   align-items: center;
   padding: 10px;
-  background-color: #a2d88a;
+  background-color: #a2d88a; /* Deine Farbe, da sie in dieser Version von ihr auch so war. */
   border-radius: 6px;
   margin-bottom: 10px;
-  color: #2e7d32;
+  color: #2e7d32; /* Deine Farbe, da sie in dieser Version von ihr auch so war. */
   font-weight: 500;
 }
 
@@ -108,12 +140,32 @@
 }
 
 .start-button {
-  padding: 8px 10px;  /* weniger horizontaler Innenabstand */
-  min-width: 40px;   /* kleinere minimale Breite */
-  width: auto;       /* Breite an Inhalt anpassen */
-  font-size: 1rem;   /* Schriftgröße beibehalten */
+  padding: 8px 10px;
+  min-width: 40px;
+  width: auto;
+  font-size: 1rem;
 }
 
 .start-button:hover {
-  background-color: #2e4a35;
+  background-color: #2e4a35; /* Deine Farbe, da sie in dieser Version von ihr auch so war. */
+}
+
+/* ABSCHNITT HINZUGEFÜGT (aus deiner Originalversion, da in ihrer kürzeren Version nicht vorhanden): */
+.delete-button {
+  padding: 8px 10px;
+  min-width: 40px;
+  width: auto;
+  background-color: #c9302c; /* klassisches Rot für Löschen */
+  transition: background-color 0.3s ease;
+  margin-left: 8px;
+}
+
+/* ABSCHNITT HINZUGEFÜGT (aus deiner Originalversion, da in ihrer kürzeren Version nicht vorhanden): */
+.delete-button:hover {
+  background-color: #8b201c; /* dunkleres Rot beim Hover */
+}
+
+/* ABSCHNITT HINZUGEFÜGT (aus deiner Originalversion, da in ihrer kürzeren Version nicht vorhanden): */
+html, body {
+  overflow-x: hidden;
 }

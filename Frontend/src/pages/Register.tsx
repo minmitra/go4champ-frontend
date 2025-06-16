@@ -10,7 +10,7 @@ type RegisterForm = {
   age: string;
   gender: string;
   password: string;
-  
+
 };
 
 const Register = () => {
@@ -51,12 +51,12 @@ const Register = () => {
     if(formData.age && Number(formData.age) < 16){
       newErrors.age = "Sorry, you're too young to use this App. Come back when you're 16!";
     }
-   
+
     if (formData.password && !isValidPassword(formData.password)) {
       newErrors.password = 'Password has to be longer than eight characters and contain at least one letter and number.';
     }
 
-     if(Object.keys(newErrors).length > 0){
+      if(Object.keys(newErrors).length > 0){
       setErrors(newErrors);
       return;
     }
@@ -68,7 +68,7 @@ const Register = () => {
     }
 
     try {
-      const res = await fetch('http://localhost:8080/api/auth/register', {
+      const res = await fetch('https://go4champ-backend-x.onrender.com/api/auth/register',   {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
@@ -94,7 +94,7 @@ const Register = () => {
       }
       alert("Registration successful! Please check your email to verify your account before logging in.")
       navigate('/login');
-    } 
+    }
 
     catch (err) {
       console.error(err);
@@ -111,7 +111,7 @@ const Register = () => {
 
           {errors.general && <p className="error">{errors.general}</p>}
 
-         <input
+          <input
               id="email"
               type="email"
               placeholder='*Email'
@@ -153,7 +153,7 @@ const Register = () => {
               <option value="diverse">Diverse</option>
             </select>
             {errors.gender && <p className="error">{errors.gender}</p>}
-        
+
             <input
               id="age"
               type="number"
@@ -178,7 +178,8 @@ const Register = () => {
             {errors.password && <p className="error">{errors.password}</p>}
 
           <input type="submit" value="Register" />
-          <Link className="register-link" to="/login">
+          {/* ABSCHNITT GEÄNDERT: className des Links von "register-link" zu "register" geändert, um ihrer Version zu entsprechen. */}
+          <Link className="register" to="/login">
             Already have an account? Login here
           </Link>
         </form>

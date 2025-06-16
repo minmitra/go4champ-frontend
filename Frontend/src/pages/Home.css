@@ -10,13 +10,13 @@
 body {
   overflow-x: hidden;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #ffffff; 
+  background-color: #ffffff;
 }
 
 .home-container {
   width: 100%;
   overflow-x: hidden;
-  
+
   padding: 40px 20px 0;
 }
 
@@ -166,7 +166,7 @@ body {
 }
 
 .nutrition-text {
-  color:  #172554;
+  color:   #172554;
   text-decoration: none;
 }
 
@@ -186,7 +186,7 @@ body {
 }
 
 .freunde-text {
-  color:  #172554;
+  color:   #172554;
   text-decoration: none;
 }
 
@@ -197,8 +197,9 @@ body {
   padding: 20px 0 10px;
 }
 
+/* ABSCHNITT GEÄNDERT: Hintergrundfarbe des Buttons wurde angepasst. */
 .mitglied-button {
-  background-color: #1d4ed8;
+  background-color: #172554; /* Von ihrer Version übernommen */
   color: white;
   font-size: 1.2rem;
   font-weight: bold;
@@ -209,7 +210,7 @@ body {
 }
 
 .mitglied-button:hover {
-  background-color:  #172554;
+  background-color:   #1d4ed8;
 }
 
 /* ========================== */
@@ -230,7 +231,7 @@ body {
 }
 
 .section-wrapper {
-  background-color:  #1d4ed8;
+  background-color:   #1d4ed8;
 }
 
 * {

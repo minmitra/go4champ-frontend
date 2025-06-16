@@ -1,0 +1,107 @@
+{
+  "home": "Home",
+  "todaysWorkout": "Today's Workout",
+  "todaysWorkoutStart": "Let's start today's workout!",
+  "todaysWorkoutMotivation": "Get ready for your daily session. Stay consistent!",
+  "gamification": "Gamification",
+  "nutrition": "Nutrition",
+
+  "createWorkout": "Create your workout plan",
+  "withCompanion": "With your personal companion",
+  "goToWorkout": "Go to Today's workouts",
+  "createYourWorkouts": "Create your workouts",
+  "nutritionText": "Create your personalized nutrition plan tailored to your preferences and allergies.",
+  "gamificationText": "Join exciting challenges with your friends and collect the most points!",
+  "becomeMember": "Become a Member",
+
+  "membership": "Membership",
+  "contact": "Contact",
+  "language": "Language",
+
+  "login": "Login",
+  "username": "Username",
+  "password": "Password",
+  "forgotPassword": "Forgot Password? Click here",
+  "noAccount": "Don't have an account? Register here",
+  "loginFailed": "Login failed",
+  "serverError": "Error connecting to the server",
+
+  "profile": {
+    "title": "My Profile",
+    "name": "Name",
+    "email": "Email",
+    "age": "Age",
+    "weight": "Weight (kg)",
+    "fitnessLevel": "Fitness Level",
+    "workoutGoal": "Workout Goal",
+    "equipment": "Equipment",
+    "save": "Save",
+    "cancel": "Cancel",
+    "select": "Select",
+    "beginner": "Beginner",
+    "intermediate": "Intermediate",
+    "advanced": "Advanced",
+    "muscle": "Muscle Building",
+    "cardio": "Cardio",
+    "fatloss": "Fat Loss",
+    "loading": "Loading profile...",
+    "saved": "Profile saved successfully!",
+    "saveError": "Error saving profile. Please try again.",
+    "loadError": "Error loading profile data. Please try again.",
+    "notLoggedIn": "You are not logged in. Please log in to view your profile.",
+    "notLoggedInSave": "Not logged in. Please log in to save changes.",
+    "tokenError": "There was a problem with your login token. Please log in again."
+  },
+
+  "myWorkout": {
+    "title": "My Workout",
+    "createNew": "Create New Workout",
+    "start": "Start",
+    "delete": "Delete",
+    "name": "Workout Name",
+    "placeholder": "Enter workout name",
+    "ready": "You're ready!",
+    "back": "Back",
+    "next": "Next",
+    "create": "Create Workout",
+    "saveChanges": "Save Changes",
+    "at": "at",
+    "exercises": "exercises",
+    "alert_enterName": "Please enter a workout name.",
+    "alert_missingName": "Workout name is missing.",
+    "q_bodyPart": "Which body part do you want to train?",
+    "q_exercises": "How many exercises do you want?",
+    "q_location": "Where are you right now?",
+    "q_summary": "Ready to generate your workout plan?"
+  },
+
+  "bodyParts": {
+    "arms": "Arms",
+    "back": "Back",
+    "abs": "Abs",
+    "legs": "Legs",
+    "glutes": "Glutes",
+    "fullbody": "Full Body"
+  },
+
+  "workoutDetail": {
+  "defaultTitle": "Your Workout",
+  "sets": "Sets",
+  "reps": "Reps",
+  "instructionsLabel": "Instructions",
+  "exit": "Exit",
+  "next": "Next",
+  "finish": "Finish",
+  "confirmExit": "Are you sure you want to quit your super duper workout?",
+  "instructions": {
+    "squats": "Keep your back straight and go deep.",
+    "lunges": "Alternate legs, slow and steady.",
+    "calfRaises": "Pause at the top for a second."
+  }
+},
+"yes": "Yes",
+"no": "No"
+
+
+
+}

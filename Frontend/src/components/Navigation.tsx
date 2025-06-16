@@ -2,12 +2,12 @@ import './Navigation.css';
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { MdAccountCircle } from 'react-icons/md';
-import {  IoSunny } from 'react-icons/io5';
+import { IoSunny } from 'react-icons/io5';
 import { IoIosMoon } from 'react-icons/io';
-import { RiLogoutBoxFill } from "react-icons/ri";
-import { RiLoginBoxFill } from "react-icons/ri";
-
+import { RiLogoutBoxFill, RiLoginBoxFill } from 'react-icons/ri';
 import { useAuthenti } from '../context/AuthentiContext';
+import { useTranslation } from 'react-i18next';
+
 type NavItem = {
   to?: string;
   label: React.ReactNode;
@@ -18,11 +18,11 @@ type NavItem = {
 const Navigation = () => {
   const [menuOpen, setMenuopen] = useState(false);
   const [darkMode, setDarkMode] = useState(() => localStorage.getItem('theme') === 'dark');
-
   const { isAuthenticated, logout } = useAuthenti();
   const navigate = useNavigate();
   const menuRef = useRef<HTMLElement | null>(null);
   const linkRefs = useRef<(HTMLAnchorElement | HTMLDivElement | null)[]>([]);
+  const { t } = useTranslation();
 
   useEffect(() => {
     document.body.classList.toggle('dark', darkMode);
@@ -36,18 +36,18 @@ const Navigation = () => {
   };
 
   const privateLinks: NavItem[] = [
-    { to: '/mainpage', label: 'Home' },
-    { to: '/todaysworkout', label: "Today's Workout" },
-    { to: '/myworkout', label: 'My Workout' },
-    { to: '/gamification', label: 'Gamification' },
-    { to: '/nutrition', label: 'Nutrition' },
+    { to: '/mainpage', label: t('home') },
+    { to: '/todaysworkout', label: t('todaysWorkout') },
+    { to: '/myworkout', label: t('myWorkout.title') },
+    { to: '/gamification', label: t('gamification') },
+    { to: '/nutrition', label: t('nutrition') },
     { label: darkMode ? <IoSunny size={20} /> : <IoIosMoon size={20} />, isToggle: true },
     { to: '/myprofile', label: <MdAccountCircle size={20} /> },
     { label: <RiLogoutBoxFill size={20} />, isLogout: true },
   ];
 
   const publicLinks: NavItem[] = [
-    { to: '/', label: 'Home' },
+    { to: '/', label: t('home') },
     { label: darkMode ? <IoSunny size={20} /> : <IoIosMoon size={20} />, isToggle: true },
     { to: '/login', label: <RiLoginBoxFill size={20} /> },
   ];
@@ -72,7 +72,6 @@ const Navigation = () => {
       return () => clearTimeout(timer);
     }
   }, [menuOpen, allLinks]);
-
 
   const handleKeyDown = (e: React.KeyboardEvent, index: number) => {
     if (!allLinks.length) return;
