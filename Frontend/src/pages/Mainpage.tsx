@@ -1,76 +1,92 @@
 import './Mainpage.css';
-import ernährung from '../assets/ernährung.png.png';
-import hantel from '../assets/hantel.png.png';
-import pixel from '../assets/pixel.png';
-import freunde from '../assets/freunde.png';
+import ernährung from '../assets/ernährung.png';
+import hantel from '../assets/hantel.png';
+import challenges from '../assets/challenges.png';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import go4 from '../assets/go4.avif';
 
-const today = new Date().toLocaleDateString('en-GB', {
-  day: 'numeric',
-  month: 'long'
-});
+
+
 
 const Mainpage = () => {
   const { t } = useTranslation();
+  const { i18n } = useTranslation();
+const today = new Intl.DateTimeFormat(i18n.language, {
+  day: 'numeric',
+  month: 'long'
+}).format(new Date());
 
   return (
     <>
       <div className="main-container">
-        {/* HERO-BEREICH */}
-        <section className="hero-section">
-          <div className="hero-text">
-            <h1>{t('createWorkout')}</h1>
-            <p>{t('withCompanion')}</p>
-            <p>{t('welcome')}</p>
-          </div>
-          <div className="hero-image">
-            <img src={pixel} alt="Pixel-character" className="pixel-hero" />
-          </div>
-        </section>
+       <section className="hero-image-container">
+  <img src={go4} alt="gochampion" className="gochampion-hero" />
+
+
+  <div className="hero-text-overlay">
+    <h1>{t('createWorkout')}</h1>
+    <p>{t('withCompanion')}</p>
+  </div>
+</section>
 
         {/* CARDS-BEREICH */}
         <div className="card-container">
 
+              {/* News */}
+      <div className="info-card news-card">
+  <h2>News</h2>
+  <p className="card-text">Stay up to date:</p>
+  <a
+    href="https://news.google.com/topics/CAAqJggKIiBDQkFTRWdvSUwyMHZNRFp1ZEdvU0FtVnVHZ0pWVXlnQVAB?hl=en-US&gl=US&ceid=US%3Aen-US"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="primary-button"
+  >
+    Go to Google Sport News
+  </a>
+</div>
+
           {/* Today's workout */}
-          <div className="info-card todays-workout-card">
-          <Link to="/todaysworkout">
-            <p className="card-text todaysworkout-text">
-            {today}: {t('goToWorkout')}
-            </p>
-          </Link>
-          </div>
+          <div className="info-card">
+         <Link to="/todaysworkout">
+         <p className="card-text-h2">{today}: {t('todaysWorkout')}</p>
+         </Link>
+        </div>
 
 
           {/* Workouts */}
-          <div className="info-card myworkouts-card">
+          <div className="info-card">
+             <h2>Challenges</h2>
             <Link to="/myworkout">
               <img src={hantel} alt="Workouts" className="card-image" />
              
             </Link>
-            <p className="card-text workouts-text">
-              {t('createYourWorkouts')}
+            <p className="card-text">
+             My Workouts
             </p>
           </div>
 
           {/* Nutrition */}
-          <div className="info-card nutrition-card">
+          <div className="info-card">
+             <h2>Nutrition</h2>
             <Link to="/nutrition">
               <img src={ernährung} alt="Nutrition" className="card-image" />
              
             </Link>
-            <p className="card-text nutrition-text">
+            <p className="card-text">
               {t('nutritionText')}
             </p>
           </div>
 
           {/* Gamification */}
-          <div className="info-card freunde-card">
+          <div className="info-card ">
+              <h2>Challenges</h2>
             <Link to="/gamification">
-              <img src={freunde} alt="Gamification" className="card-image" />
+              <img src={challenges} alt="Gamification" className="card-image" />
              
             </Link>
-            <p className="card-text gamification-text">
+            <p className="card-text">
               {t('gamificationText')}
             </p>
           </div>

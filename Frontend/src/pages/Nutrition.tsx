@@ -15,12 +15,8 @@ const Nutrition = () => {
     <div className="nutrition-page">
       <h1>Nutrition</h1>
 
-      <div className="coming-soon-fullscreen">
-        <span>Coming Soon</span>
-      </div>
-
       <div className="custom-request">
-        <h3>Type what you're craving today and get a plan based on your taste</h3>
+        <p>Type what you're craving today and get a plan based on your taste</p>
         <textarea
           className="input-box"
           value={input}

@@ -27,6 +27,16 @@ const Navigation = () => {
   useEffect(() => {
     document.body.classList.toggle('dark', darkMode);
     localStorage.setItem('theme', darkMode ? 'dark' : 'light');
+
+      //Safe Area: Theme-Farbe für Systemstatusleiste anpassen dark/light
+    const metaThemeColor = document.getElementById('meta-theme-color');
+    if (metaThemeColor) {
+      const darkThemeColor = "#000000";
+      const lightThemeColor = "#0f172a"; 
+
+      metaThemeColor.setAttribute('content', darkMode ? darkThemeColor : lightThemeColor);
+    }
+
   }, [darkMode]);
 
   const handleLogout = () => {

@@ -205,12 +205,6 @@ const MyProfile = () => {
     <div className="profile-container">
       <div className="profile-header">
         <h2>My Profile</h2>
-        {/* Edit-Link wird nur angezeigt, wenn man NICHT im Bearbeitungsmodus ist */}
-        {!isEditing && (
-          <span className="edit-profile-link" onClick={handleEditMode}>
-            ✏️ Edit Profile
-          </span>
-        )}
       </div>
 
       {error && <p className="error-message">{error}</p>}
@@ -311,14 +305,25 @@ const MyProfile = () => {
       {/* Save/Cancel Buttons werden nur im Bearbeitungsmodus angezeigt */}
       {isEditing && (
         <div className="buttons">
-          <button className="save-btn" onClick={handleSave}>
+          <button className="primary-button" onClick={handleSave}>
             Save
           </button>
-          <button className="cancel-btn" onClick={handleCancel}>
+          <button className="primary-button" onClick={handleCancel}>
             Cancel
           </button>
         </div>
       )}
+
+       {/* Edit-Link wird nur angezeigt, wenn man NICHT im Bearbeitungsmodus ist */}
+        {!isEditing && (
+         <button
+          type="button"
+          className="primary-button"
+        onClick={handleEditMode}
+          >
+          ✏️ Edit Profile
+        </button>
+        )}
     </div>
   );
 };

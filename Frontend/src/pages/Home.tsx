@@ -1,81 +1,81 @@
 import './Home.css';
-import ernährung from '../assets/ernährung.png.png';
-import hantel from '../assets/hantel.png.png';
-import pixel from '../assets/pixel.png';
-import freunde from '../assets/freunde.png';
+import ernaehrung from '../assets/ernährung.png';   
+import hantel from '../assets/hantel.png';      
+import go4 from '../assets/go4.avif';
+import challenges from '../assets/challenges.png';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-
-const today = new Date().toLocaleDateString('en-GB', {
-  day: 'numeric',
-  month: 'long'
-});
+import { useAuthenti } from '../context/AuthentiContext';
 
 const Home = () => {
   const { t } = useTranslation();
+  const { isAuthenticated } = useAuthenti();
+
+
 
   return (
-    <>
-      <div className="main-container">
-        {/* HERO-BEREICH */}
-        <section className="hero-section">
-          <div className="hero-text">
-            <h1>{t('createWorkout')}</h1>
-            <p>{t('withCompanion')}</p>
-          </div>
-          <div className="hero-image">
-            <img src={pixel} alt="Pixel-character" className="pixel-hero" />
-          </div>
-        </section>
+    <div className="home-container">
 
-        {/* CARDS-BEREICH */}
-        <div className="card-container">
-          {/* Today's workout */}
-          
+<section className="hero-image-container">
+  <img src={go4} alt="gochampion" className="gochampion-hero" />
 
-          {/* Workouts */}
-          <div className="info-card myworkouts-card">
-            <Link to="/myworkout">
-              <img src={hantel} alt="Workouts" className="card-image" />
-              
-            </Link>
-            <p className="card-text workouts-text">
-              {t('createYourWorkouts')}
-            </p>
-          </div>
 
-          {/* Nutrition */}
-          <div className="info-card nutrition-card">
-            <Link to="/nutrition">
-              <img src={ernährung} alt="Nutrition" className="card-image" />
-              
-            </Link>
-            <p className="card-text nutrition-text">
-              {t('nutritionText')}
-            </p>
-          </div>
+  <div className="hero-text-overlay">
+    <h1>{t('createWorkout')}</h1>
+    <p>{t('withCompanion')}</p>
+  </div>
+</section>
+     
 
-          {/* Gamification */}
-          <div className="info-card freunde-card">
-            <Link to="/gamification">
-              <img src={freunde} alt="Gamification" className="card-image" />
-              
-            </Link>
-            <p className="card-text gamification-text">
-              {t('gamificationText')}
-            </p>
-          </div>
+      {/* CARDS-BEREICH */}
+      <section id="membership-section" className="card-container">
 
-          {/* Become a Member */}
-          <div className="mitglied-button-wrapper">
-            <Link to="/register" className="mitglied-button">
-              {t('becomeMember')}
-            </Link>
-          </div>
+
+        {!isAuthenticated && (
+           <div className="intro-row">
+          <p className="intro-text">To use the features, log in or become a member:</p>
+         </div>
+          )}
+
+        {/* Workouts */}
+        <div className="info-card">
+          <h2>My Workouts</h2>
+          <Link to="/myworkout">
+            <img src={hantel} alt="Workout" className="card-image" />
+          </Link>
+          <p className="card-text">{t('createYourWorkouts')}</p>
         </div>
-      </div>
-    </>
+
+        {/* Nutrition */}
+        <div className="info-card">
+           <h2>Nutrition</h2>
+          <Link to="/nutrition">
+            <img src={ernaehrung} alt="Nutrition" className="card-image" />
+          </Link>
+          <p className="card-text">{t('nutritionText')}</p>
+        </div>
+
+        {/* Gamification */}
+        <div className="info-card">
+           <h2>Challenges</h2>
+          <Link to="/gamification">
+            <img src={challenges} alt="Gamification" className="card-image" />
+          </Link>
+          <p className="card-text">{t('gamificationText')}</p>
+        </div>
+
+      
+        {!isAuthenticated && (
+  <Link to="/register" className="becomeMember-box">
+    <span className="avatar-text">{t('becomeMember')}</span>
+  </Link>
+)}
+       
+
+      </section>
+    </div>
   );
 };
 
 export default Home;
+

@@ -1,27 +1,23 @@
-/* src/components/WorkoutDetail.css */
 
 .workout-detail-container {
   background-color: #fff;
   border-radius: 16px;
   padding: 24px;
   margin: 40px 20px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
   font-family: 'Segoe UI', sans-serif;
   max-width: 500px;
   margin-left: auto;
   margin-right: auto;
 }
 
-/* Workout name oben links */
 .workout-title {
-  font-size: 1.2rem;      /* Größer als vorher */
-  font-weight: bold;       /* Fett */
-  color: #333;            /* Kräftigere Farbe */
+  font-size: 1.2rem;    
+  font-weight: bold;      
+  color: #333;           
   margin-bottom: 16px;
   text-align: left;
 }
 
-/* Übungskarte */
 .exercise-card {
   background-color: #eaf4ea; /* Light green background */
   border-radius: 12px;
@@ -165,26 +161,26 @@ button {
 }
 
 .pause-card h2 {
-  color: #3e6449; /* Dein Hauptgrün */
-  font-size: 2em; /* Etwas größer als exercise-card h2 */
+  color: #3e6449; 
+  font-size: 2em; 
   margin-bottom: 15px;
 }
 
 .pause-card p {
-  font-size: 1.1em; /* Etwas größerer Text */
+  font-size: 1.1em; 
   color: #555;
   margin-bottom: 10px;
 }
 
 .countdown {
-  font-size: 4.5em; /* Sehr groß, damit es auffällt */
+  font-size: 4.5em; 
   font-weight: bold;
-  color: #2e7d32; /* Das dunklere Grün vom exercise-card text */
+  color: #2e7d32;
   margin: 20px 0;
-  animation: pulse 1.5s infinite alternate; /* Behält den Puls-Effekt bei */
+  animation: pulse 1.5s infinite alternate; 
 }
 
-/* Keyframes für den Puls-Effekt (bereits in der vorherigen Antwort enthalten) */
+
 @keyframes pulse {
   from {
     transform: scale(1);
@@ -196,14 +192,13 @@ button {
   }
 }
 
-/* Stil für den deaktivierten Next-Button während der Pause */
 .navigation-buttons .next-button:disabled {
-  background-color: #cccccc; /* Grau */
-  color: #666666; /* Dunkleres Grau für den Text */
+  background-color: #cccccc; 
+  color: #666666; 
   cursor: not-allowed;
 }
 
-/* Hover-Effekt für deaktivierte Buttons entfernen */
+
 .navigation-buttons .next-button:disabled:hover {
-  background-color: #cccccc; /* Bleibt grau beim Hover */
+  background-color: #cccccc; 
 }

@@ -22,18 +22,6 @@
 }
 
 
-
-
-
-
-
-
-.nutrition-page {
-    padding: 40px;
-    background-color: #f4f4f4;
-    font-family: 'Segoe UI', sans-serif;
-  }
-  
   .nutrition-page h1 {
   color: #746151; 
   font-size: 1.8rem;
@@ -105,9 +93,8 @@
   border: none;
   padding: 9px 14px;
   font-size: 1rem;
-  font-weight: bold;
+  font-weight: normal;
   border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
   transition: background-color 0.3s ease;
   width: auto;
   

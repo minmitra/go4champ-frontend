@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Workout.css'; // Stil für die Workout-Komponenten
+
 
 // Definiere die Struktur der gespeicherten Workouts
 // MUSS genau zu dem passen, was in MyWorkout.tsx gespeichert wird
@@ -101,34 +101,34 @@ const TodaysWorkout = () => {
     };
 
     return (
-        <div className="workout-wrapper">
-            <div className="workout-page">
-                <h1>Today's Workout</h1>
-                <div className="workout-form">
-                    {todaysWorkout ? (
-                        <>
-                            <h2>{todaysWorkout.workoutName}</h2>
-                            <p>Body Part: {todaysWorkout.bodyPart}</p>
-                            <p>Exercises: {todaysWorkout.exercises}</p>
-                            <p>Location: {todaysWorkout.location}</p>
-                            <p>Get ready for your daily session. Stay consistent!</p>
-                            <button className="workout-button" onClick={handleStart}>
-                                Start Workout
-                            </button>
-                        </>
-                    ) : (
-                        <>
-                            <p>No workout available for today.</p>
-                            <p>Please create some workouts in "My Workouts" to get a daily suggestion.</p>
-                            <button className="workout-button" onClick={() => navigate('/my-workouts')}>
-                                Go to My Workouts
-                            </button>
-                        </>
-                    )}
-                </div>
-            </div>
-        </div>
-    );
+    <main>
+      <h1>Today's Workout</h1>
+
+      <div className="info-card">
+        {todaysWorkout ? (
+          <>
+            <h2>{todaysWorkout.workoutName}</h2>
+            <ul>
+              <li><strong>Body Part:</strong> {todaysWorkout.bodyPart}</li>
+              <li><strong>Exercises:</strong> {todaysWorkout.exercises}</li>
+              <li><strong>Location:</strong> {todaysWorkout.location}</li>
+            </ul>
+            <button className="primary-button" onClick={handleStart}>
+              Start Workout
+            </button>
+          </>
+        ) : (
+          <>
+            <p>No workout available for today.</p>
+            <p>Please create some workouts in "My Workouts".</p>
+            <button className="primary-button" onClick={() => navigate('/myworkout')}>
+              Go to My Workouts
+            </button>
+          </>
+        )}
+      </div>
+    </main>
+  );
 };
 
 export default TodaysWorkout;

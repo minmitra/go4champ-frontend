@@ -15,11 +15,12 @@ const Footer = () => {
 
   return (
     <footer className="footer">
+      
       {/* Mitglied werden */}
       <div className="footer-section">
         <div className="footer-header" onClick={() => setShowMember(!showMember)}>
-          <span>{t('membership')}</span>
-          <span className={`arrow ${showMember ? 'open' : ''}`}>&#9660;</span>
+          <p style={{ fontWeight: 'bold' }}>{t('membership')}</p>
+          <p className={`arrow ${showMember ? 'open' : ''}`}>&#9660;</p>
         </div>
         {showMember && (
           <div className="footer-content">
@@ -32,16 +33,16 @@ const Footer = () => {
       {/* Kontakt */}
       <div className="footer-section">
         <div className="footer-header" onClick={() => setShowContact(!showContact)}>
-          <span>{t('contact')}</span>
-          <span className={`arrow ${showContact ? 'open' : ''}`}>&#9660;</span>
+          <p style={{ fontWeight: 'bold' }}>{t('contact')}</p>
+          <p className={`arrow ${showContact ? 'open' : ''}`}>&#9660;</p>
         </div>
         {showContact && (
           <div className="footer-content">
             <p>
-              <strong>Go4Champion Customer Support:</strong><br />
+              Go4Champion Customer Support:<br />
               +49 37482847
             </p>
-            <small>Monday to Friday, 10 AM – 6 PM</small>
+            <p>Monday to Friday, 10 AM – 6 PM</p>
           </div>
         )}
       </div>
@@ -49,8 +50,8 @@ const Footer = () => {
       {/* Sprache */}
       <div className="footer-section">
         <div className="footer-header" onClick={() => setShowLanguages(!showLanguages)}>
-          <span>{t('language')}</span>
-          <span className={`arrow ${showLanguages ? 'open' : ''}`}>&#9660;</span>
+         <p style={{ fontWeight: 'bold' }}>{t('language')}</p>
+          <p className={`arrow ${showLanguages ? 'open' : ''}`}>&#9660;</p>
         </div>
         {showLanguages && (
           <div className="footer-content">

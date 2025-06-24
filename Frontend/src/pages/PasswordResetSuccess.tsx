@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './PasswordResetSuccess.css';
+
+
+
 
 const PasswordResetSuccess: React.FC = () => {
     const [resendMessage, setResendMessage] = useState('');
@@ -55,11 +57,11 @@ const PasswordResetSuccess: React.FC = () => {
                 <h2>Reset Password</h2>
                 <p>Reset link was send to your E-Mail successfuly!</p>
 
-                <button onClick={handleResend} disabled={isLoading}>
+                <button onClick={handleResend}  type="button"     className="primary-button">
                     {isLoading ? 'Resending...' : 'Resend email'}
                 </button>
 
-                <button onClick={handleBackToLogin} className='back-button'>
+                <button onClick={handleBackToLogin}  type="button"    className="primary-button" >
                     Back to login
                 </button>
 

@@ -90,7 +90,7 @@ const ResetPassword: React.FC = () => {
                     value={newPassword}
                     onChange={(e) => setNewPassword(e.target.value)}
                 />
-                <button type="submit" disabled={isLoading}>
+                <button type="submit"  className="primary-button" disabled={isLoading}>
                     {isLoading ? 'Resetting...' : 'Reset password'} </button>
                 {error && <p className="error">{error}</p>}
             </form>

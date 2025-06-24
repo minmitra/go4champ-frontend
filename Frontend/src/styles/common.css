@@ -1,0 +1,291 @@
+/* ========================== */
+/* GLOBAL BODY UND THEMEN     */
+/* ========================== */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(255, 255, 255);
+  color: rgb(52, 50, 50);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  overflow-x: hidden;
+  
+}
+
+
+#root {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+
+/* ===== Angepasstes MAIN (statt display:flex) ===== */
+main {
+  display: block;
+  margin: 0 auto;
+  flex-direction: column;   
+  align-items: stretch;                
+}
+
+/* ========================== */
+/* Home-card and homepage    */
+/* ========================== */
+
+.info-card {
+  border-radius: 20px;
+  text-align: center;
+  transition: transform 0.1s ease;
+  cursor: pointer;
+  margin: 16px 0;  
+   box-sizing: border-box;
+  width: calc(100% - 32px);
+  max-width: none ;
+  background-color: rgb(255, 255, 255) !important;
+  border: 2px solid #ccc !important; 
+  padding: 32px;
+
+}
+
+.info-card:hover {
+  transform: scale(1.03);
+}
+
+.card-container .info-card:last-child {
+  margin-bottom: 40px;
+}
+
+/* ========================== */
+/* HEADINGS                   */
+/* ========================== */
+
+
+p {
+ font-size: 16px;   
+  line-height: 1.5;
+  font-weight: normal
+}
+
+h1 {
+  color: #03081a;
+  padding-inline: 16px;     
+}
+
+h2 {
+ text-align: left;         
+  margin: 0 0 24px;         
+  font-weight: bold;
+  font-size: 24px;
+  color: #172554;
+}
+
+/* ========================== */
+/* MAIN-INHALTSBEREICH        */
+/* ========================== */
+main {
+  max-width: 100%;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1; 
+  padding: 100px 20px 40px;
+}
+
+/* ========================== */
+/* LINKS & NAVIGATION         */
+/* ========================== */
+.navlink-like {
+  color: inherit;
+}
+
+body.dark .navlink-like {
+  color: #ddd;
+}
+
+/* ========================== */
+/* FORMULARE                  */
+/* ========================== */
+form {
+  background: #ffffff65;;
+  padding-block: 30px;       
+  padding-inline: 16px;      
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  max-width: 900px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+
+/* ========================== */
+/* BUTTON-STANDARD (GLOBAL)   */
+/* ========================== */
+.primary-button {
+  font-weight: normal;
+  width: 100%;
+  margin: 12px auto 0;
+  padding: 14px 20px;
+  font-size: 16px;
+  text-align: center;
+  background-color: #172554;
+  color: white;
+   border: 1px solid #000000 !important;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  height: 38px;
+   display: flex; 
+  justify-content: center; 
+  align-items: center;    
+}
+
+
+
+.primary-button:hover {
+  background-color: #1d4ed8;
+  border: 1px solid #000000;
+}
+
+.primary-button:active {
+   border: 1px solid #000000;
+  transform: scale(0.98);
+}
+
+.primary-button + .primary-button {
+  margin-top: 12px;
+}
+
+
+/* ========================== */
+/* VALIDIERUNGSZUSTÄNDE       */
+/* ========================== */
+.input-error {
+  border: 2px solid #ff6b6b;
+  background-color: #fff0f0;
+}
+
+.error {
+  color: #ff6b6b;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.success {
+  color: green;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+/* ========================== */
+/* FOOTER FIX (IMMER UNTEN)   */
+/* ========================== */
+footer {
+  background-color: #ffffff;
+  padding: 40px 20px 20px 20px;
+  margin-top: auto;
+  font-family: 'Segoe UI', Tahoma, sans-serif;
+}
+
+/* ========================== */
+/* APP- & CONTENT-WRAPPER     */
+/* ========================== */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; 
+}
+
+
+.content-wrapper,
+.workout-page {
+  padding-top: 60px; 
+}
+
+
+/* ========================== */
+/* DARK MODE OVERRIDES        */
+/* ========================== */
+
+body.dark h1,
+body.dark h2,
+body.dark h3,
+body.dark h4,
+body.dark h5,
+body.dark h6,
+body.dark p,
+body.dark label,
+body.dark .card-text,
+body.dark .primary-button,
+body.dark a,
+body.dark .navlink-like {
+  color: white  !important;
+}
+
+body.dark {
+  background-color: #021a55;
+  color: #ffffff;
+}
+body.dark form {
+  background: #000000 !important;  
+}
+
+body.dark form input,
+body.dark form select,
+body.dark form textarea {
+  background-color: #1f2937; 
+  color: #ffffff;
+}
+
+body.dark .primary-button,
+body.dark form input[type="submit"],
+body.dark form button[type="submit"] {
+  background-color: #0f172a; 
+  color: white;
+}
+body.dark .primary-button:hover,
+body.dark form input[type="submit"]:hover,
+body.dark form button[type="submit"]:hover {
+  background-color: #1e293b; 
+}
+
+body.dark nav,
+body.dark footer {
+  background-color: #000;
+  color: white;
+}
+
+
+
+/* darkmode.css */
+body.dark .info-card {
+  background-color: #000 !important;
+  color: #fff !important;
+}
+
+  body.dark nav ul  {
+    background-color: #000000 ;
+  }
+
+
+  body.dark .primary-button {
+  border: 1px solid #ffffff !important;
+  background-color: #000000 !important;
+}
+
+body.dark .primary-button:hover {
+  background-color: #1d4ed8 !important;
+  border-color: #1d4ed8 !important;
+}
+
+
+
+  body {
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+

@@ -15,7 +15,7 @@ const Login = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await fetch('https://go4champ-backend-x.onrender.com/api/auth/login', {
+      const response = await fetch('http://localhost:8080/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password }),
@@ -42,14 +42,14 @@ const Login = () => {
   return (
     <main>
       <form onSubmit={handleSubmit} noValidate>
-        <h2>{t('login')}</h2>
+         <h2 className="login-h2">{t('login')}</h2>
 
         {error && <p className="error">{error}</p>}
 
         <input
           id="username"
           type="text"
-          placeholder={t('username')}
+          placeholder={t('*username')}
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           required
@@ -58,7 +58,7 @@ const Login = () => {
         <input
           id="password"
           type="password"
-          placeholder={t('password')}
+          placeholder={t('*password')}
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
@@ -68,9 +68,11 @@ const Login = () => {
           {t('forgotPassword')}
         </Link>
 
-        <input type="submit" value={t('login')} />
+         <button type="submit" className="primary-button">
+       {t('login')}
+       </button>
 
-        <Link className="register-button" to="/register">
+        <Link className="primary-button" to="/register">
           {t('noAccount')}
         </Link>
       </form>

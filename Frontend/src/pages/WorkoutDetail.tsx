@@ -133,8 +133,10 @@ const Workoutdetail = () => {
     return (
       <div className="workout-detail-container">
         <h1>{workoutName || 'Your Workout'}</h1>
+        <div className="info-card">
         <p>No exercises found for this workout. This might be a temporary issue or the AI did not return a valid plan.</p>
-        <button onClick={() => navigate('/myworkout')}>Back to My Workouts</button>
+        <button className="primary-button" onClick={() => navigate('/myworkout')}>Back to My Workouts</button>
+        </div>
       </div>
     );
   }

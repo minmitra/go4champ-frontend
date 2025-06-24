@@ -1,171 +1,213 @@
+.createworkout-button {
+  display: block;
+  width: 100%;
+  max-width: 400px;
+  margin: 16px auto 20px;
+  padding: 10px 16px;
+  font-size: 1rem;
+  font-weight: bold;
+  text-align: center;
+  background-color: #172554;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.createworkout-button:hover {
+  background-color: #1d4ed8;
+}
+
 .workout-page {
   flex: 1;
-  padding: 40px 20px;
-  background-color: #f4f4f4;
-  font-family: 'Segoe UI', sans-serif;
+  padding: 40px 16px;
 }
 
 .workout-page h1 {
-  color: #746151;
+  color: #172554;
   font-size: 1.8rem;
   margin-bottom: 10px;
 }
 
-/* ABSCHNITT GEÄNDERT: Hintergrundfarbe des Buttons wurde angepasst. */
-.myworkout-button {
-  margin-bottom: 20px;
-  background-color: #1d4ed8; /* Von ihrer Version übernommen */
-  color: white;
-  border: none;
-  padding: 10px 16px;
-  font-size: 1rem;
-  border-radius: 8px;
-  cursor: pointer;
+.workout-wrapper {
+  display: flex;
+  flex-direction: column;
+  max-height: 80vh;
+  min-height: 60vh;
 }
 
-/* ABSCHNITT HINZUGEFÜGT: Hover-Effekt für .myworkout-button. */
-.myworkout-button:hover {
-  background-color: #1d4ed8; /* Beibehalten, da es in ihrer Version so war. Du könntest hier eine dunklere Farbe wählen, um den Hover-Effekt zu verdeutlichen. */
-  color: white;
+.workout-form {
+  display: flex;
+  flex-direction: column;
+  width: calc(100vw - 32px);
+  margin-bottom: 0;
+  min-height: 70vh;
+  padding: 48px 20px 40px;
+  background-color: #d1d5db;
+  border-radius: 16px;
+  color: #000;
+  justify-content: space-between;
 }
 
+.question-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 60px;
+}
+
+.options {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin: 40px 0 20px;
+}
 
 .todo-list {
-  list-style-type: none;
+  list-style: none;
   padding: 0;
+  margin: 0 0 20px;
 }
 
 .todo-list li {
-  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding: 10px;
-  background-color: #eaf4ea;
+  background-color: #e0e7ff;
   border-radius: 6px;
-  color: #2e7d32;
+  margin-bottom: 10px;
+  color: #172554;
   font-weight: 500;
 }
 
 .form-nav {
   display: flex;
   justify-content: space-between;
-  margin-top: 40px;
+  margin-top: auto;
 }
 
-/* ABSCHNITT HINZUGEFÜGT: Stile für Buttons innerhalb von .form-nav (aus der vorherigen Abgleichung). */
 .form-nav button {
-  background-color: #172554;
-  color: white;
-  border: none;
   padding: 10px 16px;
   font-size: 1rem;
-  border-radius: 8px;
+  border: none;
+  border-radius: 50px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  background-color: #172554;
+  color: white;
+  transition: background-color 0.3s ease, transform 0.1s ease;
 }
 
-/* ABSCHNITT HINZUGEFÜGT: Hover-Effekt für .form-nav button (aus der vorherigen Abgleichung). */
 .form-nav button:hover {
   background-color: #1d4ed8;
 }
 
-.workout-wrapper {
-  display: flex;
-  flex-direction: column;
-  min-height: 80vh;
-}
-
-.workout-form {
-  background-color: #afceb5; /* Deine Farbe, da sie in dieser Version von ihr auch so war. In der vorherigen Version von ihr war es anders. Ich behalte nun diese bei. */
-  padding: 20px;
-  border-radius: 16px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1); /* Dein Schatten, da er in dieser Version von ihr auch so war. */
-  color: white;
-}
-
-.options label {
-  background-color: #afceb5; /* Deine Farbe, da sie in dieser Version von ihr auch so war. */
-  color: white;
+.start-button,
+.delete-button {
+  padding: 6px 10px;
+  font-size: 0.9rem;
   border: none;
-  border-radius: 0;
-  padding: 10px 14px;
-  cursor: pointer;
-  width: fit-content;
-  white-space: nowrap;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  transition: none;
-  box-shadow: none;
-  margin: 0;
-}
-
-.options label:hover {
-  background-color: #afceb5; /* Deine Farbe, da sie in dieser Version von ihr auch so war. */
-}
-
-.options input[type="radio"] {
-  accent-color: #a2d88a; /* Deine Farbe, da sie in dieser Version von ihr auch so war. */
-}
-
-.options {
-  display: flex;
-  flex-direction: row;
-  gap: 16px;
-  flex-wrap: nowrap;
-  overflow-x: auto;
-  padding-bottom: 8px;
-}
-
-/* ABSCHNITT HINZUGEFÜGT: Media Query für responsive Darstellung. */
-@media (max-width: 600px) {
-  .options {
-    flex-direction: column;
-    gap: 8px;
-  }
-}
-
-.workout-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px;
-  background-color: #a2d88a; /* Deine Farbe, da sie in dieser Version von ihr auch so war. */
   border-radius: 6px;
-  margin-bottom: 10px;
-  color: #2e7d32; /* Deine Farbe, da sie in dieser Version von ihr auch so war. */
-  font-weight: 500;
-}
-
-.workout-info {
-  flex-grow: 1;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 .start-button {
-  padding: 8px 10px;
-  min-width: 40px;
-  width: auto;
-  font-size: 1rem;
+  background-color: #172554;
+  color: white;
 }
 
 .start-button:hover {
-  background-color: #2e4a35; /* Deine Farbe, da sie in dieser Version von ihr auch so war. */
+  background-color: #1d4ed8;
 }
 
-/* ABSCHNITT HINZUGEFÜGT (aus deiner Originalversion, da in ihrer kürzeren Version nicht vorhanden): */
 .delete-button {
-  padding: 8px 10px;
-  min-width: 40px;
-  width: auto;
-  background-color: #c9302c; /* klassisches Rot für Löschen */
-  transition: background-color 0.3s ease;
-  margin-left: 8px;
+  background-color: #c9302c;
+  color: white;
 }
 
-/* ABSCHNITT HINZUGEFÜGT (aus deiner Originalversion, da in ihrer kürzeren Version nicht vorhanden): */
 .delete-button:hover {
-  background-color: #8b201c; /* dunkleres Rot beim Hover */
+  background-color: #8b201c;
 }
 
-/* ABSCHNITT HINZUGEFÜGT (aus deiner Originalversion, da in ihrer kürzeren Version nicht vorhanden): */
-html, body {
+.options label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  color: #172554;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.options input[type="radio"] {
+  accent-color: #1d4ed8;
+}
+.summary-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+  /* automatisches Oben-/Unten-Margin zentriert sie vertikal im Flex-Parent */
+  margin: auto 0;
+}
+
+.summary-container label {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.summary-container input {
+  width: 100%;
+  max-width: 300px;
+  padding: 8px 12px;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+html,
+body {
   overflow-x: hidden;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+
+
+
+
+.dark .todo-list li,
+.dark .workout-item {
+  background-color: #1f2937;    /* dunkles Grau für Listen */
+  color: #fff;
+}
+
+
+
+.dark .form-nav button,
+.dark .start-button,
+.dark .delete-button,
+.dark .createworkout-button {
+  border: 1px solid #ffffff !important;
+  background-color: #000000 !important;
+}
+
+.dark .form-nav button:hover,
+.dark .start-button:hover,
+.dark .delete-button:hover,
+.dark .createworkout-button:hover {
+ background-color: #1d4ed8 !important;
+  border-color: #1d4ed8 !important;
+}
+
+
+body.dark .workout-form {
+  background-color: #000000 !important;
+
 }

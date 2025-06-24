@@ -24,10 +24,6 @@ const Gamification = () => {
     <div className="gamification-page">
       <h1>Gamification</h1>
 
-    <div className="coming-soon-fullscreen">
-    <span>Coming Soon</span>
-    </div>
-
       <div className="stats-card">
         <h2>Your Stats</h2>
         <p>Level: <strong>{userLevel}</strong></p>

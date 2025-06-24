@@ -5,37 +5,14 @@
   font-family: sans-serif;
 }
 
-/* ABSCHNITT ENTFERNT: Deine span-Regeln wurden entfernt, da sie in ihrer Version nicht vorhanden waren und es keine äquivalente neue Regel gab. */
-/*
-span {
-  color: black;
-  font-size: 12px;
-}
 
-span:hover {
-  font-weight: bold;
-}
-*/
 
-/* ABSCHNITT HINZUGEFÜGT: Neue Regel für p-Elemente. */
-p {
-  color: #172554; /* Von ihrer Version übernommen */
-}
 
-/* ABSCHNITT ENTFERNT: Deine h2-Regel wurde entfernt, da sie in ihrer Version nicht vorhanden war. */
-/*
-h2 {
-  text-align: center;
-  margin-bottom: 20px;
-}
-*/
-
-/* ABSCHNITT GEÄNDERT: 'label' Farbe hinzugefügt. */
 label {
   display: block;
   margin-top: 15px;
   font-weight: bold;
-  color: #172554; /* Von ihrer Version übernommen */
+  color: #172554; 
 }
 
 .inline-edit {
@@ -79,36 +56,4 @@ label {
   background-color: #f9f9f9b9;
 }
 
-/* ABSCHNITT HINZUGEFÜGT: Neue Klasse .save-btn und deren Hover-Effekt. */
-.save-btn {
-  display: block;
-  text-align: center;
-  background-color: #172554; /* Von ihrer Version übernommen */
-  color: white;
-  padding: 12px;
-  border-radius: 8px;
-  text-decoration: none;
-  transition: background 0.3s ease;
-}
 
-.save-btn:hover {
-  color: white;
-  background-color: #1d4ed8; /* Von ihrer Version übernommen */
-}
-
-/* ABSCHNITT HINZUGEFÜGT: Neue Klasse .cancel-btn und deren Hover-Effekt. */
-.cancel-btn {
-  display: block;
-  text-align: center;
-  background-color: #172554; /* Von ihrer Version übernommen */
-  color: white;
-  padding: 12px;
-  border-radius: 8px;
-  text-decoration: none;
-  transition: background 0.3s ease;
-}
-
-.cancel-btn:hover {
-  color: white;
-  background-color: #1d4ed8; /* Von ihrer Version übernommen */
-}
