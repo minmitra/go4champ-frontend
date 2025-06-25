@@ -1,0 +1,15 @@
+@import './common.css';
+
+
+/* ========================== */
+/* GLOBAL RESET & DESIGN-BEREINIGUNG */
+/* ========================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  box-shadow: none;
+  text-shadow: none;
+}
+

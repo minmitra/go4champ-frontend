@@ -1,145 +1,44 @@
-* {
-  box-sizing: border-box;
-}
 
-/* ABSCHNITT GEÄNDERT: Hintergrundfarbe von body entfernt, da sie es nicht hatte. */
-body {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  /* background-color: #d4e7d8; */ /* Entfernt, da nicht in ihrer Version */
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: white;
-  margin: 0;
-}
-
-main {
-  flex: 1;
-  max-width: 100%;
-  margin: 0 auto;
-  padding: 100px 20px 40px; /* Platz unter dem Header */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* ABSCHNITT GEÄNDERT: Hintergrundfarbe von form angepasst. */
-form {
-  background: #364d8465; /* Von ihrer Version übernommen */
-  padding: 30px;
-  border-radius: 12px;
-  display: flex;
-  flex-direction: column;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-
-  width: 100%;
-  max-width: 900px;
-}
-
-/* ABSCHNITT ENTFERNT: Deine h2-Regel wurde entfernt, da sie in ihrer Version nicht vorhanden war. */
-/*
-h2 {
-  text-align: center;
-  font-weight: bold;
-  font-size: 24px;
-  color: #4e6759;
-}
-*/
-
-/* ABSCHNITT GEÄNDERT: Farben für input angepasst. */
 input {
-  color: white; /* Von ihrer Version übernommen */
   margin: 10px 0;
   padding: 12px;
-  border: solid 0.5px #172554; /* Von ihrer Version übernommen */
+  border: 1px solid black; 
   border-radius: 8px;
   font-size: 16px;
   width: 100%;
+  
 }
 
-/* ABSCHNITT GEÄNDERT: Hintergrundfarbe des Submit-Buttons angepasst. */
+
+body.dark input {
+  border:  1px  solid rgb(255, 255, 255) !important; 
+}
+
 input[type="submit"] {
   margin-top: 25px;
-  background-color: #172554; /* Von ihrer Version übernommen */
+  background-color: #172554; 
   color: white;
   cursor: pointer;
   transition: background 0.3s ease;
+     padding: 12px 20px;
+  
 }
 
-/* ABSCHNITT GEÄNDERT: Hover-Farben für den Submit-Button angepasst. */
 input[type="submit"]:hover {
-  background-color: #172554; /* Von ihrer Version übernommen, keine sichtbare Änderung beim Hover */
-  color: white; /* Von ihrer Version übernommen */
+  background-color: #172554;
+  color: white; 
 }
 
-.input-error {
-  border: 2px solid #ff6b6b;
-  background-color: #fff0f0;
-}
-
-/* ABSCHNITT GEÄNDERT: Hintergrundfarbe und Hover-Effekt für .register-button angepasst. */
-.register-button {
-  display: block;
-  text-align: center;
-  background-color: #172554; /* Von ihrer Version übernommen */
-  color: white;
-  padding: 12px;
-  border-radius: 8px;
-  text-decoration: none;
-  transition: background 0.3s ease;
-}
-
-.register-button:hover {
-  background-color: #1d4ed8; /* Von ihrer Version übernommen */
-  color: white; /* Von ihrer Version übernommen */
-  font-size: 16px;
-  border: solid 0.5px #172554; /* Von ihrer Version übernommen */
-  padding: 12px;
-  border-radius: 8px;
-  text-decoration: none;
-}
-
-/* ABSCHNITT HINZUGEFÜGT: Neue Klasse .forgot-button und deren Hover-Effekt. */
-.forgot-button {
-  display: block;
-  text-align: center;
-  background-color: #172554; /* Von ihrer Version übernommen */
-  color: white;
-  padding: 12px;
-  border-radius: 8px;
-  text-decoration: none;
-  transition: background 0.3s ease;
-}
-
-.forgot-button:hover {
-  background-color: #1d4ed8; /* Von ihrer Version übernommen */
-  color: white;
-  font-size: 16px;
-  border: solid 0.5px #172554; /* Von ihrer Version übernommen */
-  padding: 12px;
-  border-radius: 8px;
-  text-decoration: none;
-}
-
-/* ABSCHNITT GEÄNDERT: Farbe für .forgot-password-link angepasst. */
 .forgot-password-link {
-  color: #172554; /* Von ihrer Version übernommen */
+  color: #172554; 
   font-size: 12px;
+  font-weight: normal;
+}
+
+.login-h2 {
+ text-align: center;
+  margin: 0 0 24px;         
   font-weight: bold;
-}
-
-.error {
-  color: #ff6b6b;
-  margin-top: 10px;
-  font-size: 14px;
-}
-
-.success {
-  color: green;
-  margin-top: 10px;
-  font-size: 14px;
-}
-
-.footer {
-  margin: 0px;
+  font-size: 24px;
+  color: #1e3a8a;
 }

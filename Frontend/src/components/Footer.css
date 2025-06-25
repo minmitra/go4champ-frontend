@@ -1,73 +1,101 @@
 .footer {
-    background-color: #f0f0f0;
-    padding: 20px;
-    font-family: 'Segoe UI', Tahoma, sans-serif;
-    margin: 0px;
-  }
-  
-  .footer-section {
-    margin-bottom: 20px;
-    border-bottom: 1px solid #ccc;
-    padding-bottom: 10px;
-  }
-  
-  .footer-header {
-    display: flex;
-    justify-content: space-between;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 1.1rem;
-    color: #333;
-  }
-  
-  .footer-content {
-    margin-top: 10px;
-    padding-left: 10px;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-  }
-  
-  .footer-content a {
-    color: #3d4144;
-    text-decoration: none;
-    font-weight: 500;
-  }
-  
-  .footer-content a:hover {
-    text-decoration: underline;
-  }
-  
-  .arrow {
-    transition: transform 0.3s ease;
-  }
-  
-  .arrow.open {
-    transform: rotate(180deg);
-  }
-  
-  .footer-content small {
-    font-size: 0.85rem;
-    color: #555;
-  }
+  background-color: #F3F4F6;
+  margin-top: 40px;
+  color: #3d3d3d;
+}
 
-  .footer-content p {
-    color: #3d4144;
-    font-weight: 500;
-  }
-  
-  .lang-button {
+.footer-section {
+  margin-bottom: 20px;
+  border-bottom: 0.1px solid #333;
+  padding-bottom: 10px;
+}
+
+.footer a,
+.footer p,
+.footer button,
+.footer-content,
+.footer-content * {
+  font-size: 16px;
+}
+
+.footer-header {
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+  font-weight: bold;
+  color: #333;
+}
+
+.footer-content {
+  margin-top: 10px;
+  padding-left: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.footer-content a {
+  color: #3d4144;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.footer-content a:hover {
+  text-decoration: underline;
+}
+
+.footer-content p {
+   font-size: 14px;
+  color: #3d4144;
+  font-weight: 500;
+}
+
+
+
+.arrow {
+  transition: transform 0.3s ease;
+}
+
+.arrow.open {
+  transform: rotate(180deg);
+}
+
+.lang-button {
   background-color: transparent;
   border: 1px solid #ccc;
   border-radius: 6px;
   padding: 6px 12px;
   margin: 5px 0;
-  font-size: 0.95rem;
   cursor: pointer;
   color: #333;
+  font-weight: 500;
   transition: all 0.2s ease;
+  font-size: 14px !important;
 }
 
 .lang-button:hover {
   background-color: #ddd;
+}
+
+/* Darkmode */
+body.dark footer {
+  background-color: #000;
+  color: #fff;
+}
+
+body.dark footer .footer-header,
+body.dark footer .footer-content,
+body.dark footer .footer-content a,
+body.dark footer .footer-content p,
+body.dark footer .footer-content small,
+body.dark footer .lang-button {
+  color: #fff;
+  border-color: #444;
+}
+
+body.dark .lang-button {
+  background-color: transparent;
+  color: #fff;
+  border: 1px solid #444;
 }

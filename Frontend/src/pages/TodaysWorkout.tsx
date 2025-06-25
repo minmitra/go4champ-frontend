@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Workout.css'; // Stil für die Workout-Komponenten
+
 
 // Definiere die Struktur der gespeicherten Workouts
 // MUSS genau zu dem passen, was in MyWorkout.tsx gespeichert wird

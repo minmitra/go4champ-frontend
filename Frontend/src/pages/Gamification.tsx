@@ -100,6 +100,7 @@ const Gamification = () => {
   };
 
   return (
+<<<<<<< HEAD
     <div className='gamification-page'>
       <h1>Gamification</h1>
 
@@ -118,6 +119,17 @@ const Gamification = () => {
           {friends.length === 0 && !loading && <p>No friends yet.</p>}
         </ul>
       </section>
+=======
+    <main>
+    <div>
+      <h1>Gamification</h1>
+
+      <div className="stats-card">
+        <h2>Your Stats</h2>
+        <p>Level: <strong>{userLevel}</strong></p>
+        <p>Points: <strong>{userPoints}</strong></p>
+      </div>
+>>>>>>> 5f7e8b4aa69ea30d092b1671b6534accb8b652e5
 
       <section className='friend-requests-section'>
         <h2>Incoming Friend Requests</h2>
@@ -144,6 +156,7 @@ const Gamification = () => {
         <button onClick={handleSendRequest} disabled={actionInProgress || !newFriendName.trim()}>Send Request</button>
       </section>
     </div>
+    </main>
   );
 
 };

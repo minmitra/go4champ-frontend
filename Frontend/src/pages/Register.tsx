@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import './Register.css'
+import { useTranslation } from 'react-i18next';
+
+
 
 
 type RegisterForm = {
@@ -14,7 +17,9 @@ type RegisterForm = {
 };
 
 const Register = () => {
-  const [formData, setFormData] = useState<RegisterForm>({
+   const { t } = useTranslation();
+  const [formData, setFormData]
+   = useState<RegisterForm>({
     email: '',
     username: '',
     name: '',
@@ -107,7 +112,7 @@ const Register = () => {
 
       <main>
         <form onSubmit={handleSubmit} noValidate>
-          <h2>Register</h2>
+          <h2 className="register-h2">{t('register')}</h2>
 
           {errors.general && <p className="error">{errors.general}</p>}
 
@@ -177,9 +182,9 @@ const Register = () => {
             />
             {errors.password && <p className="error">{errors.password}</p>}
 
-          <input type="submit" value="Register" />
+          <input type="submit" value="Register" className="primary-button" />
           {/* ABSCHNITT GEÄNDERT: className des Links von "register-link" zu "register" geändert, um ihrer Version zu entsprechen. */}
-          <Link className="register" to="/login">
+          <Link className="primary-button" to="/login">
             Already have an account? Login here
           </Link>
         </form>
