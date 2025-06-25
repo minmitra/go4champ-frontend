@@ -96,7 +96,7 @@ const TodaysWorkout = () => {
             });
         } else {
             alert("No workout available for today. Please create one in 'My Workouts' first!");
-            navigate('/my-workouts'); // Optional: direkt zu My Workouts navigieren
+            navigate('/myworkout'); // Optional: direkt zu My Workouts navigieren
         }
     };
 
@@ -120,7 +120,7 @@ const TodaysWorkout = () => {
                         <>
                             <p>No workout available for today.</p>
                             <p>Please create some workouts in "My Workouts" to get a daily suggestion.</p>
-                            <button className="workout-button" onClick={() => navigate('/my-workouts')}>
+                            <button className="workout-button" onClick={() => navigate('/myworkout')}>
                                 Go to My Workouts
                             </button>
                         </>
