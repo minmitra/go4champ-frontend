@@ -12,22 +12,19 @@ const Nutrition = () => {
   };
 
   return (
-    <div className="nutrition-page">
+    <main>
+    <div >
       <h1>Nutrition</h1>
 
-      <div className="coming-soon-fullscreen">
-        <span>Coming Soon</span>
-      </div>
-
       <div className="custom-request">
-        <h3>Type what you're craving today and get a plan based on your taste</h3>
+        <p>Type what you're craving today and get a plan based on your taste</p>
         <textarea
           className="input-box"
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="e.g. Something warm, high in protein and veggie-rich"
         />
-        <button className="save-button" onClick={handleGenerate}>
+        <button className="primary-button" onClick={handleGenerate}>
           Generate
         </button>
 
@@ -38,6 +35,7 @@ const Nutrition = () => {
         )}
       </div>
     </div>
+    </main>
   );
 };
 

@@ -18,7 +18,7 @@ const ForgotPassword: React.FC = () => {
 
     
         try {
-            const res = await fetch('http://localhost:8080/api/auth/forgot-password', {
+            const res = await fetch('https://go4champ-backend-x.onrender.com/api/auth/forgot-password', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({email}),
@@ -45,8 +45,8 @@ const ForgotPassword: React.FC = () => {
             <main className='forgot-password-container'>
                 <form onSubmit={handleSubmit}>
                     <h2>Reset Password</h2>
-                    <label htmlFor='email'>
-                        You will receive a link to reset your password. Please enter your registered E-Mail address:
+                    <label htmlFor='email' >
+                        <p className="reset-info"> You will receive a link to reset your password. Please enter your registered E-Mail address:</p>
                     </label>
                     <input
                         id="email"
@@ -55,10 +55,10 @@ const ForgotPassword: React.FC = () => {
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder='Email address'
                     />
-                    <button type='submit' className="submit">
+                    <button type='submit'  className="primary-button" >
                         Receive link
                     </button>
-                    <button type="button" onClick={()=> navigate('/login')} className='back-button'>
+                    <button type="button" onClick={()=> navigate('/login')} className="primary-button">
                         Back to Login
                     </button>
                     {errors && <p className='error'>{errors}</p>}

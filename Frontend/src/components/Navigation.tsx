@@ -1,55 +1,65 @@
-import './Navigation.css';
+import './Navigation.css'; 
 import React, { useState, useRef, useEffect } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { MdAccountCircle } from 'react-icons/md';
-import { FaSignInAlt } from 'react-icons/fa';
-import { IoIosMoon } from 'react-icons/io';
 import { IoSunny } from 'react-icons/io5';
-
+import { IoIosMoon } from 'react-icons/io';
+import { RiLogoutBoxFill, RiLoginBoxFill } from 'react-icons/ri';
+import { useAuthenti } from '../context/AuthentiContext';
+import { useTranslation } from 'react-i18next';
 
 type NavItem = {
   to?: string;
   label: React.ReactNode;
-  isToggle?: boolean;
-  isLogout?: boolean;
+  isToggle?: boolean; 
+  isLogout?: boolean; 
 };
 
 const Navigation = () => {
   const [menuOpen, setMenuopen] = useState(false);
   const [darkMode, setDarkMode] = useState(() => localStorage.getItem('theme') === 'dark');
-  const [isAuthenticated, setIsAuthenticated] = useState(() => !!localStorage.getItem('token'));
+  const { isAuthenticated, logout } = useAuthenti();
+  const navigate = useNavigate();
   const menuRef = useRef<HTMLElement | null>(null);
   const linkRefs = useRef<(HTMLAnchorElement | HTMLDivElement | null)[]>([]);
+  const { t } = useTranslation();
 
   useEffect(() => {
     document.body.classList.toggle('dark', darkMode);
     localStorage.setItem('theme', darkMode ? 'dark' : 'light');
+
+      //Safe Area: Theme-Farbe für Systemstatusleiste anpassen dark/light
+    const metaThemeColor = document.getElementById('meta-theme-color');
+    if (metaThemeColor) {
+      const darkThemeColor = "#000000";
+      const lightThemeColor = "#0f172a"; 
+
+      metaThemeColor.setAttribute('content', darkMode ? darkThemeColor : lightThemeColor);
+    }
+
   }, [darkMode]);
 
-  useEffect(() => {
-    const checkAuth = () => {
-      setIsAuthenticated(!!localStorage.getItem('token'));
-    };
-    checkAuth();
-    window.addEventListener('storage', checkAuth);
-    return () => window.removeEventListener('storage', checkAuth);
-  }, []);
-
-  const publicLinks: NavItem[] = [
-    { to: '/', label: 'Home' },
-    { label: darkMode ? <IoSunny size={20} /> : <IoIosMoon size={20} />, isToggle: true },
-    { to: '/login', label: <FaSignInAlt size={20} /> },
-  ];
+  const handleLogout = () => {
+    logout();
+    setMenuopen(false);
+    navigate('/login');
+  };
 
   const privateLinks: NavItem[] = [
-    { to: '/mainpage', label: 'Home' },
-    { to: '/todaysworkouts', label: "Today's Workouts" },
-    { to: '/workouts', label: 'Workouts' },
-    { to: '/gamification', label: 'Gamification' },
-    { to: '/nutrition', label: 'Nutrition' },
+    { to: '/mainpage', label: t('home') },
+    { to: '/todaysworkout', label: t('todaysWorkout') },
+    { to: '/myworkout', label: t('myWorkout.title') },
+    { to: '/gamification', label: t('gamification') },
+    { to: '/nutrition', label: t('nutrition') },
     { label: darkMode ? <IoSunny size={20} /> : <IoIosMoon size={20} />, isToggle: true },
     { to: '/myprofile', label: <MdAccountCircle size={20} /> },
-    { label: <FaSignInAlt size={20} />, isLogout: true },
+    { label: <RiLogoutBoxFill size={20} />, isLogout: true },
+  ];
+
+  const publicLinks: NavItem[] = [
+    { to: '/', label: t('home') },
+    { label: darkMode ? <IoSunny size={20} /> : <IoIosMoon size={20} />, isToggle: true },
+    { to: '/login', label: <RiLoginBoxFill size={20} /> },
   ];
 
   const allLinks = isAuthenticated ? privateLinks : publicLinks;
@@ -65,13 +75,13 @@ const Navigation = () => {
   }, []);
 
   useEffect(() => {
-    if (menuOpen) {
+    if (menuOpen && allLinks.length > 0) {
       const timer = setTimeout(() => {
         linkRefs.current[0]?.focus?.();
       }, 50);
       return () => clearTimeout(timer);
     }
-  }, [menuOpen]);
+  }, [menuOpen, allLinks]);
 
   const handleKeyDown = (e: React.KeyboardEvent, index: number) => {
     if (!allLinks.length) return;
@@ -95,13 +105,13 @@ const Navigation = () => {
   };
 
   return (
-    <nav ref={menuRef}>
+    <nav ref={menuRef}> 
       <Link to="/" className="title" tabIndex={0}>
         Go4Champion
       </Link>
 
       <div
-        className="menu"
+        className={`menu ${menuOpen ? 'open' : ''}`} 
         onClick={() => setMenuopen(!menuOpen)}
         role="button"
         tabIndex={0}
@@ -135,17 +145,12 @@ const Navigation = () => {
                 role="menuitem"
                 tabIndex={0}
                 ref={(el) => { linkRefs.current[index] = el }}
-                onClick={() => {
-                  localStorage.removeItem('token');
-                  setIsAuthenticated(false);
-                  setMenuopen(false);
-                  window.location.href = '/';
-                }}
+                onClick={handleLogout}
                 onKeyDown={(e) => handleKeyDown(e, index)}
               >
                 {item.label}
               </div>
-            ) : (
+            ) : ( 
               <div
                 className="navlink-like"
                 role="menuitem"

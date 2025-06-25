@@ -1,80 +1,242 @@
-// src/components/Workoutdetail.tsx
+import React, { useState, useEffect, useRef } from 'react';
+import { useLocation, useParams, useNavigate } from 'react-router-dom';
+import './WorkoutDetail.css'; 
 
-import React, { useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import './Workoutdetail.css';
 
-interface Exercise {
-  name: string;
-  sets: number;
-  reps: number;
-  instructions?: string;
+interface GeneratedExercise {
+  title: string;
+  duration: number; 
+  difficulty: number;
+  typeString: string;
+  description: string;
 }
 
-const Workoutdetail = () => {
+const BREAK_TIME_SECONDS = 30;
+
+const WorkoutDetail = () => {
   const navigate = useNavigate();
-  const { workoutName } = useParams(); // z. B. /workout/LEGS WORKOUT
+  const location = useLocation();
+  const { workoutName } = useParams<{ workoutName: string }>();
+  const [showExitConfirmation, setShowExitConfirmation] = useState(false);
 
-  // Dummy-Übungen – später durch KI-generierte Daten ersetzen
-  const exercises: Exercise[] = [
-    { name: 'Squats', sets: 4, reps: 12, instructions: 'Keep your back straight and go deep.' },
-    { name: 'Lunges', sets: 3, reps: 10, instructions: 'Alternate legs, slow and steady.' },
-    { name: 'Leg Press', sets: 3, reps: 15 },
-    { name: 'Calf Raises', sets: 4, reps: 20, instructions: 'Pause at the top for a second.' }
-  ];
+  const exercises: GeneratedExercise[] = location.state?.exercises || [];
 
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [showExitConfirm, setShowExitConfirm] = useState(false);
+  const [currentExerciseIndex, setCurrentExerciseIndex] = useState(0);
+  const [isExercisePhase, setIsExercisePhase] = useState(true); 
+  const [timerSeconds, setTimerSeconds] = useState(0);
+  const [isRunning, setIsRunning] = useState(false); 
 
-  const currentExercise = exercises[currentIndex];
+  const [workoutStarted, setWorkoutStarted] = useState(false);
 
-  const handleNext = () => {
-    if (currentIndex < exercises.length - 1) {
-      setCurrentIndex(currentIndex + 1);
+  const timerIntervalRef = useRef<NodeJS.Timeout | null>(null);
+
+  const moveToNextPhase = () => {
+    if (isExercisePhase) {
+      setIsExercisePhase(false);
+      setIsRunning(true); 
     } else {
-      navigate('/myworkout');
+      const nextIndex = currentExerciseIndex + 1;
+      if (nextIndex < exercises.length) {
+        setCurrentExerciseIndex(nextIndex);
+        setIsExercisePhase(true); 
+        setIsRunning(false); 
+      } else {
+        setIsRunning(false); 
+        alert('Congratulations! You completed the workout!');
+        navigate('/todaysworkout'); 
+      }
     }
   };
 
-  const handleExit = () => {
-    setShowExitConfirm(true);
+  useEffect(() => {
+    if (timerIntervalRef.current) {
+      clearTimeout(timerIntervalRef.current);
+      timerIntervalRef.current = null;
+    }
+
+    if (exercises.length === 0) {
+      setTimerSeconds(0);
+      setIsRunning(false);
+      return;
+    }
+    let durationToSet: number;
+    if (isExercisePhase) {
+      const currentExercise = exercises[currentExerciseIndex];
+      durationToSet = (currentExercise?.duration || 0) * 60;
+    } else {
+      durationToSet = BREAK_TIME_SECONDS;
+    }
+
+    setTimerSeconds(durationToSet);
+    if (workoutStarted && isExercisePhase) {
+      setIsRunning(false);
+    }
+  }, [currentExerciseIndex, isExercisePhase, exercises, workoutStarted]);
+
+
+  useEffect(() => {
+    if (isRunning && timerSeconds > 0) {
+      timerIntervalRef.current = setTimeout(() => {
+        setTimerSeconds(prev => prev - 1);
+      }, 1000);
+    } else if (isRunning && timerSeconds === 0) {
+      if (timerIntervalRef.current) {
+        clearTimeout(timerIntervalRef.current);
+        timerIntervalRef.current = null;
+      }
+      moveToNextPhase();
+    }
+
+    return () => {
+      if (timerIntervalRef.current) {
+        clearTimeout(timerIntervalRef.current);
+      }
+    };
+  }, [isRunning, timerSeconds, moveToNextPhase]); 
+
+  const startWorkout = () => {
+    setWorkoutStarted(true);
+    setIsRunning(false); 
   };
 
-  const confirmExit = (confirm: boolean) => {
-    setShowExitConfirm(false);
-    if (confirm) {
-      navigate('/myworkout');
+  const toggleStartPause = () => {
+    if (isExercisePhase) { 
+      setIsRunning(prev => !prev);
+    } 
+  };
+
+  const handleSkipExercise = () => {
+    if(isExercisePhase) {
+      const nextIndex = currentExerciseIndex + 1;
+      if (nextIndex < exercises.length) {
+        setCurrentExerciseIndex(nextIndex);
+        setIsExercisePhase(true);
+        setIsRunning(false);
+      }
+      else {
+        setIsRunning(false);
+        alert('Congratulations! You just completed the workout!');
+        navigate('/todaysworkout');
+      }
     }
   };
+
+  const confirmExitWorkout = () => {
+    if(timerIntervalRef.current) {
+      clearTimeout(timerIntervalRef.current);
+      timerIntervalRef.current = null;
+    }
+    navigate('/todaysworkout');
+  };
+
+  const promptExitWorkout = () => {
+    if (!workoutStarted) {
+      navigate('/todaysworkout');
+    } else {
+      setIsRunning(false);
+      setShowExitConfirmation(true);
+    }
+  };
+
+  const formatTime = (totalSeconds: number) => {
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+  };
+
+  if (!exercises || exercises.length === 0) {
+    return (
+      <div className="workout-detail-container">
+        <h2>No exercises found for this workout.</h2>
+        <button className="workout-button" onClick={() => navigate('/todaysworkout')}>Go back</button>
+      </div>
+    );
+  }
+
+  const currentExercise = exercises[currentExerciseIndex];
 
   return (
     <div className="workout-detail-container">
-      <h1>{workoutName || 'Your Workout'}</h1>
+      <h1>{decodeURIComponent(workoutName || 'Workout Details')}</h1>
 
-      <div className="exercise-card">
-        <h2>{currentExercise.name}</h2>
-        <ul>
-          <li><strong>Sets:</strong> {currentExercise.sets}</li>
-          <li><strong>Reps:</strong> {currentExercise.reps}</li>
-          {currentExercise.instructions && (
-            <li><strong>Instructions:</strong> {currentExercise.instructions}</li>
-          )}
-        </ul>
-      </div>
-
-      <div className="navigation-buttons">
-        <button className="exit-button" onClick={handleExit}>Exit</button>
-        <button className="next-button" onClick={handleNext}>
-          {currentIndex < exercises.length - 1 ? 'Next' : 'Finish'}
-        </button>
-      </div>
-
-      {showExitConfirm && (
-        <div className="exit-confirm-modal">
-          <div className="modal-content">
-            <p>Are you sure you want to quit your super duper workout?</p>
-            <button onClick={() => confirmExit(true)}>Yes</button>
-            <button onClick={() => confirmExit(false)}>No</button>
+      {!workoutStarted ? (
+        <div className="workout-initial-screen">
+          <h2>Ready to start your workout?</h2>
+          <p className="workout-summary-info">
+            This workout consists of {exercises.length} exercises.
+            Total estimated time: {exercises.reduce((sum, ex) => sum + ex.duration, 0)} minutes.
+          </p>
+          <div className="initial-buttons">
+            <button className="workout-button primary-button" onClick={startWorkout}>
+              Start Workout
+            </button>
+            <button className='workout-button back-button-inline' onClick={() => navigate('/todaysworkout')} >
+              Back
+            </button>
+          </div>
+        </div>
+      ) : (
+        <div className="workout-active-mode">
+          <div className="workout-status">
+            {isExercisePhase ? (
+              <p className="exercise-counter">
+                Exercise {currentExerciseIndex + 1} of {exercises.length}
+              </p>
+            ) : (
+              <p className="break-status">BREAK TIME!</p>
+            )}
+            <p className="timer-display large-timer">{formatTime(timerSeconds)}</p>
+          </div>
+          <div className="exercise-display">
+            {currentExercise ? (
+              <div className="current-exercise-card">
+              {isExercisePhase ? (
+                <>
+                  <h3>{currentExercise.title}</h3>
+                  <p className="exercise-description-full">
+                    {currentExercise.description}
+                  </p>
+                  <p className='time-counter'><strong>Duration:</strong> {currentExercise.duration} minutes</p>
+                  <p><strong>Difficulty:</strong> {currentExercise.difficulty}</p>
+                  <p><strong>Type:</strong> {currentExercise.typeString}</p>
+                </>
+              ) : (
+                <>
+                  <h3>REST</h3>
+                  <p className="break-message">Take a moment to breathe and prepare for the next exercise.</p>
+                  <p>Next up: {exercises[currentExerciseIndex + 1]?.title || 'Workout Complete!'}</p>
+                </>
+              )}
+              </div>
+            ) : (
+              <p>Loading workout step...</p>
+            )}
+          </div>
+          <div className="workout-controls">
+            <button className="workout-button play-pause-button" onClick={toggleStartPause} disabled={currentExerciseIndex === exercises.length - 1 && timerSeconds === 0 && !isRunning}>
+              {isRunning ? 'Pause' : 'Start Exercise'} 
+            </button>
+            <button className="workout-button skip-exercise-button" onClick={handleSkipExercise}>
+              Skip Exercise
+            </button>               
+          </div>
+          <div className='exit-button-workout'>
+            <button className='workout-button exit-button-inline' onClick={promptExitWorkout}>
+              Exit Workout
+            </button>
+          </div>
+        </div>
+      )}
+      {showExitConfirmation && (
+        <div className='modal-overlay'>
+          <div className='modal-content'>
+            <p>Are you sure you want to exit the workout? All progress will be lost.</p>
+            <div className='modal-buttons'>
+              <button className='workout-button exit-button' onClick={confirmExitWorkout}>Yes</button>
+              <button className='workout-button' onClick={() => {setShowExitConfirmation(false); setIsRunning(isExercisePhase);}}>
+                No
+              </button>
+            </div>
           </div>
         </div>
       )}
@@ -82,4 +244,4 @@ const Workoutdetail = () => {
   );
 };
 
-export default Workoutdetail;
+export default WorkoutDetail;

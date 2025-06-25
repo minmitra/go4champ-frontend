@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import avatar from '../assets/pixel.png';
 import './Workout.css';

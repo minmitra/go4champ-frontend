@@ -1,119 +1,174 @@
-.workout-page {
-  flex: 1;
-  padding: 40px 20px;
-  background-color: #f4f4f4;
-  font-family: 'Segoe UI', sans-serif;
-}
-
-.workout-page h1 {
-  color: #746151; 
-  font-size: 1.8rem;
-  margin-bottom: 10px;
-}
-
-
-.myworkout-button {
-  margin-bottom: 20px;
-  background-color: #3e6449;
-  color: white;
-  border: none;
+.createworkout-button {
+  display: block;
+  width: 100%;
+  max-width: 400px;
+  margin: 16px auto 20px;
   padding: 10px 16px;
   font-size: 1rem;
+  font-weight: bold;
+  text-align: center;
+  background-color: #172554;
+  color: white;
+  border: none;
   border-radius: 8px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.createworkout-button:hover {
+  background-color: #1d4ed8;
+}
+
+
+
+
+.question-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 60px;
+}
+
+.options {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin: 40px 0 20px;
 }
 
 .todo-list {
-  list-style-type: none;
+  list-style: none;
   padding: 0;
+  margin: 0 0 20px;
 }
 
 .todo-list li {
-  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding: 10px;
-  background-color: #eaf4ea;
+  background-color: #e0e7ff;
   border-radius: 6px;
-  color: #2e7d32;
+  margin-bottom: 10px;
+  color: #172554;
   font-weight: 500;
 }
 
 .form-nav {
   display: flex;
   justify-content: space-between;
-  margin-top: 40px;
+  margin-top: auto;
 }
 
-.workout-wrapper {
-  display: flex;
-  flex-direction: column;
-  min-height: 80vh; 
-}
-
-.workout-form {
-  background-color: #afceb5; /* dunkles Grün, gesamte Fläche */
-  padding: 20px;
-  border-radius: 16px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
-  color: white;
-}
-
-.options label {
-  background-color: #afceb5; /* exakt gleiche Farbe wie Form */
-  color: white;
-  border: none;             /* Kein Rahmen */
-  border-radius: 0;         /* Keine abgerundeten Ecken */
-  padding: 10px 14px;
+.form-nav button {
+  padding: 10px 16px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 50px;
   cursor: pointer;
-  width: fit-content;
-  white-space: nowrap;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  transition: none;         /* Kein Hover-Übergang */
-  box-shadow: none;         /* Keine Schatten */
-  margin: 0;                /* Kein Abstand */
+  background-color: #172554;
+  color: white;
+  transition: background-color 0.3s ease, transform 0.1s ease;
 }
 
-.options label:hover {
-  background-color: #afceb5; /* keine Änderung beim Hover */
+.form-nav button:hover {
+  background-color: #1d4ed8;
 }
 
-.options input[type="radio"] {
-  accent-color: #a2d88a; /* Optional: grüner Radio-Button */
-}
-
-.options {
-  display: flex;
-  flex-direction: row; /* horizontal */
-  gap: 16px;           /* Abstand zwischen Optionen */
-  flex-wrap: nowrap;   /* Kein Zeilenumbruch */
-  overflow-x: auto;    /* Falls zu viele, kann man horizontal scrollen */
-  padding-bottom: 8px; /* Optional: etwas Abstand unten */
-}
-
-.workout-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px;
-  background-color: #a2d88a;
+.start-button,
+.delete-button {
+  padding: 6px 10px;
+  font-size: 0.9rem;
+  border: none;
   border-radius: 6px;
-  margin-bottom: 10px;
-  color: #2e7d32;
-  font-weight: 500;
-}
-
-.workout-info {
-  flex-grow: 1;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 .start-button {
-  padding: 8px 10px;  /* weniger horizontaler Innenabstand */
-  min-width: 40px;   /* kleinere minimale Breite */
-  width: auto;       /* Breite an Inhalt anpassen */
-  font-size: 1rem;   /* Schriftgröße beibehalten */
+  background-color: #172554;
+  color: white;
 }
 
 .start-button:hover {
-  background-color: #2e4a35;
+  background-color: #1d4ed8;
+}
+
+.delete-button {
+  background-color: #c9302c;
+  color: white;
+}
+
+.delete-button:hover {
+  background-color: #8b201c;
+}
+
+.options label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  color: #172554;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.options input[type="radio"] {
+  accent-color: #1d4ed8;
+}
+.summary-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+  /* automatisches Oben-/Unten-Margin zentriert sie vertikal im Flex-Parent */
+  margin: auto 0;
+}
+
+.summary-container label {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.summary-container input {
+  width: 100%;
+  max-width: 300px;
+  padding: 8px 12px;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+
+.dark .todo-list li,
+.dark .workout-item {
+  background-color: #1f2937;    /* dunkles Grau für Listen */
+  color: #fff;
+}
+
+
+
+.dark .form-nav button,
+.dark .start-button,
+.dark .delete-button,
+.dark .createworkout-button {
+  border: 1px solid #ffffff !important;
+  background-color: #000000 !important;
+}
+
+.dark .form-nav button:hover,
+.dark .start-button:hover,
+.dark .delete-button:hover,
+.dark .createworkout-button:hover {
+ background-color: #1d4ed8 !important;
+  border-color: #1d4ed8 !important;
+}
+
+
+body.dark .workout-form {
+  background-color: #000000 !important;
+
 }

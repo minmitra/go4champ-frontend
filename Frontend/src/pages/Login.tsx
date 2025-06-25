@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuthenti } from '../context/AuthentiContext';
+import { useTranslation } from 'react-i18next';
 import './Login.css';
 
 const Login = () => {
@@ -8,22 +9,22 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
-  const {login} = useAuthenti();
-  
+  const { login } = useAuthenti();
+  const { t } = useTranslation();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       const response = await fetch('http://localhost:8080/api/auth/login', {
         method: 'POST',
-        headers: {'Content-Type': 'application/json'},
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password }),
       });
 
       const data = await response.json();
 
       if (!response.ok) {
-        const errorMessage = typeof data === 'string' ? data : data.message || 'Login fehlgeschlagen';
+        const errorMessage = typeof data === 'string' ? data : data.message || t('loginFailed');
         setError(errorMessage);
         return;
       }
@@ -31,52 +32,51 @@ const Login = () => {
       localStorage.setItem('token', data.token);
       login(data.token);
       navigate('/mainpage');
-      
+
     } catch (err) {
-      setError('Error connecting to the server');
+      setError(t('serverError'));
       console.error(err);
     }
   };
 
   return (
-    <>
+    <main>
+      <form onSubmit={handleSubmit} noValidate>
+         <h2 className="login-h2">{t('login')}</h2>
 
-      <main>
-        <form onSubmit={handleSubmit} noValidate>
-          <h2>Login</h2>
+        {error && <p className="error">{error}</p>}
 
-          {error && <p className="error">{error}</p>}
+        <input
+          id="username"
+          type="text"
+          placeholder={t('*username')}
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          required
+        />
 
-          <input
-            id="username"
-            type="text"
-            placeholder="Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
+        <input
+          id="password"
+          type="password"
+          placeholder={t('*password')}
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
 
-          <input
-            id="password"
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+        <Link to="/forgot-password" className="forgot-password-link">
+          {t('forgotPassword')}
+        </Link>
 
-          <Link to="/forgot-password" className="forgot-password-link">
-            Forgot Password? Click here
-          </Link>
+         <button type="submit" className="primary-button">
+       {t('login')}
+       </button>
 
-          <input type="submit" value="Login" />
-
-          <Link className="register-button" to="/register">
-            Don't have an account? Register here
-          </Link>
-        </form>
-      </main>
-    </>
+        <Link className="primary-button" to="/register">
+          {t('noAccount')}
+        </Link>
+      </form>
+    </main>
   );
 };
 

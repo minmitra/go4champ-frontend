@@ -27,7 +27,7 @@ function App() {
         <div style ={{paddingTop: '60px'}}>
         
           <Routes>
-            <Route path="/" element={<MyWorkout />} />
+            <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
@@ -43,7 +43,8 @@ function App() {
             <Route path="/gamification" element={<PrivateRoute><Gamification/></PrivateRoute>}/>
             <Route path="/myprofile" element={<PrivateRoute><MyProfile/></PrivateRoute>}/>
             <Route path="/todaysworkout" element={<PrivateRoute><TodaysWorkout/></PrivateRoute>}/>
-            <Route path="/workoutdetail/:workoutName" element={<PrivateRoute><Workoutdetail/></PrivateRoute>}/>
+            <Route path="/workoutdetail/:workoutName" element={<Workoutdetail />} />
+            
           </Routes>
         </div>
         <Footer />

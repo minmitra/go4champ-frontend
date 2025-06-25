@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './PasswordResetSuccess.css';
+
+
+
 
 const PasswordResetSuccess: React.FC = () => {
     const [resendMessage, setResendMessage] = useState('');
@@ -19,7 +21,7 @@ const PasswordResetSuccess: React.FC = () => {
         setResendMessage('');
 
         try {
-            const res = await fetch('http://localhost:8080/api/auth/forgot-password', {
+            const res = await fetch('https://go4champ-backend-x.onrender.com/api/auth/forgot-password', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({email: resetEmail}),
@@ -55,11 +57,11 @@ const PasswordResetSuccess: React.FC = () => {
                 <h2>Reset Password</h2>
                 <p>Reset link was send to your E-Mail successfuly!</p>
 
-                <button onClick={handleResend} disabled={isLoading}>
+                <button onClick={handleResend}  type="button"     className="primary-button">
                     {isLoading ? 'Resending...' : 'Resend email'}
                 </button>
 
-                <button onClick={handleBackToLogin} className='back-button'>
+                <button onClick={handleBackToLogin}  type="button"    className="primary-button" >
                     Back to login
                 </button>
 
