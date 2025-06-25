@@ -27,13 +27,7 @@
   margin-bottom: 20px;
 }
 
-/* Übungsname zentriert */
-.exercise-card h2 {
-  font-size: 1.4rem;
-  text-align: center;
-  margin-bottom: 16px;
-  color: #1b5e20;
-}
+
 
 /* Listenstil für Details */
 .exercise-card ul {
@@ -157,14 +151,8 @@ button {
   padding: 30px;
   margin-bottom: 20px;
   text-align: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); /* Leichte Schattierung */
 }
 
-.pause-card h2 {
-  color: #3e6449; 
-  font-size: 2em; 
-  margin-bottom: 15px;
-}
 
 .pause-card p {
   font-size: 1.1em; 

@@ -21,7 +21,8 @@ const Gamification = () => {
   const sortedFriends = [...friends].sort((a, b) => b.points - a.points);
 
   return (
-    <div className="gamification-page">
+    <main>
+    <div>
       <h1>Gamification</h1>
 
       <div className="stats-card">
@@ -52,6 +53,7 @@ const Gamification = () => {
         </div>
       </div>
     </div>
+    </main>
   );
 };
 

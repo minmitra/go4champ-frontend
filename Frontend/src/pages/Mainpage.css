@@ -10,7 +10,7 @@
 .hero-image-container {
   position: relative;
   width: 100%;
-  height: 93vh !important; 
+  height: 100vh !important; 
   overflow: hidden;
   padding-top: 0px; 
 }

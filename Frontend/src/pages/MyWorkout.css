@@ -18,36 +18,8 @@
   background-color: #1d4ed8;
 }
 
-.workout-page {
-  flex: 1;
-  padding: 40px 16px;
-}
 
-.workout-page h1 {
-  color: #172554;
-  font-size: 1.8rem;
-  margin-bottom: 10px;
-}
 
-.workout-wrapper {
-  display: flex;
-  flex-direction: column;
-  max-height: 80vh;
-  min-height: 60vh;
-}
-
-.workout-form {
-  display: flex;
-  flex-direction: column;
-  width: calc(100vw - 32px);
-  margin-bottom: 0;
-  min-height: 70vh;
-  padding: 48px 20px 40px;
-  background-color: #d1d5db;
-  border-radius: 16px;
-  color: #000;
-  justify-content: space-between;
-}
 
 .question-header {
   display: flex;
@@ -169,17 +141,6 @@
   border-radius: 6px;
   border: 1px solid #ccc;
 }
-
-html,
-body {
-  overflow-x: hidden;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-}
-
-
-
 
 
 .dark .todo-list li,

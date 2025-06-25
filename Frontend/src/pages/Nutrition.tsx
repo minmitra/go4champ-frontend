@@ -12,7 +12,8 @@ const Nutrition = () => {
   };
 
   return (
-    <div className="nutrition-page">
+    <main>
+    <div >
       <h1>Nutrition</h1>
 
       <div className="custom-request">
@@ -23,7 +24,7 @@ const Nutrition = () => {
           onChange={(e) => setInput(e.target.value)}
           placeholder="e.g. Something warm, high in protein and veggie-rich"
         />
-        <button className="save-button" onClick={handleGenerate}>
+        <button className="primary-button" onClick={handleGenerate}>
           Generate
         </button>
 
@@ -34,6 +35,7 @@ const Nutrition = () => {
         )}
       </div>
     </div>
+    </main>
   );
 };
 

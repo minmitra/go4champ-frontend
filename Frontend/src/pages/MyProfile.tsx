@@ -202,6 +202,7 @@ const MyProfile = () => {
 
   // Render the profile form
   return (
+    <main>
     <div className="profile-container">
       <div className="profile-header">
         <h2>My Profile</h2>
@@ -325,6 +326,7 @@ const MyProfile = () => {
         </button>
         )}
     </div>
+    </main>
   );
 };
 

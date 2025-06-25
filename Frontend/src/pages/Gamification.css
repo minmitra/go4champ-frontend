@@ -1,17 +1,10 @@
 
-.gamification-page {
-  padding: 20px;
-  font-family: sans-serif;
-  text-align: center;
-}
-
 .stats-card {
   background-color: #fafff0;
   padding: 20px;
   border-radius: 20px;
   margin: 20px auto;
   max-width: 400px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
 .friends-section {
@@ -33,7 +26,6 @@
   display: flex;
   justify-content: space-between;
   font-weight: 500;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 
 .friend-name {

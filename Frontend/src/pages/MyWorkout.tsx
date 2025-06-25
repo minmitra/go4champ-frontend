@@ -158,8 +158,8 @@ const MyWorkout = () => {
 
   return (
     <main>
-      <div className="workout-wrapper">
-        <div className="workout-page">
+      <div>
+        <div>
           <h1>My Workout</h1>
 
           {!showForm && (
@@ -183,7 +183,7 @@ const MyWorkout = () => {
           )}
 
           {showForm && (
-            <div className="workout-form">
+            <div >
               <div className="question-header">
                 <img src={avatar} className="avatar-image" alt="avatar" />
                 <div className="speech-bubble">{questions[steps[step]]}</div>

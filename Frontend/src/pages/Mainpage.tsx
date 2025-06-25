@@ -57,13 +57,13 @@ const today = new Intl.DateTimeFormat(i18n.language, {
 
           {/* Workouts */}
           <div className="info-card">
-             <h2>Challenges</h2>
+             <h2>My Workouts</h2>
             <Link to="/myworkout">
               <img src={hantel} alt="Workouts" className="card-image" />
              
             </Link>
             <p className="card-text">
-             My Workouts
+            {t('createYourWorkouts')}
             </p>
           </div>
 

@@ -23,6 +23,9 @@ input[type="submit"] {
   color: white; 
   cursor: pointer;
   transition: background 0.3s ease;
+  display: block;  
+   text-align: center;
+   padding: 12px 20px;
 }
 
 input[type="submit"]:hover {
