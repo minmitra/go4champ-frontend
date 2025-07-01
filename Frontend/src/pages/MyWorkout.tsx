@@ -100,61 +100,148 @@ const MyWorkout = () => {
   };
 
   const handleSubmit = async () => {
-    if (!formData.workoutName.trim()) return;
-    if (editingIndex !== null) {
-      setSavedWorkouts(prev => {
-        const copy = [...prev];
-        copy[editingIndex] = formData;
-        return copy;
-      });
-      setEditingIndex(null);
-      setFormData({ bodyPart: '', exercises: '', location: '', workoutName: '' });
-      setStep(0);
-      setShowForm(false);
-      return;
-    }
-    setIsGenerating(true);
-    const token = localStorage.getItem('token');
-    if (!token) {
-      setIsGenerating(false);
-      return;
-    }
-    try {
-      const prompt = `Create a ${formData.exercises} exercises ${formData.bodyPart} workout plan for ${formData.location}.`;
-      const response = await apiFetch<{ antwort: string; plan: string }>(`/ai/chat-create-plan`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`
-        },
-        body: JSON.stringify({ prompt })
-      });
-      let parsedExercises: GeneratedExercise[] = [];
-      if (response.antwort) {
+  if (!formData.workoutName.trim()) {
+    alert('Please enter a workout name before creating.');
+    return;
+  }
+
+  if (editingIndex !== null) {
+    setSavedWorkouts(prev => {
+      const copy = [...prev];
+      copy[editingIndex] = formData;
+      return copy;
+    });
+    setEditingIndex(null);
+    setFormData({ bodyPart: '', exercises: '', location: '', workoutName: '' });
+    setStep(0);
+    setShowForm(false);
+    alert('Workout successfully updated.');
+    return;
+  }
+
+  setIsGenerating(true);
+  const token = localStorage.getItem('token');
+
+  if (!token) {
+    alert('You must be logged in to generate a workout.');
+    setIsGenerating(false);
+    return;
+  }
+
+  try {
+    const prompt = `Create a ${formData.exercises} exercises ${formData.bodyPart} workout plan for ${formData.location}.`;
+    console.log('Prompt sent to AI:', prompt);
+
+    const response = await apiFetch<{ antwort: string; plan: string }>(`/ai/chat-create-plan`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify({ prompt })
+    });
+
+    console.log('AI response:', response);
+
+    let parsedExercises: GeneratedExercise[] = [];
+
+    if (response.antwort) {
+      try {
         const jsonMatch = response.antwort.match(/\[\s*\{.*?\}\s*(?:,\s*\{.*?\}\s*)*\]/s);
         if (jsonMatch && jsonMatch[0]) {
           parsedExercises = JSON.parse(jsonMatch[0]);
+          console.log('Parsed exercises:', parsedExercises);
         } else {
+          console.warn('No parsable JSON array found in AI response.');
           parsedExercises = defaultDummyExercises;
         }
-      } else {
+      } catch (parseError) {
+        console.error('Failed to parse AI response:', parseError);
         parsedExercises = defaultDummyExercises;
       }
-      const newWorkout: WorkoutData = {
-        ...formData,
-        generatedExercises: parsedExercises,
-        rawAiResponse: response.antwort
-      };
-      setSavedWorkouts(prev => [newWorkout, ...prev]);
-      setFormData({ bodyPart: '', exercises: '', location: '', workoutName: '' });
-      setStep(0);
-      setShowForm(false);
-    } catch {
-      // handle error
-    } finally {
-      setIsGenerating(false);
+    } else {
+      console.warn('No "antwort" field in AI response.');
+      parsedExercises = defaultDummyExercises;
     }
-  };
+
+    const newWorkout: WorkoutData = {
+      ...formData,
+      generatedExercises: parsedExercises,
+      rawAiResponse: response.antwort
+    };
+
+    setSavedWorkouts(prev => [newWorkout, ...prev]);
+    setFormData({ bodyPart: '', exercises: '', location: '', workoutName: '' });
+    setStep(0);
+    setShowForm(false);
+
+    alert('Workout plan successfully generated and saved!');
+
+  } catch (error) {
+    console.error('Error generating workout plan:', error);
+    alert('An error occurred while generating your workout. Please try again.');
+  } finally {
+    setIsGenerating(false);
+  }
+};
+
+
+  // const handleSubmit = async () => {
+  //   if (!formData.workoutName.trim()) return;
+  //   if (editingIndex !== null) {
+  //     setSavedWorkouts(prev => {
+  //       const copy = [...prev];
+  //       copy[editingIndex] = formData;
+  //       return copy;
+  //     });
+  //     setEditingIndex(null);
+  //     setFormData({ bodyPart: '', exercises: '', location: '', workoutName: '' });
+  //     setStep(0);
+  //     setShowForm(false);
+  //     return;
+  //   }
+  //   setIsGenerating(true);
+  //   const token = localStorage.getItem('token');
+  //   if (!token) {
+  //     setIsGenerating(false);
+  //     return;
+  //   }
+  //   try {
+  //     const prompt = `Create a ${formData.exercises} exercises ${formData.bodyPart} workout plan for ${formData.location}.`;
+  //     const response = await apiFetch<{ antwort: string; plan: string }>(`/ai/chat-create-plan`, {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //         Authorization: `Bearer ${token}`
+  //       },
+  //       body: JSON.stringify({ prompt })
+  //     });
+  //     let parsedExercises: GeneratedExercise[] = [];
+  //     if (response.antwort) {
+  //       const jsonMatch = response.antwort.match(/\[\s*\{.*?\}\s*(?:,\s*\{.*?\}\s*)*\]/s);
+  //       if (jsonMatch && jsonMatch[0]) {
+  //         parsedExercises = JSON.parse(jsonMatch[0]);
+  //       } else {
+  //         parsedExercises = defaultDummyExercises;
+  //       }
+  //     } else {
+  //       parsedExercises = defaultDummyExercises;
+  //     }
+  //     const newWorkout: WorkoutData = {
+  //       ...formData,
+  //       generatedExercises: parsedExercises,
+  //       rawAiResponse: response.antwort
+  //     };
+  //     setSavedWorkouts(prev => [newWorkout, ...prev]);
+  //     setFormData({ bodyPart: '', exercises: '', location: '', workoutName: '' });
+  //     setStep(0);
+  //     setShowForm(false);
+  //   } catch {
+  //     // handle error
+  //   } finally {
+  //     setIsGenerating(false);
+  //   }
+  // };
 
   return (
     <main>
