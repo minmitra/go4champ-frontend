@@ -18,6 +18,8 @@ import MyProfile from './pages/MyProfile';
 import TodaysWorkout from './pages/TodaysWorkout';
 import Home from './pages/Home';
 import Workoutdetail from './pages/WorkoutDetail';
+import CoachChat from './components/CoachChat';
+
 
 function App() {
   return (
@@ -48,6 +50,7 @@ function App() {
           </Routes>
         </div>
         <Footer />
+        <CoachChat /> {/* <--- Hier sichtbar auf allen Seiten */}
       </>
   );
 };
