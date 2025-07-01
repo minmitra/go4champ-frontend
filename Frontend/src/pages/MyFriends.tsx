@@ -3,7 +3,7 @@ import React from 'react';
 
 import {getFriend, getIncomingRequests, sendFriendRequest, acceptFriendRequest,rejectFriendRequest, deleteFriend, type Friend, type FriendshipStatus, type FriendRequest, getFriendshipStatus, getOutgoingRequests, cancelFriendRequest} from '../api/friendship';
 
-const Gamification = () => {
+const MyFriends = () => {
   const [friends, setFriends] = useState<Friend[]>([]);
   const [friendshipStatus, setFriendshipStatus] = useState<FriendshipStatus | null>(null);
   const[incomingRequests, setIncomingRequests] = useState<FriendRequest[]>([]);
@@ -244,7 +244,7 @@ const Gamification = () => {
 
 };
 
-export default Gamification;
+export default MyFriends;
 
 
 
