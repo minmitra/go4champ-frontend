@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './CoachChat.css';
-import pixelHead from '../assets/pixelhead.png.png';
+import pixelHead from '../assets/pixelhead.png';
 import pixelFull from '../assets/pixel.png';
 import { apiFetch } from '../api/fetchClient';
 
