@@ -1,61 +1,86 @@
 import { fetchWithAuth } from "../utils/fetchWithAuth";
 
 export interface Friend {
-    name: string;
+    username: string;
     points: number;
+}
+
+export interface FriendshipStatus {
+    status: string;
+    areFriends: boolean;
+    otherUser: string;
 }
 
 export interface FriendRequest {
     id: string;
-    fromUser: string;
-    toUser: string;
+    status: 'PENDING' | 'ACCEPTED' | 'REJECTED';
+    createdAt: string;
+    receiver: {
+        username: string;
+    };
+    sender:{
+        username: string;
+    };
 }
 
+
 export const getFriend = async (): Promise<Friend[]> => {
-    const res = await fetchWithAuth('/api/me/friends');
+    const res = await fetchWithAuth('http://localhost:8080/api/me/friends');
     if (!res.ok){
         throw new Error('Failed to fetch friends');
     }
-    return res.json();
+    const data = await res.json() 
+    return data.friends ?? [];
 };
 
+export const getFriendshipStatus = async (otherUsername: string): Promise<FriendshipStatus> => {
+    const res = await fetchWithAuth(`http://localhost:8080/api/me/friendship-status/${otherUsername}`);
+    if (!res.ok){
+        throw new Error('Failed to fetch friendship status');
+    }
+    return res.json();
+}
+
 export const getIncomingRequests = async(): Promise<FriendRequest[]> => {
-    const res = await fetchWithAuth('/api/me/friend-requests/incoming');
+    const res = await fetchWithAuth('http://localhost:8080/api/me/friend-requests/incoming');
     if (!res.ok){
         throw new Error('Failed to fetch incoming requests');
     }
-    return res.json();
+    const data = await res.json() 
+    return data.requests ?? [];
 };
 
 export const getOutgoingRequests = async(): Promise<FriendRequest[]> => {
-    const res = await fetchWithAuth('/api/me/friend-requests/outgoing');
+    const res = await fetchWithAuth('http://localhost:8080/api/me/friend-requests/outgoing');
     if (!res.ok){
         throw new Error('Failed to fetch outgoing requests');
     }
-    return res.json();
+    const data = await res.json() 
+    return data.requests;
 };
 
-export const sendFriendRequest = async(username: string): Promise<void> => {
-    const res = await fetchWithAuth('/api/me/friend-requests', {
+export const sendFriendRequest = async(receiverUsername: string): Promise<void> => {
+    const res = await fetchWithAuth('http://localhost:8080/api/me/friend-requests', {
         method: 'POST',
-        body: JSON.stringify({username}),
+        body: JSON.stringify({receiverUsername}),
     });
     if (!res.ok){
         throw new Error('Failed to send friend requests');
     }
 };
 
-export const acceptFriendRequest = async(requestId: string): Promise<void> => {
-    const res = await fetchWithAuth(`/api/me/friend-requests/${requestId}/accept`, {
+export const acceptFriendRequest = async(id: string): Promise<void> => {
+    const res = await fetchWithAuth(`http://localhost:8080/api/me/friend-requests/${id}/accept`, {
         method: 'POST',
+        
     });
     if (!res.ok){
-        throw new Error('Failed to accept friend requests');
+        throw new Error('Failed to accept friend request');
     }
 };
 
-export const rejectFriendRequest = async(requestId: string): Promise<void> => {
-    const res = await fetchWithAuth(`/api/me/friend-requests/${requestId}/reject`, {
+export const rejectFriendRequest = async(id: string): Promise<void> => {
+    const res = await fetchWithAuth(`http://localhost:8080/api/me/friend-requests/${id}/reject`, {
         method: 'POST',
     });
     if (!res.ok){
@@ -63,8 +88,18 @@ export const rejectFriendRequest = async(requestId: string): Promise<void> => {
     }
 };
 
+export const cancelFriendRequest = async(id: string): Promise<void> => {
+    const res = await fetchWithAuth(`http://localhost:8080/api/me/friend-requests/${id}`, {
+        method: 'DELETE',
+    });
+    if (!res.ok){
+        throw new Error('Failed to cancel friend requests');
+    }
+};
+
+
 export const deleteFriend = async(friendUsername: string): Promise<void> => {
-    const res = await fetchWithAuth(`/api/me/friends/${friendUsername}`, {
+    const res = await fetchWithAuth(`http://localhost:8080/api/me/friends/${friendUsername}`, {
         method: 'DELETE',
     });
     if (!res.ok){
