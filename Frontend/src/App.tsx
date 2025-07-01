@@ -24,10 +24,17 @@ import CoachChat from './components/CoachChat';
 
 function App() {
   return (
-      <>
-        <Navigation />
-  
-        <div style ={{paddingTop: '60px'}}>
+    <div style={{ 
+      display: 'flex', 
+      flexDirection: 'column', 
+      minHeight: '100vh' 
+    }}>
+      <Navigation />
+
+      <div style={{ 
+        flex: 1, 
+        paddingTop: '60px' 
+      }}>
         
           <Routes>
             <Route path="/" element={<Home />} />
@@ -52,10 +59,10 @@ function App() {
           </Routes>
         </div>
         <Footer />
-        <CoachChat /> {/* <--- Hier sichtbar auf allen Seiten */}
-      </>
+      <CoachChat />
+    </div>
   );
-};
+}
 
 export default App;
 
