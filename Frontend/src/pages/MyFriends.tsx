@@ -1,7 +1,7 @@
 import {useState, useEffect} from 'react';
 import React from 'react';
-
 import {getFriend, getIncomingRequests, sendFriendRequest, acceptFriendRequest,rejectFriendRequest, deleteFriend, type Friend, type FriendshipStatus, type FriendRequest, getFriendshipStatus, getOutgoingRequests, cancelFriendRequest} from '../api/friendship';
+import { useNavigate } from 'react-router-dom';
 
 const MyFriends = () => {
   const [friends, setFriends] = useState<Friend[]>([]);
@@ -13,6 +13,7 @@ const MyFriends = () => {
   const[error, setError] = useState<string | null>(null);
   const[success, setSuccess] = useState<string | null>(null);
   const [actionInProgress, setActionInProgress] = useState(false);
+  const navigate = useNavigate();
 
   const loadData = async () => {
     setLoading(true);
@@ -172,6 +173,10 @@ const MyFriends = () => {
   return (
     <div className='gamification-page'>
       <h1>Gamification</h1>
+
+      {/*Navigation zu MyChallenges.tsx*/}
+            <button onClick={() => navigate("/challenges")}>Back</button>
+
 
       {loading && <p>Loading data...</p>}
       {error && <p className='error-message'>{error}</p>}

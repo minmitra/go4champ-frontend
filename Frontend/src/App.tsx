@@ -18,6 +18,7 @@ import MyProfile from './pages/MyProfile';
 import TodaysWorkout from './pages/TodaysWorkout';
 import Home from './pages/Home';
 import Workoutdetail from './pages/WorkoutDetail';
+import MyChallenges from './pages/MyChallenges';
 
 function App() {
   return (
@@ -40,7 +41,8 @@ function App() {
             <Route path='/mainpage' element={<PrivateRoute><Mainpage /></PrivateRoute>} />
             <Route path="/nutrition" element={<PrivateRoute><Nutrition /></PrivateRoute>} />
             <Route path="/myworkout" element={<PrivateRoute><MyWorkout /></PrivateRoute>}/>
-            <Route path="/gamification" element={<PrivateRoute><MyFriends/></PrivateRoute>}/>
+            <Route path="/my-friends" element={<PrivateRoute><MyFriends/></PrivateRoute>}/>
+            <Route path="/challenges" element={<PrivateRoute><MyChallenges/></PrivateRoute>}/>
             <Route path="/myprofile" element={<PrivateRoute><MyProfile/></PrivateRoute>}/>
             <Route path="/todaysworkout" element={<PrivateRoute><TodaysWorkout/></PrivateRoute>}/>
             <Route path="/workoutdetail/:workoutName" element={<Workoutdetail />} />

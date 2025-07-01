@@ -49,7 +49,7 @@ const Navigation = () => {
     { to: '/mainpage', label: t('home') },
     { to: '/todaysworkout', label: t('todaysWorkout') },
     { to: '/myworkout', label: t('myWorkout.title') },
-    { to: '/gamification', label: t('gamification') },
+    { to: '/challenges', label: t('challenges') },
     { to: '/nutrition', label: t('nutrition') },
     { label: darkMode ? <IoSunny size={20} /> : <IoIosMoon size={20} />, isToggle: true },
     { to: '/myprofile', label: <MdAccountCircle size={20} /> },
