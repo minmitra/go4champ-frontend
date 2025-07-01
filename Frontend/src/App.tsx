@@ -13,7 +13,7 @@ import PrivateRoute from './routes/PrivateRoute';
 import CheckEmailRegister from './pages/CheckEmailRegister';
 import ResetPassword from './pages/ResetPassword';
 import MyWorkout from './pages/MyWorkout';
-import Gamification from './pages/Gamification';
+import MyFriends from './pages/MyFriends';
 import MyProfile from './pages/MyProfile';
 import TodaysWorkout from './pages/TodaysWorkout';
 import Home from './pages/Home';
@@ -40,7 +40,7 @@ function App() {
             <Route path='/mainpage' element={<PrivateRoute><Mainpage /></PrivateRoute>} />
             <Route path="/nutrition" element={<PrivateRoute><Nutrition /></PrivateRoute>} />
             <Route path="/myworkout" element={<PrivateRoute><MyWorkout /></PrivateRoute>}/>
-            <Route path="/gamification" element={<PrivateRoute><Gamification/></PrivateRoute>}/>
+            <Route path="/gamification" element={<PrivateRoute><MyFriends/></PrivateRoute>}/>
             <Route path="/myprofile" element={<PrivateRoute><MyProfile/></PrivateRoute>}/>
             <Route path="/todaysworkout" element={<PrivateRoute><TodaysWorkout/></PrivateRoute>}/>
             <Route path="/workoutdetail/:workoutName" element={<Workoutdetail />} />
