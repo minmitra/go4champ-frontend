@@ -36,6 +36,10 @@ const Nutrition = () => {
     );
   };
 
+  const handleDelete = (index: number) => {
+    setRecipes(prev => prev.filter((_, i) => i !== index));
+  };
+
   return (
     <main>
       <div className="nutrition-header">
@@ -86,7 +90,10 @@ const Nutrition = () => {
           <h2>My Recipes</h2>
           {recipes.map((recipe, idx) => (
             <div key={idx} className="recipe-card">
-              <h3>{recipe.title}</h3>
+              <div className="recipe-header">
+                <h3>{recipe.title}</h3>
+                <button className="delete-btn" onClick={() => handleDelete(idx)}>🗑️</button>
+              </div>
               <p><strong>Calories:</strong> {recipe.calories} kcal | <strong>Protein:</strong> {recipe.protein} g | <strong>Fat:</strong> {recipe.fat} g | <strong>Carbs:</strong> {recipe.carbs} g</p>
               <p><strong>Ingredients:</strong></p>
               <ul>

@@ -75,6 +75,10 @@ h3 {
   background-color: white;
   color: #333;
 }
+.primary-button{
+  width: 15px;
+  margin-left: 0;
+}
 
 /* .primary-button {
   background-color: #0a1d45;
@@ -169,3 +173,21 @@ h2{
 }
 
 
+.recipe-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.delete-btn {
+  background-color: transparent;
+  border: none;
+  color: red;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 0 8px;
+}
+
+.delete-btn:hover {
+  color: darkred;
+}
