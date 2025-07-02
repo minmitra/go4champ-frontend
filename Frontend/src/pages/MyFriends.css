@@ -1,0 +1,170 @@
+.wrapper {
+  width: 400px;
+  max-width: 100%;
+  position: relative;
+  margin: 0 auto;        
+  display: flex;          
+  flex-direction: column; 
+  align-items: center;  
+  gap: 8px;              
+}
+
+
+
+.wrapper input {
+  background: rgb(255, 255, 255);
+  border: 1px solid rgb(10, 10, 10);
+ border-radius: 0px 50px 0px 50px;
+ padding: 0.4rem 3rem 0.4rem 1rem;
+  width: 100%;
+  
+}
+
+.wrapper button {
+  background-color:#d89c19;
+border-radius: 0px 50px 0px 50px;
+  position: absolute;
+   padding: 0.3rem 1rem 0.3rem 1rem;
+  right: 4px;            
+  top: 50%;                
+  transform: translateY(-50%);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: aliceblue;
+}
+
+.wrapper button:hover {
+  background-color: #3b82f6; 
+}
+
+.center-text {
+  text-align: center;
+}
+
+
+.tab-bar {
+  display: flex;
+  gap: 1px;
+  margin: 50px auto 16px auto;
+  max-width: 1200px;            
+  width: 100%;
+   border-radius: 12px  12px 0 0;   
+  overflow: hidden;          
+}
+
+
+.tab-bar button {
+  flex: 1; 
+ padding: 16px;
+  cursor: pointer;
+  background-color: #acb1c4;
+  border-radius: 0px;
+  border: none;
+  font-size: 16px;
+  font-weight: 500;
+
+}
+
+
+.tab-bar .active-tab {
+  background: #0f172a;
+  color: white;
+}
+
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+}
+
+.user-card {
+  background: none;
+   border: 1px solid #0f172a;
+  border-radius: 12px;
+  padding: 16px;
+  width: 200px;
+  text-align: center;
+  color:black !important;
+}
+
+
+.tab-content-wrapper {
+  background-color: none;        
+  border-radius: 0 0 12px 12px;      
+  padding: 16px;                     
+  max-width: 1200px;
+   min-height: 200px;                    
+  margin: 0 auto;                   
+  margin-top: -15px;   
+   background-color: #e0e7ff;
+
+}
+
+
+.navigation-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 24px auto 0 auto; 
+  max-width: 1200px;
+  width: 100%; 
+}
+
+.navigation-button {
+  display: flex;
+  align-items: center;
+  background: none;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 16px;
+  transition: background 0.2s ease;
+  padding: 12px 20px;
+  flex: 1;
+}
+
+.navigation-button:hover {
+  color:#3b82f6;
+}
+
+
+.navigation-button .left-icon {
+  margin-right: 8px;
+}
+
+.navigation-button .right-icon {
+  margin-left: 8px;
+}
+
+
+.navigation-button.right-align {
+  justify-content: flex-end;
+}
+
+.cancel-button{
+  padding: 8px 5px;
+  width: 100%;
+  width: auto;
+  background-color: #c9302c;
+  transition: background-color 0.3s ease;
+  flex: 1;
+  color: white;
+  border-radius: 50px;
+}
+
+.cancel-button:hover {
+  background-color: #8b201c;
+}
+
+
+.user-card p strong {
+  border-bottom: 2px solid black; 
+  padding-bottom: 4px;          
+  display: inline-block;     
+   margin-bottom: 12px;       
+}
+
