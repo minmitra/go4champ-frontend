@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { getMyChallenges, rejectChallenge, acceptChallenge, createChallenge, type Challenge, type ChallengeType, cancelChallenge, submitChallengeResult, declareWinner } from "../api/challenges";
+import { getMyChallenges, rejectChallenge, acceptChallenge, createChallenge, type ChallengeResponse, type ChallengeType, cancelChallenge, submitChallengeResult, declareWinner } from "../api/challenges";
 import { getFriend } from "../api/friendship";
 import { useNavigate } from "react-router-dom";
 
 const MyChallenges: React.FC = () => {
-    const [challenges, setChallenges] = useState<Challenge[]>([]);
+    const [challenges, setChallenges] = useState<ChallengeResponse[]>([]);
     const [friends, setFriends] = useState<string[]>([]);
     const [opponentUsername, setOpponentUsername] = useState('');
     const [title, setTitle] = useState("");
@@ -19,12 +19,19 @@ const MyChallenges: React.FC = () => {
     const [selectedWinner, setSelectedWinner] = useState("");
     const navigate = useNavigate();
 
+    //DEBUG
+    const username = localStorage.getItem('username');
+    console.log("Current username:", username);
+    console.log("Current Opponent",opponentUsername);
+
     const loadData = async() => {
         try{
             const[challengeData, friendsData] = await Promise.all([
                 getMyChallenges(),
                 getFriend(),
             ]);
+
+            console.log("Challenges from backend:", challengeData);
 
             setChallenges(challengeData);
             setFriends(friendsData.map((f: any) => f.username));
@@ -51,6 +58,18 @@ const MyChallenges: React.FC = () => {
             setError('Please enter a title.');
             return;
         }
+
+        // DEBUG
+        const challengePayload = {
+            challengedUsername: opponentUsername,
+            title,
+            description,
+            type,
+            targetValue,
+            targetUnit,
+            deadline: deadline ? new Date(deadline).toISOString() : undefined,
+        };
+        console.log("Sending challenge payload:", challengePayload);
 
         try {
             const newChallenge = await createChallenge({
@@ -91,8 +110,9 @@ const MyChallenges: React.FC = () => {
 
     const handleReject = async (id: number) => {
         try {
-            const updated = await rejectChallenge(id);
-            setChallenges((prev) => prev.map((c) => (c.id === id ? updated : c)));
+            await rejectChallenge(id);
+            setChallenges((prev) => prev.filter((c) => (c.id !== id)));
+            setSuccess("Challenge rejected and removed.")
         }
         catch {
             setError('Error rejecting challenge');
@@ -100,41 +120,47 @@ const MyChallenges: React.FC = () => {
     };
 
     const handleCancel = async (id: number) => {
-    try {
-      await cancelChallenge(id);
-      setChallenges((prev) => prev.filter((c) => c.id !== id));
-      setSuccess("Challenge canceled.");
-    } 
-    catch {
-      setError("Error canceling challenge");
-    }
-  };
+        try {
+            await cancelChallenge(id);
+            setChallenges((prev) => prev.filter((c) => c.id !== id));
+            setSuccess("Challenge canceled.");
+        } 
+        catch {
+            setError("Error canceling challenge");
+        }
+    };
 
-  const handleSubmitResult = async (c: Challenge) => {
-    try {
-      const updated = await submitChallengeResult(c.id, parseFloat(resultValue), 0);
-      setChallenges((prev) => prev.map((ch) => (ch.id === c.id ? updated : ch)));
-      setSuccess("Result submitted.");
-      setResultValue("");
-    } catch {
-      setError("Error submitting result");
-    }
-  };
+    const handleSubmitResult = async (c: ChallengeResponse) => {
+        if (!resultValue || isNaN(parseFloat(resultValue))) {
+            setError("Please enter a valid numeric result");
+            return;
+        }
+        try {
+            const updated = await submitChallengeResult(c.id, parseFloat(resultValue));
+            setChallenges((prev) => prev.map((ch) => (ch.id === c.id ? updated : ch)));
+            setSuccess("Result submitted.");
+            setResultValue("");
+        } 
+        catch {
+            setError("Error submitting result");
+        }
+    };
 
-  const handleDeclareWinner = async (c: Challenge) => {
-    try {
-      const updated = await declareWinner(c.id, selectedWinner);
-      setChallenges((prev) => prev.map((ch) => (ch.id === c.id ? updated : ch)));
-      setSuccess("Winner declared.");
-      setSelectedWinner("");
-    } catch {
-      setError("Error declaring winner");
-    }
-  };
+    const handleDeclareWinner = async (c: ChallengeResponse) => {
+        try {
+            const updated = await declareWinner(c.id, selectedWinner);
+            setChallenges((prev) => prev.map((ch) => (ch.id === c.id ? updated : ch)));
+            setSuccess("Winner declared.");
+            setSelectedWinner("");
+        } 
+        catch {
+            setError("Error declaring winner");
+        }
+    };
 
 
     return(
-        <div>
+        <div className="challenges">
             <h2>My Challenges</h2>
 
             {/*Navigation zu MyFriends.tsx*/}
@@ -163,8 +189,8 @@ const MyChallenges: React.FC = () => {
         </select>
         <input
           type="number"
-          placeholder="Target Value"
-          value={targetValue ?? ""}
+          placeholder="Target Unit"
+          value={targetValue}
           onChange={(e) => setTargetValue(e.target.value ? parseFloat(e.target.value) : undefined)}
         />
         <input type="text" placeholder="Target Unit" value={targetUnit} onChange={(e) => setTargetUnit(e.target.value)} />
@@ -178,15 +204,17 @@ const MyChallenges: React.FC = () => {
           <p>No Challenges.</p>
         ) : (
           challenges.map((c) => (
-            <div key={c.id} className="challenge-card">
+            <div key={c.id}>
               <p>
-                <strong>{c.challengerUsername}</strong> vs <strong>{c.opponentUsername}</strong>
+                <strong>{c.challengerName}</strong> vs <strong>{c.challengedUsername}</strong>
               </p>
-              <p>Title: {c.title ?? "–"}</p>
+              <p>Title: {c.title ?? ""}</p>
+              <p>My Role: {c.myRole}</p>
               <p>Status: <em>{c.status}</em></p>
+              
 
               {c.status === "PENDING" &&
-                c.opponentUsername === localStorage.getItem("username") && (
+                c.myRole === "CHALLENGED" && (
                   <div>
                     <button onClick={() => handleAccept(c.id)}>Accept</button>
                     <button onClick={() => handleReject(c.id)}>Reject</button>
@@ -194,7 +222,7 @@ const MyChallenges: React.FC = () => {
                 )}
 
               {c.status === "PENDING" &&
-                c.challengerUsername === localStorage.getItem("username") && (
+                c.myRole === "CHALLENGER" && (
                   <button onClick={() => handleCancel(c.id)}>Cancel</button>
                 )}
 
@@ -207,6 +235,17 @@ const MyChallenges: React.FC = () => {
                     onChange={(e) => setResultValue(e.target.value)}
                   />
                   <button onClick={() => handleSubmitResult(c)}>Submit Result</button>
+                </div>
+              )}
+
+              {c.type === "FREE" && c.status === "ACCEPTED" && (
+                <div>
+                  <select value={selectedWinner} onChange={(e) => setSelectedWinner(e.target.value)}>
+                    <option value="">Select Winner</option>
+                    <option value={c.challengerName}>{c.challengerName}</option>
+                    <option value={c.challengedName}>{c.challengedName}</option>
+                  </select>
+                  <button onClick={() => handleDeclareWinner(c)}>Declare Winner</button>
                 </div>
               )}
 

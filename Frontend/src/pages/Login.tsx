@@ -30,7 +30,9 @@ const Login = () => {
       }
 
       localStorage.setItem('token', data.token);
+      localStorage.setItem('username', username);
       login(data.token);
+      
       navigate('/mainpage');
 
     } catch (err) {

@@ -13,22 +13,31 @@ export interface CreateChallengeRequest{
     deadline?: string;
 }
 
-export interface Challenge {
-    id: number;
-    challengerUsername: string;
-    opponentUsername: string;
-    gameId: number;
-    gameName: string;
-    status: 'PENDING' | 'ACCEPTED' | 'REJECTED';
-    createdAt: string;
-    message: string;
-    title?: string;
-    description?: string;
-    type?: ChallengeType;
-    targetValue?: number;
-    targetUnit?: string;
-    deadline?: string;
-};
+export interface ChallengeResponse {
+  id: number;
+  challengerUsername: string;
+  challengerName: string;
+  challengedUsername: string;
+  challengedName: string;
+  type: ChallengeType;
+  status: 'PENDING' | 'ACCEPTED' | 'REJECTED' | 'COMPLETED' | 'CANCELLED';
+  title: string;
+  description?: string;
+  targetValue?: number;
+  targetUnit?: string;
+  challengerResult?: number;
+  challengedResult?: number;
+  winnerUsername?: string;
+  winnerName?: string;
+  challengerSubmitted?: boolean;
+  challengedSubmitted?: boolean;
+  createdAt: string;
+  acceptedAt?: string;
+  completedAt?: string;
+  deadline?: string;
+  expired: boolean;
+  myRole: 'CHALLENGER' | 'CHALLENGED';
+}
 
 export interface ChallengeOverview {
     totalChallenges: number;
@@ -36,7 +45,7 @@ export interface ChallengeOverview {
     totalLosses: number;
 };
 
-export const getMyChallenges = async (): Promise<Challenge[]> => {
+export const getMyChallenges = async (): Promise<ChallengeResponse[]> => {
     const res = await fetchWithAuth('http://localhost:8080/api/challenges/my', {
         method: 'GET',
     });
@@ -45,10 +54,11 @@ export const getMyChallenges = async (): Promise<Challenge[]> => {
         throw new Error('Failed to fetch challenges');
     }
     const data = await res.json();
+    console.log("Raw challenge data from backend:", data);
     return data.challenges;
 }
 
-export const createChallenge = async (challenge: CreateChallengeRequest): Promise<Challenge> => {
+export const createChallenge = async (challenge: CreateChallengeRequest): Promise<ChallengeResponse> => {
     const res = await fetchWithAuth('http://localhost:8080/api/challenges', {
         method: 'POST',
         headers: {
@@ -63,7 +73,7 @@ export const createChallenge = async (challenge: CreateChallengeRequest): Promis
     return await res.json();
 };
 
-export const acceptChallenge = async (challengeId:number): Promise<Challenge> => {
+export const acceptChallenge = async (challengeId:number): Promise<ChallengeResponse> => {
     const res = await fetchWithAuth(`http://localhost:8080/api/challenges/${challengeId}/accept`, {
         method: 'POST',
     });
@@ -75,7 +85,7 @@ export const acceptChallenge = async (challengeId:number): Promise<Challenge> =>
 };
 
 
-export const rejectChallenge = async (challengeId:number): Promise<Challenge> => {
+export const rejectChallenge = async (challengeId:number): Promise<ChallengeResponse> => {
     const res = await fetchWithAuth(`http://localhost:8080/api/challenges/${challengeId}/reject`, {
         method: 'POST',
     });
@@ -102,7 +112,7 @@ export const submitChallengeResult = async (
     challengeId: number,
     myScore: number,
     opponentScore: number
-): Promise<Challenge> => {
+): Promise<ChallengeResponse> => {
     const res = await fetchWithAuth(`http://localhost:8080/api/challenges/${challengeId}/submit-result`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -118,7 +128,7 @@ export const submitChallengeResult = async (
 export const declareWinner = async (
     challengeId: number,
     winnerUsername: string
-): Promise<Challenge> => {
+): Promise<ChallengeResponse> => {
     const res = await fetchWithAuth(`http://localhost:8080/api/challenges/${challengeId}/declare-winner`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -130,7 +140,7 @@ export const declareWinner = async (
     return await res.json();
 };
 
-export const getChallengeDetails = async (challengeId: number): Promise<Challenge> => {
+export const getChallengeDetails = async (challengeId: number): Promise<ChallengeResponse> => {
     const res = await fetchWithAuth(`http://localhost:8080/api/challenges/${challengeId}`, {
         method: 'GET',
     });
@@ -140,7 +150,7 @@ export const getChallengeDetails = async (challengeId: number): Promise<Challeng
     return await res.json();
 };
 
-export const getIncomingChallenges = async (): Promise<Challenge[]> => {
+export const getIncomingChallenges = async (): Promise<ChallengeResponse[]> => {
     const res = await fetchWithAuth('http://localhost:8080/api/challenges/incoming', {
         method: 'GET',
     });
@@ -151,7 +161,7 @@ export const getIncomingChallenges = async (): Promise<Challenge[]> => {
     return data.challenges;
 };
 
-export const getOutgoingChallenges = async (): Promise<Challenge[]> => {
+export const getOutgoingChallenges = async (): Promise<ChallengeResponse[]> => {
     const res = await fetchWithAuth('http://localhost:8080/api/challenges/outgoing', {
         method: 'GET',
     });
@@ -162,7 +172,7 @@ export const getOutgoingChallenges = async (): Promise<Challenge[]> => {
     return data.challenges;
 };
 
-export const getActiveChallenges = async (): Promise<Challenge[]> => {
+export const getActiveChallenges = async (): Promise<ChallengeResponse[]> => {
     const res = await fetchWithAuth('http://localhost:8080/api/challenges/active', {
         method: 'GET',
     });
@@ -182,5 +192,7 @@ export const getChallengeOverview = async (): Promise<ChallengeOverview> => {
     }
     return await res.json();
 };
+
+
 
 
