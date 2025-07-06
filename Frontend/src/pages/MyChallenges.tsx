@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { getMyChallenges, rejectChallenge, acceptChallenge, createChallenge, type ChallengeResponse, type ChallengeType, cancelChallenge, submitChallengeResult, declareWinner } from "../api/challenges";
 import { getFriend } from "../api/friendship";
 import { useNavigate } from "react-router-dom";
+import { FaAngleRight, FaAngleLeft } from 'react-icons/fa';
+
 
 const MyChallenges: React.FC = () => {
     const [challenges, setChallenges] = useState<ChallengeResponse[]>([]);
@@ -160,7 +162,8 @@ const MyChallenges: React.FC = () => {
 
 
     return(
-        <div className="challenges">
+      <main>
+        <div>
             <h2>My Challenges</h2>
 
             {/*Navigation zu MyFriends.tsx*/}
@@ -253,7 +256,18 @@ const MyChallenges: React.FC = () => {
           ))
         )}
       </section>
+       <div className="navigation-buttons">
+              <button onClick={() => navigate('/my-friends')} className="navigation-button">
+                <FaAngleLeft className="left-icon" />Go to my friends
+              </button>
+              <button onClick={() => navigate('/ranking')} className="navigation-button right-align">
+                Go to ranking <FaAngleRight className="right-icon" />
+              </button>
+            </div>
     </div>
+</main>
+
+
   );
 };
 

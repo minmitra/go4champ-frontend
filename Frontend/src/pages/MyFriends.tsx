@@ -1,17 +1,35 @@
-import {useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 import React from 'react';
-import {getFriend, getIncomingRequests, sendFriendRequest, acceptFriendRequest,rejectFriendRequest, deleteFriend, type Friend, type FriendshipStatus, type FriendRequest, getFriendshipStatus, getOutgoingRequests, cancelFriendRequest} from '../api/friendship';
+import './MyFriends.css';
+import { FaAngleRight, FaAngleLeft } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+import { FaXmark } from "react-icons/fa6";
+import { IoCheckmarkOutline } from "react-icons/io5";
+
+import {
+  getFriend,
+  getIncomingRequests,
+  sendFriendRequest,
+  acceptFriendRequest,
+  rejectFriendRequest,
+  deleteFriend,
+  getFriendshipStatus,
+  getOutgoingRequests,
+  cancelFriendRequest,
+  type Friend,
+  type FriendshipStatus,
+  type FriendRequest
+} from '../api/friendship';
 
 const MyFriends = () => {
   const [friends, setFriends] = useState<Friend[]>([]);
-  const [friendshipStatus, setFriendshipStatus] = useState<FriendshipStatus | null>(null);
-  const[incomingRequests, setIncomingRequests] = useState<FriendRequest[]>([]);
-  const[outgoingRequests, setOutgoingRequests] = useState<FriendRequest[]>([]);
+  const [incomingRequests, setIncomingRequests] = useState<FriendRequest[]>([]);
+  const [outgoingRequests, setOutgoingRequests] = useState<FriendRequest[]>([]);
   const [newFriendName, setNewFriendName] = useState('');
-  const[loading, setLoading] = useState(false);
-  const[error, setError] = useState<string | null>(null);
-  const[success, setSuccess] = useState<string | null>(null);
+  const [friendshipStatus, setFriendshipStatus] = useState<FriendshipStatus | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState<'friends' | 'incoming' | 'outgoing'>('friends');
   const [actionInProgress, setActionInProgress] = useState(false);
   const navigate = useNavigate();
 
@@ -22,238 +40,160 @@ const MyFriends = () => {
       const [friendsData, incomingData, outgoingData] = await Promise.all([
         getFriend(),
         getIncomingRequests(),
-        getOutgoingRequests(),
+        getOutgoingRequests()
       ]);
-
-      //DEBUG
-      console.log('Friends data:', friendsData);
-      console.log('Incoming requests', incomingData);
-      console.log('Outgoing requests', outgoingData);
-
       setFriends(Array.isArray(friendsData) ? friendsData : []);
       setIncomingRequests(Array.isArray(incomingData) ? incomingData : []);
       setOutgoingRequests(Array.isArray(outgoingData) ? outgoingData : []);
-    }
-    catch(error: any){
+    } catch (error: any) {
       setError(error.message || 'Error loading data');
       setFriends([]);
       setIncomingRequests([]);
       setOutgoingRequests([]);
-    }
-    finally {
+    } finally {
       setLoading(false);
     }
   };
 
-  useEffect(() => {
-    loadData();
-  }, []);
+  useEffect(() => { loadData(); }, []);
 
-  useEffect(() => {
-    if (success) {
-      const timer = setTimeout(() => setSuccess(null), 3000);
-      return () => clearTimeout(timer);
-    }
-  },[success]);
-
-  const checkFriendshipStatus = async (username: string) => {
-    try {
-      const status = await getFriendshipStatus(username);
-      setFriendshipStatus(status);
-    } 
-    catch (error) {
-      setFriendshipStatus(null);
-    }
-  };
-
-  const handleFriendInputChange = (e:React.ChangeEvent<HTMLInputElement>) => {
+  const handleFriendInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const username = e.target.value;
     setNewFriendName(username);
-
-    if (username.trim()){
-      checkFriendshipStatus(username.trim());
-    }
-    else {
+    if (username.trim()) {
+      getFriendshipStatus(username.trim()).then(setFriendshipStatus).catch(() => setFriendshipStatus(null));
+    } else {
       setFriendshipStatus(null);
     }
   };
 
   const handleSendRequest = async () => {
-    if (!newFriendName.trim()){
-      return;
-    }
-    else{
-      setActionInProgress(true);
-      setError(null);
-      setSuccess(null);
-    }
-
-    try{
+    if (!newFriendName.trim()) return;
+    setActionInProgress(true);
+    try {
       await sendFriendRequest(newFriendName.trim());
       setNewFriendName('');
       await loadData();
-      setSuccess('Friend request was sent successfully!');
-    }
-    catch (error: any){
+    } catch (error: any) {
       setError(error.message || 'Error sending friend request');
-    }
-    finally{
+    } finally {
       setActionInProgress(false);
     }
   };
 
-  const handleAcceptRequest = async (id: string) => {
-    setActionInProgress(true);
-    setError(null);
-    setSuccess(null);
-    try{
-      await acceptFriendRequest(id);
-      await loadData();
-      setSuccess('You have become friends.')
-    }
-    catch (error: any){
-      setError(error.message || 'Error accepting friend request');
-    }
-    finally{
-      setActionInProgress(false);
-    }
-  };
-
-  const handleRejectRequest = async (id: string) => {
-    setActionInProgress(true);
-    setError(null);
-    setSuccess(null);
-    try {
-      await rejectFriendRequest(id);
-      await loadData();
-      setSuccess('Friend was rejected.')
-    }
-    catch (error: any) {
-      setError(error.message || 'Error rejecting friend request');
-    }
-    finally {
-      setActionInProgress(false);
-    }
-  };
-
-    const handleCancelRequest = async (id: string) => {
-    setActionInProgress(true);
-    setError(null);
-    setSuccess(null);
-    try {
-      await cancelFriendRequest(id);
-      await loadData();
-      setSuccess('Friend request was canceled.')
-    }
-    catch (error: any) {
-      setError(error.message || 'Error canceling friend request');
-    }
-    finally {
-      setActionInProgress(false);
-    }
-  };
-
-  const handleDeleteFriend = async (username: string) => {
-    setActionInProgress(true);
-    setError(null);
-    setSuccess(null);
-    try {
-      await deleteFriend(username);
-      await loadData();
-      setSuccess('Friend deleted.')
-    }
-    catch (error: any) {
-      setError(error.message || 'Error deleting friend');
-    }
-    finally {
-      setActionInProgress(false);
-    }
-  };
-
-  return (
-    <div className='gamification-page'>
-      <h1>Gamification</h1>
-
-      {/*Navigation zu MyChallenges.tsx*/}
-            <button onClick={() => navigate("/challenges")}>Back</button>
-
-
-      {loading && <p>Loading data...</p>}
-      {error && <p className='error-message'>{error}</p>}
-
-      <section className='friends-list-section'>
-        <h2>Your Friends</h2>
-        <ul>
-          {friends.map((friend) => (
-            <li key={friend.username}>
-              {friend.username} - {friend.points} points
-              <button disabled={actionInProgress} onClick={() => handleDeleteFriend(friend.username)} >Remove</button>
-            </li> 
-          ))}
-          {friends.length === 0 && !loading && <p>No friends yet.</p>}
-        </ul>
-      </section>
-
-      <section className='friend-requests-section'>
-        <h2>Incoming Friend Requests</h2>
-        <ul>
-          {incomingRequests.map((req) => (
-            <li key={req.id}> 
-              {req.sender.username}
-              <button disabled={actionInProgress} onClick={() => handleAcceptRequest(req.id)}>Accept</button>
-              <button disabled={actionInProgress} onClick={() => handleRejectRequest(req.id)}>Reject</button>
-            </li>
-          ))}
-          {incomingRequests.length === 0 && !loading && <p>No incoming requests.</p>}
-        </ul>
-      </section>
-
-      <section className='outgoing-requests-section'>
-        <h2>Outgoing Friend Requests</h2>
-        <ul>
-          {outgoingRequests.map((req) => (
-            <li key={req.id}> 
-              {req.receiver.username || 'Unknown User'}
-              <button disabled={actionInProgress} onClick={() => handleCancelRequest(req.id.toString())}>Cancel</button>
-            </li>
-          ))}
-          {outgoingRequests.length === 0 && !loading && <p>No outgoing requests.</p>}
-        </ul>
-      </section>
-
-      <section className="send-request-section">
-        <h2>Add a Friend</h2>
-        <input
-          type="text"
-          placeholder='Enter username'
-          value={newFriendName}
-          onChange={handleFriendInputChange} disabled={actionInProgress}
-        />
-        {friendshipStatus && newFriendName.trim() && (
-          <p> Status for <strong>{friendshipStatus.otherUser}</strong>: <br/>
-          {friendshipStatus.areFriends ? "You're friends already!" : "You aren't friends yet!"}</p>
+  const UserCard = ({
+    name,
+    points,
+    onAction,
+    actionLabel,
+    buttonClass,
+    secondaryAction,
+    secondaryActionLabel
+  }: {
+    name: string;
+    points?: number;
+    onAction?: () => void;
+    actionLabel?: React.ReactNode;    
+    buttonClass?: string;
+    secondaryAction?: () => void;
+   secondaryActionLabel?: React.ReactNode;
+  }) => (
+    <div className="user-card">
+      <p><strong className="username-underline">{name}</strong></p>
+      {points !== undefined && <p>{points} points</p>}
+      <div style={{ display: 'flex', gap: '8px', justifyContent: 'center' }}>
+        {onAction && (
+          <button onClick={onAction} className={buttonClass || ''}>{actionLabel}</button>
         )}
-        <button onClick={handleSendRequest} 
-          disabled={
-            actionInProgress || 
-            !newFriendName.trim() || 
-            friendshipStatus?.areFriends || 
-            friendshipStatus?.status === 'PENDING'
-          }
-        >
-          {friendshipStatus?.status === 'PENDING' ? 'Request Pending' : friendshipStatus?.areFriends ? 'Already Friends' : 'Send Request'} 
-        </button>
-      </section>
+        {secondaryAction && (
+          <button onClick={secondaryAction} className={buttonClass || ''}>{secondaryActionLabel}</button>
+        )}
+      </div>
     </div>
   );
 
+  return (
+    <main>
+      <h1>My Friends</h1>
+
+      <div className="wrapper">
+        <input
+          type="text"
+          placeholder="Add a Friend..."
+          value={newFriendName}
+          onChange={handleFriendInputChange}
+          disabled={actionInProgress}
+        />
+        <button
+          className="search-button"
+          onClick={handleSendRequest}
+          disabled={actionInProgress || !newFriendName.trim() || friendshipStatus?.areFriends || friendshipStatus?.status === 'PENDING'}
+        >
+          {friendshipStatus?.status === 'PENDING' ? 'Pending' : friendshipStatus?.areFriends ? 'Added' : 'Add'}
+        </button>
+      </div>
+
+      {loading && <p className="center-text">Loading data...</p>}
+      {error && <p className="center-text error">{error}</p>}
+      {friendshipStatus && newFriendName.trim() && (
+        <p className="center-text">
+          Status for <strong>{friendshipStatus.otherUser}</strong>: {friendshipStatus.areFriends ? "You're friends already!" : "You aren't friends yet!"}
+        </p>
+      )}
+
+      <div className="tab-bar">
+        <button className={activeTab === 'friends' ? 'active-tab' : ''} onClick={() => setActiveTab('friends')}>Your Friends</button>
+        <button className={activeTab === 'incoming' ? 'active-tab' : ''} onClick={() => setActiveTab('incoming')}>Incoming Friend Requests</button>
+        <button className={activeTab === 'outgoing' ? 'active-tab' : ''} onClick={() => setActiveTab('outgoing')}>Outgoing Friend Requests</button>
+      </div>
+
+      <div className="tab-content-wrapper">
+        <div className="card-container">
+          {activeTab === 'friends' && friends.map(friend => (
+            <UserCard
+              key={friend.username}
+              name={friend.username}
+              points={friend.points}
+              onAction={() => deleteFriend(friend.username).then(loadData)}
+              actionLabel="Remove"
+            />
+          ))}
+
+          {activeTab === 'incoming' && incomingRequests.map(req => (
+  <UserCard
+    key={req.id}
+    name={req.sender.username}
+    onAction={() => acceptFriendRequest(req.id).then(loadData)}
+    actionLabel={<IoCheckmarkOutline />}
+    secondaryAction={() => rejectFriendRequest(req.id).then(loadData)}
+    secondaryActionLabel={<FaXmark />}
+  />
+))}
+          {activeTab === 'outgoing' && outgoingRequests.map(req => (
+            <UserCard
+              key={req.id}
+              name={req.receiver.username || 'Unknown'}
+              onAction={() => cancelFriendRequest(req.id).then(loadData)}
+              actionLabel="Cancel"
+              buttonClass="cancel-button"
+            />
+          ))}
+        </div>
+      </div>
+
+      <div className="navigation-buttons">
+        <button onClick={() => navigate('/challenges')} className="navigation-button">
+          <FaAngleLeft className="left-icon" />Go to challenges
+        </button>
+        <button onClick={() => navigate('/ranking')} className="navigation-button right-align">
+          Go to ranking <FaAngleRight className="right-icon" />
+        </button>
+      </div>
+    </main>
+  );
 };
 
 export default MyFriends;
-
-
-
-
 
 
 
