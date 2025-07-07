@@ -20,6 +20,7 @@ import Home from './pages/Home';
 import Workoutdetail from './pages/WorkoutDetail';
 import MyChallenges from './pages/MyChallenges';
 import CoachChat from './components/CoachChat';
+import Ranking from './pages/Ranking';
 
 
 function App() {
@@ -54,6 +55,7 @@ function App() {
             <Route path="/challenges" element={<PrivateRoute><MyChallenges/></PrivateRoute>}/>
             <Route path="/myprofile" element={<PrivateRoute><MyProfile/></PrivateRoute>}/>
             <Route path="/todaysworkout" element={<PrivateRoute><TodaysWorkout/></PrivateRoute>}/>
+             <Route path="/ranking" element={<PrivateRoute><Ranking/></PrivateRoute>}/>
             <Route path="/workoutdetail/:workoutName" element={<Workoutdetail />} />
             
           </Routes>

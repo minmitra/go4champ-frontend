@@ -112,7 +112,7 @@ const Register = () => {
 
       <main>
         <form onSubmit={handleSubmit} noValidate>
-          <h2 className="register-h2">{t('register')}</h2>
+          <h2 className="register-h2">{"Register"}</h2>
 
           {errors.general && <p className="error">{errors.general}</p>}
 

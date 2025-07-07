@@ -9,23 +9,23 @@
   gap: 8px;              
 }
 
-
-
 .wrapper input {
   background: rgb(255, 255, 255);
   border: 1px solid rgb(10, 10, 10);
- border-radius: 0px 50px 0px 50px;
+ border-radius: 50px;
  padding: 0.4rem 3rem 0.4rem 1rem;
   width: 100%;
+  height: 45px;
   
 }
 
+
 .wrapper button {
   background-color:#d89c19;
-border-radius: 0px 50px 0px 50px;
+border-radius: 50px;
   position: absolute;
    padding: 0.3rem 1rem 0.3rem 1rem;
-  right: 4px;            
+  right: 3px;            
   top: 50%;                
   transform: translateY(-50%);
   cursor: pointer;
@@ -33,6 +33,7 @@ border-radius: 0px 50px 0px 50px;
   align-items: center;
   justify-content: center;
   color: aliceblue;
+  height: 40px;
 }
 
 .wrapper button:hover {
@@ -47,7 +48,7 @@ border-radius: 0px 50px 0px 50px;
 .tab-bar {
   display: flex;
   gap: 1px;
-  margin: 50px auto 16px auto;
+  margin: 0 auto;
   max-width: 1200px;            
   width: 100%;
    border-radius: 12px  12px 0 0;   
@@ -73,21 +74,26 @@ border-radius: 0px 50px 0px 50px;
   color: white;
 }
 
-.card-container {
+.card-c {
   display: flex;
-  flex-wrap: wrap;
   gap: 12px;
-  justify-content: center;
+  justify-content: flex-end;
+   width: fit-content;      
+  flex-direction: row;      /* nebeneinander */
+  flex-wrap: nowrap;        /* kein Umbruch */
+   margin: 0;
+    padding: 8px;
 }
 
 .user-card {
   background: none;
    border: 1px solid #0f172a;
   border-radius: 12px;
-  padding: 16px;
   width: 200px;
   text-align: center;
   color:black !important;
+   padding: 16px 24px;
+    width: 300px;
 }
 
 
@@ -97,74 +103,164 @@ border-radius: 0px 50px 0px 50px;
   padding: 16px;                     
   max-width: 1200px;
    min-height: 200px;                    
-  margin: 0 auto;                   
-  margin-top: -15px;   
+  margin: 0px;                   
    background-color: #e0e7ff;
+    padding: 0px 0px 0px 0px; 
 
-}
-
-
-.navigation-buttons {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 24px auto 0 auto; 
-  max-width: 1200px;
-  width: 100%; 
-}
-
-.navigation-button {
-  display: flex;
-  align-items: center;
-  background: none;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 500;
-  font-size: 16px;
-  transition: background 0.2s ease;
-  padding: 12px 20px;
-  flex: 1;
-}
-
-.navigation-button:hover {
-  color:#3b82f6;
-}
-
-
-.navigation-button .left-icon {
-  margin-right: 8px;
-}
-
-.navigation-button .right-icon {
-  margin-left: 8px;
-}
-
-
-.navigation-button.right-align {
-  justify-content: flex-end;
-}
-
-.cancel-button{
-  padding: 8px 5px;
-  width: 100%;
-  width: auto;
-  background-color: #c9302c;
-  transition: background-color 0.3s ease;
-  flex: 1;
-  color: white;
-  border-radius: 50px;
-}
-
-.cancel-button:hover {
-  background-color: #8b201c;
 }
 
 
 .user-card p strong {
-  border-bottom: 2px solid black; 
+  border-bottom: 1px solid black; 
   padding-bottom: 4px;          
   display: inline-block;     
    margin-bottom: 12px;       
 }
+
+
+/* ========================== */
+/* Mobile*/
+/* ========================== */
+@media (max-width: 768px) {
+  .card-c {
+    flex-direction: column;
+    align-items: flex-end;   
+    width: 100%;
+    margin: 0;
+    padding: 8px;
+  }
+
+  .user-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: auto;
+    padding: 8px 12px;
+  }
+
+  .user-card p {
+    display: flex;
+    margin: 0;
+    height: auto;
+  }
+
+  .button-group {
+    display: flex;
+    justify-content: flex-end;
+    gap: 6px;
+    margin: 0;
+
+  }
+
+  .button-group button {
+   display: flex;
+    justify-content: flex-end;
+    gap: 4px;              
+    margin: 0;
+    padding: 6px 12px;
+  }
+
+.incoming-accept,.incoming-reject {
+     position: static;
+  }
+}
+
+/* ========================== */
+/* Accept-Remove-reject-button*/
+/* ========================== */
+.button-group {
+  display: flex;
+  margin: 16px;
+  gap: 8px;               
+  justify-content: center; 
+   padding: 0 12px;   
+}
+
+.button-group button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  color: white;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+   flex: none;     
+    padding: 8px 16px;  
+}
+
+.accept-button {
+  background-color: #22c55e;
+   padding: 8px 16px; 
+    width: auto;
+}
+
+.accept-button:hover {
+  background-color: #15803d; 
+}
+
+button.reject-cancel-remove-button {
+   background-color: #ef4444 !important;
+  color: white !important;
+  padding: 8px 16px !important;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+button.reject-cancel-remove-button:hover {
+ background-color: #b91c1c !important;
+}
+
+
+
+/* ========================== */
+/* incomming-icon*/
+/* ========================== */
+.incoming-accept{
+  color: #22c55e;
+  
+}
+.incoming-reject{
+  color: #ef4444;
+}
+.incoming-accept:hover {
+  color: rgba(34, 197, 94, 0.2);
+   border-radius: 20px;
+}
+
+.incoming-reject:hover {
+  color: rgba(239, 68, 68, 0.2);
+   border-radius: 20px;
+}
+
+/* ========================== */
+/* Dark-mode*/
+/* ========================== */
+body.dark .wrapper input {
+  background: rgb(0, 0, 0);
+  border: 0.1px solid rgb(255, 255, 255);
+  color: white;
+}
+
+
+body.dark .user-card, body.dark .tab-content-wrapper ,body.dark .tab-bar button {
+  background-color: #000000;
+  border: 0.1px solid rgb(255, 255, 255);
+}
+
+body.dark .tab-bar .active-tab {
+  background:  #3b82f6;
+  color: white;
+}
+
+body.dark .user-card p strong {
+   border-bottom: 1px solid rgb(255, 255, 255); 
+     
+
+}
+
 
