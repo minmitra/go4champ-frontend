@@ -51,6 +51,7 @@ const Navigation = () => {
     { to: '/myworkout', label: t('myWorkout.title') },
     { to: '/challenges', label: "Challenges" },
     { to: '/nutrition', label: t('nutrition') },
+    { to: '/faq', label: t('faq') },
     { label: darkMode ? <IoSunny size={20} /> : <IoIosMoon size={20} />, isToggle: true },
     { to: '/myprofile', label: <MdAccountCircle size={20} /> },
     { label: <RiLogoutBoxFill size={20} />, isLogout: true },
@@ -58,6 +59,7 @@ const Navigation = () => {
 
   const publicLinks: NavItem[] = [
     { to: '/', label: t('home') },
+    { to: '/faq', label: t('faq') },
     { label: darkMode ? <IoSunny size={20} /> : <IoIosMoon size={20} />, isToggle: true },
     { to: '/login', label: <RiLoginBoxFill size={20} /> },
   ];

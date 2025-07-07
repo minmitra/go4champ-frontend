@@ -21,7 +21,7 @@ import Workoutdetail from './pages/WorkoutDetail';
 import MyChallenges from './pages/MyChallenges';
 import CoachChat from './components/CoachChat';
 import Ranking from './pages/Ranking';
-
+import FAQ from './pages/FAQ';
 
 function App() {
   return (
@@ -46,6 +46,7 @@ function App() {
             <Route path="/verify-email" element={<VerifyEmail />} />
             <Route path="/email-check" element={<CheckEmailRegister />} />
             <Route path="/reset-password" element={<ResetPassword />} />
+            <Route path="/faq" element={<FAQ />} />
 
             {/* PRIVATE ROUTE, nach dem login */}
             <Route path='/mainpage' element={<PrivateRoute><Mainpage /></PrivateRoute>} />
