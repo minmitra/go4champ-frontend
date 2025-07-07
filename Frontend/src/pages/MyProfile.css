@@ -4,9 +4,6 @@
   padding: 20px;
 }
 
-
-
-
 label {
   display: block;
   margin-top: 15px;
@@ -17,15 +14,6 @@ label {
 .inline-edit {
   margin-top: 5px;
   margin-bottom: 10px;
-}
-
-.read-only {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #f4f4f4;
-  padding: 8px;
-  border-radius: 5px;
 }
 
 .edit-btn {
@@ -56,3 +44,16 @@ label {
 }
 
 
+input.editing, select.editing {
+  border: 2px solid #d89c19;
+  outline: none;
+  background-color: #f0f8ff;
+}
+
+input.readonly{
+ opacity: 60%;
+}
+
+input{
+  opacity: 70%;
+}

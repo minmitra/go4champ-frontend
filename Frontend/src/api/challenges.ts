@@ -85,7 +85,7 @@ export const acceptChallenge = async (challengeId:number): Promise<ChallengeResp
 };
 
 
-export const rejectChallenge = async (challengeId:number): Promise<ChallengeResponse> => {
+export const rejectChallenge = async (challengeId:number): Promise<void> => {
     const res = await fetchWithAuth(`http://localhost:8080/api/challenges/${challengeId}/reject`, {
         method: 'POST',
     });
@@ -93,11 +93,9 @@ export const rejectChallenge = async (challengeId:number): Promise<ChallengeResp
     if (!res.ok){
         throw new Error('Failed to reject challenges');
     }
-    return await res.json();
 };
 
 
-// Challenge abbrechen (z. B. vom Ersteller)
 export const cancelChallenge = async (challengeId: number): Promise<void> => {
     const res = await fetchWithAuth(`http://localhost:8080/api/challenges/${challengeId}/cancel`, {
         method: 'POST',
@@ -107,16 +105,14 @@ export const cancelChallenge = async (challengeId: number): Promise<void> => {
     }
 };
 
-// Ergebnis einreichen
 export const submitChallengeResult = async (
     challengeId: number,
     myScore: number,
-    opponentScore: number
 ): Promise<ChallengeResponse> => {
     const res = await fetchWithAuth(`http://localhost:8080/api/challenges/${challengeId}/submit-result`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ myScore, opponentScore }),
+        body: JSON.stringify({ resultValue: myScore}),
     });
     if (!res.ok) {
         throw new Error('Failed to submit result');

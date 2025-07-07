@@ -8,6 +8,11 @@ export const fetchWithAuth = (url: string, options: RequestInit = {}) =>{
         Authorization: `Bearer ${token}`,
         ...(hasBody ? {'Content-Type': 'application/json'} : {}),
     };
+    
+    if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+    };
+
     return fetch(url, {
         ...options,
         headers,
