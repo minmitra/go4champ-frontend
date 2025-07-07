@@ -59,6 +59,11 @@ p {
   font-weight: normal
 }
 
+strong {
+  color: black;
+}
+
+
 h1 {
   color: #03081a;
   padding-inline: 16px; 
@@ -205,6 +210,47 @@ footer {
 }
 
 
+
+/* ========================== */
+/* In page right-left*/
+/* ========================== */
+.navigation-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 24px auto 0 auto; 
+  max-width: 1200px;
+  width: 100%; 
+}
+
+.navigation-button {
+  display: flex;
+  align-items: center;
+  background: none;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 16px;
+  transition: background 0.2s ease;
+  padding: 12px 20px;
+  flex: 1;
+}
+
+
+.navigation-button .left-icon {
+  margin-right: 8px;
+}
+
+.navigation-button .right-icon {
+  margin-left: 8px;
+}
+
+
+.navigation-button.right-align {
+  justify-content: flex-end;
+}
+
 /* ========================== */
 /* DARK MODE OVERRIDES        */
 /* ========================== */
@@ -220,7 +266,8 @@ body.dark label,
 body.dark .card-text,
 body.dark .primary-button,
 body.dark a,
-body.dark .navlink-like {
+body.dark .navlink-like ,
+body.dark strong {
   color: white  !important;
 }
 
@@ -282,8 +329,12 @@ body.dark .primary-button:hover {
 
 
 
+
   body {
   padding-left: constant(safe-area-inset-left, 16px);
   padding-right: constant(safe-area-inset-right, 16px);
   }
+
+
+
 
