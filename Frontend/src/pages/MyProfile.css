@@ -29,20 +29,25 @@ label {
   font-size: 14px;
 }
 
+.equipment-options {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
 .equipment-options label {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  white-space: nowrap;
-  padding: 5px 10px;
-  background-color: #f9f9f948;
-  border-radius: 5px;
+  gap: 8px;
+  cursor: pointer;
 }
 
-.equipment-options label:hover {
-  background-color: #f9f9f9b9;
-}
+.equipment-options input.checkbox {
+  margin: 0;
+  flex-shrink: 0;
 
+}
 
 input.editing, select.editing {
   border: 2px solid #d89c19;

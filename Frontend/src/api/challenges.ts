@@ -112,29 +112,46 @@ export const submitChallengeResult = async (
     const res = await fetchWithAuth(`http://localhost:8080/api/challenges/${challengeId}/submit-result`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ resultValue: myScore}),
+        body: JSON.stringify({ result: myScore }), // 🟢 changed from resultValue to result
     });
     if (!res.ok) {
-        throw new Error('Failed to submit result');
+        const errorText = await res.text(); // Optional: get backend message
+        throw new Error(`Failed to submit result: ${errorText}`);
     }
     return await res.json();
 };
 
-// Sieger deklarieren (nur für FREE challenges)
-export const declareWinner = async (
-    challengeId: number,
-    winnerUsername: string
-): Promise<ChallengeResponse> => {
-    const res = await fetchWithAuth(`http://localhost:8080/api/challenges/${challengeId}/declare-winner`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ winnerUsername }),
-    });
-    if (!res.ok) {
-        throw new Error('Failed to declare winner');
-    }
-    return await res.json();
-};
+
+export async function declareWinner(
+  challengeId: number,
+  winnerUsername: "challenger" | "challenged" | "tie",
+  reason: string = ""
+) {
+  const token = localStorage.getItem("token");
+
+  const body = JSON.stringify({ winnerUsername, reason });
+  console.log("declareWinner body:", body);  // Zum Debuggen
+
+  const res = await fetch(`/api/challenges/${challengeId}/declare-winner`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body,
+  });
+
+  if (!res.ok) {
+    const errorText = await res.text();
+    console.error("declareWinner error response:", errorText);
+    throw new Error(`Fehler beim Senden des Siegers: ${errorText}`);
+  }
+
+  return await res.json();
+}
+
+
+
 
 export const getChallengeDetails = async (challengeId: number): Promise<ChallengeResponse> => {
     const res = await fetchWithAuth(`http://localhost:8080/api/challenges/${challengeId}`, {

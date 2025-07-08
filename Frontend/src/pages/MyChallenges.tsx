@@ -1,273 +1,306 @@
 import { useEffect, useState } from "react";
-import { getMyChallenges, rejectChallenge, acceptChallenge, createChallenge, type ChallengeResponse, type ChallengeType, cancelChallenge, submitChallengeResult, declareWinner } from "../api/challenges";
+import { 
+  getMyChallenges, 
+  rejectChallenge, 
+  acceptChallenge, 
+  createChallenge, 
+  type ChallengeResponse, 
+  type ChallengeType, 
+  cancelChallenge, 
+  submitChallengeResult, 
+  declareWinner 
+} from "../api/challenges";
 import { getFriend } from "../api/friendship";
 import { useNavigate } from "react-router-dom";
 import { FaAngleRight, FaAngleLeft } from 'react-icons/fa';
 
-
 const MyChallenges: React.FC = () => {
-    const [challenges, setChallenges] = useState<ChallengeResponse[]>([]);
-    const [friends, setFriends] = useState<string[]>([]);
-    const [opponentUsername, setOpponentUsername] = useState('');
-    const [title, setTitle] = useState("");
-    const [description, setDescription] = useState("");
-    const [type, setType] = useState<ChallengeType>("FREE");
-    const [targetValue, setTargetValue] = useState<number | undefined>(undefined);
-    const [targetUnit, setTargetUnit] = useState("");
-    const [deadline, setDeadline] = useState<string>("");
-    const [error, setError] = useState<string | null>(null);
-    const [success, setSuccess] = useState<string | null>(null);
-    const [resultValue, setResultValue] = useState("");
-    const [selectedWinner, setSelectedWinner] = useState("");
-    const navigate = useNavigate();
+  const [challenges, setChallenges] = useState<ChallengeResponse[]>([]);
+  const [friends, setFriends] = useState<string[]>([]);
+  const [opponentUsername, setOpponentUsername] = useState('');
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [type, setType] = useState<ChallengeType>("FREE");
+  const [deadline, setDeadline] = useState<string>("");
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
+  const [resultValues, setResultValues] = useState<Record<number, string>>({}); // für Ergebnis je Challenge
+  const navigate = useNavigate();
 
-    //DEBUG
-    const username = localStorage.getItem('username');
-    console.log("Current username:", username);
-    console.log("Current Opponent",opponentUsername);
+  //DEBUG
+  const username = localStorage.getItem('username');
+  console.log("Current username:", username);
+  console.log("Current Opponent", opponentUsername);
 
-    const loadData = async() => {
-        try{
-            const[challengeData, friendsData] = await Promise.all([
-                getMyChallenges(),
-                getFriend(),
-            ]);
-
-            console.log("Challenges from backend:", challengeData);
-
-            setChallenges(challengeData);
-            setFriends(friendsData.map((f: any) => f.username));
-        } 
-        catch (error) {
-            setError('Error loading the data');
-        }
-    };
-
-    useEffect(() => {
-        loadData();
-    }, []);
-
-    const handleCreateChallenge = async () => {
-        setError(null);
-        setSuccess(null);
-
-        if (!opponentUsername){
-            setError('Please choose an opponent.');
-            return;
-        }
-
-        if (!title.trim()) {
-            setError('Please enter a title.');
-            return;
-        }
-
-        // DEBUG
-        const challengePayload = {
-            challengedUsername: opponentUsername,
-            title,
-            description,
-            type,
-            targetValue,
-            targetUnit,
-            deadline: deadline ? new Date(deadline).toISOString() : undefined,
-        };
-        console.log("Sending challenge payload:", challengePayload);
-
-        try {
-            const newChallenge = await createChallenge({
-            challengedUsername: opponentUsername,
-            title,
-            description,
-            type,
-            targetValue,
-            targetUnit,
-            deadline: deadline ? new Date(deadline).toISOString() : undefined,
-        });
-
-        setChallenges([...challenges, newChallenge]);
-        setSuccess("Challenge was created.");
-
-        setOpponentUsername("");
-        setTitle("");
-        setDescription("");
-        setType("FREE");
-        setTargetValue(undefined);
-        setTargetUnit("");
-        setDeadline("");
-    } 
-    catch (error: any) {
-        setError(error.message || "Creating new Challenge failed");
-    }
+  const roleLabel = (role: string) => {
+  switch(role) {
+    case "CHALLENGER": return "Challenger";
+    case "CHALLENGED": return "Challenged";
+    default: return role;
+  }
 };
 
-    const handleAccept = async (id: number) => {
-        try {
-            const updated = await acceptChallenge(id);
-            setChallenges((prev) => prev.map((c) => (c.id === id ? updated : c)));
-        }
-        catch {
-            setError('Error accepting challenge');
-        }
+  const loadData = async () => {
+    try {
+      const [challengeData, friendsData] = await Promise.all([
+        getMyChallenges(),
+        getFriend(),
+      ]);
+
+      console.log("Challenges from backend:", challengeData);
+
+      setChallenges(challengeData);
+      setFriends(friendsData.map((f: any) => f.username));
+    } catch (error) {
+      setError('Error loading the data');
+    }
+  };
+
+  useEffect(() => {
+    loadData();
+  }, []);
+
+
+  useEffect(() => {
+  if (error || success) {
+    const timer = setTimeout(() => {
+      setError(null);
+      setSuccess(null);
+    }, 3000);
+    return () => clearTimeout(timer);
+  }
+}, [error, success]);
+
+
+  const handleCreateChallenge = async () => {
+    setError(null);
+    setSuccess(null);
+
+    if (!opponentUsername) {
+      setError('Please choose an opponent.');
+      return;
+    }
+
+    if (!title.trim()) {
+      setError('Please enter a title.');
+      return;
+    }
+
+    // DEBUG
+    const challengePayload = {
+      challengedUsername: opponentUsername,
+      title,
+      description,
+      type,
+      deadline: deadline ? new Date(deadline).toISOString() : undefined,
     };
+    console.log("Sending challenge payload:", challengePayload);
 
-    const handleReject = async (id: number) => {
-        try {
-            await rejectChallenge(id);
-            setChallenges((prev) => prev.filter((c) => (c.id !== id)));
-            setSuccess("Challenge rejected and removed.")
-        }
-        catch {
-            setError('Error rejecting challenge');
-        }
-    };
+    try {
+      const newChallenge = await createChallenge(challengePayload);
 
-    const handleCancel = async (id: number) => {
-        try {
-            await cancelChallenge(id);
-            setChallenges((prev) => prev.filter((c) => c.id !== id));
-            setSuccess("Challenge canceled.");
-        } 
-        catch {
-            setError("Error canceling challenge");
-        }
-    };
+      setChallenges([...challenges, newChallenge]);
+      setSuccess("Challenge was created.");
 
-    const handleSubmitResult = async (c: ChallengeResponse) => {
-        if (!resultValue || isNaN(parseFloat(resultValue))) {
-            setError("Please enter a valid numeric result");
-            return;
-        }
-        try {
-            const updated = await submitChallengeResult(c.id, parseFloat(resultValue));
-            setChallenges((prev) => prev.map((ch) => (ch.id === c.id ? updated : ch)));
-            setSuccess("Result submitted.");
-            setResultValue("");
-        } 
-        catch {
-            setError("Error submitting result");
-        }
-    };
+      setOpponentUsername("");
+      setTitle("");
+      setDescription("");
+      setType("FREE");
+      setDeadline("");
+    } catch (error: any) {
+      setError(error.message || "Creating new Challenge failed");
+    }
+  };
 
-    const handleDeclareWinner = async (c: ChallengeResponse) => {
-        try {
-            const updated = await declareWinner(c.id, selectedWinner);
-            setChallenges((prev) => prev.map((ch) => (ch.id === c.id ? updated : ch)));
-            setSuccess("Winner declared.");
-            setSelectedWinner("");
-        } 
-        catch {
-            setError("Error declaring winner");
-        }
-    };
+  const handleAccept = async (id: number) => {
+    try {
+      const updated = await acceptChallenge(id);
+      setChallenges((prev) => prev.map((c) => (c.id === id ? updated : c)));
+    } catch {
+      setError('Error accepting challenge');
+    }
+  };
+
+  const handleReject = async (id: number) => {
+    try {
+      await rejectChallenge(id);
+      setChallenges((prev) => prev.filter((c) => (c.id !== id)));
+      setSuccess("Challenge rejected and removed.")
+    } catch {
+      setError('Error rejecting challenge');
+    }
+  };
+
+  const handleCancel = async (id: number) => {
+    try {
+      await cancelChallenge(id);
+      setChallenges((prev) => prev.filter((c) => c.id !== id));
+      setSuccess("Challenge canceled.");
+    } catch {
+      setError("Error canceling challenge");
+    }
+  };
+
+  // Ergebnis einreichen für REPS und WEIGHT
+ const handleSubmitResult = async (c: ChallengeResponse) => {
+  const val = resultValues[c.id];
+  if (!val || isNaN(parseFloat(val))) {
+    setError("Please enter a valid numeric result");
+    return;
+  }
+
+  try {
+    const parsedVal = parseFloat(val);
+    const updated = await submitChallengeResult(c.id, parsedVal);
+
+    console.log("Backend response after submitting result:", updated); // <--- hier
+
+    setChallenges((prev) => prev.map((ch) => (ch.id === c.id ? updated : ch)));
+    setSuccess("Result submitted.");
+    setResultValues((prev) => ({ ...prev, [c.id]: '' }));
+  } catch (error: any) {
+    setError(error.message || "Error submitting result");
+  }
+};
 
 
-    return(
-      <main>
-        <div>
-            <h2>My Challenges</h2>
+  // Gewinner deklarieren für FREE
+  const handleDeclareWinner = async (c: ChallengeResponse, winnerUsername: "challenger" | "challenged" | "tie", reason: string="") => {
+  try {
+    console.log("Declare winner:", { id: c.id, winnerUsername, reason });
+    const updated = await declareWinner(c.id, winnerUsername, reason);
 
-            {/*Navigation zu MyFriends.tsx*/}
-            <button onClick={() => navigate("/my-friends")}>Go to Friends</button>
+    console.log("Declare-Winner Response:", updated);
 
-            {error && <div>{error}</div>}
-            {success && <div>{success}</div>}
+    setChallenges((prev) =>
+      prev.map((ch) => (ch.id === c.id ? updated : ch))
+    );
+    setSuccess("Sieger wurde bestimmt.");
+  } catch (error: any) {
+    setError(error.message || "Fehler beim Bestimmen des Siegers");
+  }
+};
 
-            <section>
-        <h3>Create new Challenge</h3>
-        <select value={opponentUsername} onChange={(e) => setOpponentUsername(e.target.value)}>
-          <option value="">Choose Friend</option>
-          {friends.map((f) => (
-            <option key={f} value={f}>
-              {f}
-            </option>
-          ))}
-        </select>
-        <input type="text" placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} />
-        <input type="text" placeholder="Description" value={description} onChange={(e) => setDescription(e.target.value)} />
-        <select value={type} onChange={(e) => setType(e.target.value as ChallengeType)}>
-          <option value="FREE">Free</option>
-          <option value="REPS">Reps</option>
-          <option value="WEIGHT">Weight</option>
-          <option value="TIME">Time</option>
-        </select>
-        <input
-          type="number"
-          placeholder="Target Unit"
-          value={targetValue}
-          onChange={(e) => setTargetValue(e.target.value ? parseFloat(e.target.value) : undefined)}
-        />
-        <input type="text" placeholder="Target Unit" value={targetUnit} onChange={(e) => setTargetUnit(e.target.value)} />
-        <input type="datetime-local" value={deadline} onChange={(e) => setDeadline(e.target.value)} />
-        <button onClick={handleCreateChallenge}>Send</button>
-      </section>
 
-      <section>
-        <h3>Open Challenges</h3>
-        {challenges.length === 0 ? (
-          <p>No Challenges.</p>
-        ) : (
-          challenges.map((c) => (
-            <div key={c.id}>
-              <p>
-                <strong>{c.challengerName}</strong> vs <strong>{c.challengedUsername}</strong>
-              </p>
-              <p>Title: {c.title ?? ""}</p>
-              <p>My Role: {c.myRole}</p>
-              <p>Status: <em>{c.status}</em></p>
-              
 
-              {c.status === "PENDING" &&
-                c.myRole === "CHALLENGED" && (
+  return (
+    <main>
+      <div>
+        <h2>My Challenges</h2>
+
+        {/*Navigation zu MyFriends.tsx*/}
+        <button onClick={() => navigate("/my-friends")}>Go to Friends</button>
+
+        {error && <div style={{ color: "red" }}>{error}</div>}
+        {success && <div style={{ color: "green" }}>{success}</div>}
+
+        <section>
+          <h3>Create new Challenge</h3>
+          <select value={opponentUsername} onChange={(e) => setOpponentUsername(e.target.value)}>
+            <option value="">Choose Friend</option>
+            {friends.map((f) => (
+              <option key={f} value={f}>
+                {f}
+              </option>
+            ))}
+          </select>
+          <input type="text" placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} />
+          <input type="text" placeholder="Description" value={description} onChange={(e) => setDescription(e.target.value)} />
+          <select value={type} onChange={(e) => setType(e.target.value as ChallengeType)}>
+            <option value="FREE">Free</option>
+            <option value="REPS">Reps</option>
+            <option value="WEIGHT">Weight</option>
+          </select>
+          <input type="datetime-local" value={deadline} onChange={(e) => setDeadline(e.target.value)} />
+          <button onClick={handleCreateChallenge}>Send</button>
+        </section>
+
+        <section>
+          <h3>Open Challenges</h3>
+          {challenges.length === 0 ? (
+            <p>No Challenges.</p>
+          ) : (
+            challenges.map((c) => (
+              <div key={c.id} style={{ border: "1px solid #ccc", padding: 8, marginBottom: 12 }}>
+                <p>
+                  <strong>{c.challengerUsername}</strong> vs <strong>{c.challengedUsername}</strong>
+                </p>
+                <p>Title: {c.title ?? ""}</p>
+                <p>My Role: {roleLabel(c.myRole)}</p>
+                <p>Status: <em>{c.status}</em></p>
+                <p>Type: {c.type}</p>
+
+                {/* Buttons für PENDING */}
+                {c.status === "PENDING" && c.myRole === "CHALLENGED" && (
                   <div>
                     <button onClick={() => handleAccept(c.id)}>Accept</button>
                     <button onClick={() => handleReject(c.id)}>Reject</button>
                   </div>
                 )}
 
-              {c.status === "PENDING" &&
-                c.myRole === "CHALLENGER" && (
+                {c.status === "PENDING" && c.myRole === "CHALLENGER" && (
                   <button onClick={() => handleCancel(c.id)}>Cancel</button>
                 )}
 
-              {c.status === "ACCEPTED" && (
-                <div>
-                  <input
-                    type="text"
-                    placeholder="Your result"
-                    value={resultValue}
-                    onChange={(e) => setResultValue(e.target.value)}
-                  />
-                  <button onClick={() => handleSubmitResult(c)}>Submit Result</button>
-                </div>
-              )}
+              
 
-              {c.type === "FREE" && c.status === "ACCEPTED" && (
-                <div>
-                  <select value={selectedWinner} onChange={(e) => setSelectedWinner(e.target.value)}>
-                    <option value="">Select Winner</option>
-                    <option value={c.challengerName}>{c.challengerName}</option>
-                    <option value={c.challengedName}>{c.challengedName}</option>
-                  </select>
-                  <button onClick={() => handleDeclareWinner(c)}>Declare Winner</button>
-                </div>
-              )}
-
-            </div>
-          ))
-        )}
-      </section>
-       <div className="navigation-buttons">
-              <button onClick={() => navigate('/my-friends')} className="navigation-button">
-                <FaAngleLeft className="left-icon" />Go to my friends
-              </button>
-              <button onClick={() => navigate('/ranking')} className="navigation-button right-align">
-                Go to ranking <FaAngleRight className="right-icon" />
-              </button>
-            </div>
+                {/* Gewinner manuell auswählen für FREE, nur wenn Gewinner noch nicht festgelegt */}
+                {c.status === "ACCEPTED" && (c.type === "REPS" || c.type === "WEIGHT") &&
+  (!((c.myRole === "CHALLENGER" && c.challengerSubmitted) ||
+     (c.myRole === "CHALLENGED" && c.challengedSubmitted))) && (
+    <div>
+      <input
+        type="number"
+        step="0.01"
+        placeholder={`Dein Ergebnis (${c.targetUnit || ""})`}
+        value={resultValues[c.id] ?? ""}
+        onChange={(e) =>
+          setResultValues((prev) => ({ ...prev, [c.id]: e.target.value }))
+        }
+      />
+      <button onClick={() => handleSubmitResult(c)}>Ergebnis einreichen</button>
     </div>
-</main>
+)}
 
+{(c.status === "ACCEPTED" && c.type === "FREE") && (username === c.challengerUsername) &&  
+  ((c.myRole === "CHALLENGER" && !c.challengerResult) ||
+   (c.myRole === "CHALLENGED" && !c.challengedResult)) && (
+    <div>
+      <p>Wer hat deiner Meinung nach gewonnen?</p>
+      <button onClick={() => handleDeclareWinner(c, "challenger", "")}>
+        Ich habe gewonnen
+      </button>
+      <button onClick={() => handleDeclareWinner(c, "challenged", "")}>
+        Gegner hat gewonnen
+      </button>
+      <button onClick={() => handleDeclareWinner(c, "tie", "")}>
+        Unentschieden
+      </button>
+    </div>
+)}
 
+                {/* Gewinner anzeigen, wenn vorhanden */}
+                {c.status === "COMPLETED" && (
+                  <p>
+                    Winner: <strong>{c.winnerName || "Not set"}</strong>
+                  </p>
+                )}
+
+              </div>
+            ))
+          )}
+        </section>
+
+        <div className="navigation-buttons">
+          <button onClick={() => navigate('/my-friends')} className="navigation-button">
+            <FaAngleLeft className="left-icon" />Go to my friends
+          </button>
+          <button onClick={() => navigate('/ranking')} className="navigation-button right-align">
+            Go to ranking <FaAngleRight className="right-icon" />
+          </button>
+        </div>
+      </div>
+    </main>
   );
 };
 
