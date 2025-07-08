@@ -164,10 +164,7 @@ const MyChallenges: React.FC = () => {
     return(
       <main>
         <div>
-            <h2>My Challenges</h2>
-
-            {/*Navigation zu MyFriends.tsx*/}
-            <button onClick={() => navigate("/my-friends")}>Go to Friends</button>
+            <h1>My Challenges</h1>
 
             {error && <div>{error}</div>}
             {success && <div>{success}</div>}

@@ -52,42 +52,18 @@ html, body {
 /* HEADINGS                   */
 /* ========================== */
 
-
-p {
- font-size: 16px;   
-  line-height: 1.5;
-  font-weight: normal
-}
-
 strong {
   color: black;
 }
 
 
 h1 {
-  color: #03081a;
-  padding-inline: 16px; 
-    margin-top: 0px;        
-  margin-bottom: 48px;      
- padding-left: 0;     
-  padding-right: 16px;   
   text-align: center;   
+   margin-bottom: 60px;
 }    
 
 
-h2 {
- text-align: left;                 
-  font-weight: bold;
-  font-size: 24px;
-  color: #172554;
-   padding-inline: 16px;
-}
 
-.h2-page {
-  padding: 20px;
-  font-family: sans-serif;
-  text-align: center;
-}
 
 /* ========================== */
 /* MAIN-INHALTSBEREICH        */
@@ -149,14 +125,16 @@ form {
   justify-content: center; 
   align-items: center;  
    margin-bottom: 12px;  
+   
 }
 
 
 
 
 .primary-button:hover {
-  background-color: #1d4ed8;
-  border: 1px solid #000000;
+  background-color: #3b82f6;
+  border: 2px solid #3b82f6 !important;
+  box-shadow: inset 0 0 0 2px white;
 }
 
 .primary-button:active {
@@ -221,12 +199,13 @@ footer {
   margin: 24px auto 0 auto; 
   max-width: 1200px;
   width: 100%; 
+  gap: 1px !important;
 }
 
 .navigation-button {
   display: flex;
   align-items: center;
-  background: none;
+  background: #0f172a;
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -235,6 +214,18 @@ footer {
   transition: background 0.2s ease;
   padding: 12px 20px;
   flex: 1;
+color: white;
+}
+
+.navigation-button:hover {
+  background: #3b82f6; 
+  color:rgb(255, 255, 255);
+}
+
+
+body.dark .navigation-button:hover {
+  background: #3b82f6; 
+  color:white;
 }
 
 
@@ -304,9 +295,6 @@ body.dark footer {
   color: white;
 }
 
-
-
-/* darkmode.css */
 body.dark .info-card {
   background-color: #000 !important;
   color: #fff !important;
@@ -320,6 +308,7 @@ body.dark .info-card {
   body.dark .primary-button {
   border: 1px solid #ffffff !important;
   background-color: #000000 !important;
+
 }
 
 body.dark .primary-button:hover {
@@ -327,6 +316,12 @@ body.dark .primary-button:hover {
   border-color: #1d4ed8 !important;
 }
 
+
+body.dark .navigation-button {
+  background: #000000;
+  border: 1px solid #ffffff;
+    color: white;
+}
 
 
 

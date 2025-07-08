@@ -70,7 +70,7 @@ const MyProfile = () => {
   return (
     <main>
       <div className="profile-container">
-        <h2>My Profile</h2>
+        <h1>My Profile</h1>
 
         <label>Username</label>
         <input 
@@ -174,12 +174,12 @@ const MyProfile = () => {
 
 
         {isEditing ? (
-          <div className="buttons">
-            <button onClick={handleSave}>Speichern</button>
-            <button onClick={handleCancel}>Abbrechen</button>
+          <div>
+            <button className="primary-button"onClick={handleSave}>Speichern</button>
+            <button className="primary-button"onClick={handleCancel}>Abbrechen</button>
           </div>
         ) : (
-          <button onClick={() => setIsEditing(true)}>✏️Edit</button>
+          <button className="primary-button" onClick={() => setIsEditing(true)}>✏️Edit</button>
         )}
       </div>
     </main>

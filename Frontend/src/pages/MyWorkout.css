@@ -55,22 +55,7 @@
   font-weight: 500;
 }
 
-.form-nav {
-  display: flex;
-  justify-content: space-between;
-  margin-top: auto;
-}
 
-.form-nav button {
-  padding: 10px 16px;
-  font-size: 1rem;
-  border: none;
-  border-radius: 50px;
-  cursor: pointer;
-  background-color: #172554;
-  color: white;
-  transition: background-color 0.3s ease, transform 0.1s ease;
-}
 
 .form-nav button:hover {
   background-color: #1d4ed8;

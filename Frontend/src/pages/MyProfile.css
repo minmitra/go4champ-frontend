@@ -31,23 +31,25 @@ label {
 
 .equipment-options label {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  gap: 8px; 
   white-space: nowrap;
   padding: 5px 10px;
-  background-color: #f9f9f948;
   border-radius: 5px;
+  cursor: pointer;
+  background-color:transparent;
+  width: 50px; 
 }
 
+
 .equipment-options label:hover {
-  background-color: #f9f9f9b9;
+  color: #d89c19;
 }
 
 
 input.editing, select.editing {
   border: 2px solid #d89c19;
   outline: none;
-  background-color: #f0f8ff;
 }
 
 input.readonly{
@@ -56,4 +58,13 @@ input.readonly{
 
 input{
   opacity: 70%;
+}
+
+
+
+body.dark input,
+body.dark select {
+  background-color: #000000; /* schwarz */
+  color: #ffffff;            /* weiß */
+  border: 1px solid #ffffff; /* weißer Rahmen */
 }

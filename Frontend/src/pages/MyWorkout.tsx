@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import avatar from '../assets/pixel.png';
 import { useNavigate } from 'react-router-dom';
 import { apiFetch } from '../api/fetchClient';
+import { FaAngleRight, FaAngleLeft } from 'react-icons/fa';
 
 interface GeneratedExercise {
   title: string;
@@ -346,29 +347,25 @@ const MyWorkout = () => {
                 )}
               </motion.div>
 
-              <div className="form-nav">
-                <div>
+              <div className="navigation-buttons">
                   {step === 0 ? (
-                    <button className=".form-nav button" onClick={() => setShowForm(false)} disabled={isGenerating}>
-                      Exit
+                    <button className="navigation-button" onClick={() => setShowForm(false)} disabled={isGenerating}>
+                       <FaAngleLeft className="left-icon" />Exit
                     </button>
                   ) : (
-                    <button className=".form-nav button" onClick={handleBack} disabled={isGenerating}>
-                      Back
+                    <button className="navigation-button" onClick={handleBack} disabled={isGenerating}>
+                       <FaAngleLeft className="left-icon" />Back
                     </button>
                   )}
-                </div>
-                <div>
                   {step < steps.length - 1 ? (
-                    <button className=".form-nav button" onClick={handleNext} disabled={isGenerating}>
-                      Next
+                    <button  className="navigation-button right-align" onClick={handleNext} disabled={isGenerating}>
+                     Next <FaAngleRight className="right-icon" />
                     </button>
                   ) : (
-                    <button className=".form-nav button" onClick={handleSubmit} disabled={isGenerating}>
+                    <button className="navigation-button" onClick={handleSubmit} disabled={isGenerating}>
                       {isGenerating ? 'Generating...' : (editingIndex !== null ? 'Save Changes' : 'Create Workout')}
                     </button>
                   )}
-                </div>
               </div>
             </div>
           )}
