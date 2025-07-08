@@ -55,6 +55,11 @@ border-radius: 50px;
   overflow: hidden;          
 }
 
+.tab-bar button:hover {
+  background:#0f172a; 
+  color:white;
+}
+
 
 .tab-bar button {
   flex: 1; 
@@ -257,6 +262,10 @@ body.dark .tab-bar .active-tab {
   color: white;
 }
 
+body.dark .tab-bar button:hover {
+  background:#3b82f6; 
+  color:white;
+}
 body.dark .user-card p strong {
    border-bottom: 1px solid rgb(255, 255, 255); 
      

@@ -101,8 +101,8 @@ const TodaysWorkout = () => {
     };
 
     return (
+        <main>
         <div className="workout-wrapper">
-            <div className="workout-page">
                 <h1>Today's Workout</h1>
                 <div className="workout-form">
                     {todaysWorkout ? (
@@ -127,7 +127,7 @@ const TodaysWorkout = () => {
                     )}
                 </div>
             </div>
-        </div>
+            </main>
     );
 };
 

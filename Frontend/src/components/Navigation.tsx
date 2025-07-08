@@ -4,7 +4,6 @@ import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { MdAccountCircle } from 'react-icons/md';
 import { IoSunny } from 'react-icons/io5';
 import { IoIosMoon } from 'react-icons/io';
-import { RiLogoutBoxFill, RiLoginBoxFill } from 'react-icons/ri';
 import { useAuthenti } from '../context/AuthentiContext';
 import { useTranslation } from 'react-i18next';
 
@@ -51,15 +50,17 @@ const Navigation = () => {
     { to: '/myworkout', label: t('myWorkout.title') },
     { to: '/challenges', label: "Challenges" },
     { to: '/nutrition', label: t('nutrition') },
+    { to: '/faq', label: t('faq') },
     { label: darkMode ? <IoSunny size={20} /> : <IoIosMoon size={20} />, isToggle: true },
     { to: '/myprofile', label: <MdAccountCircle size={20} /> },
-    { label: <RiLogoutBoxFill size={20} />, isLogout: true },
+    { label: "LOGOUT" , isLogout: true },
   ];
 
   const publicLinks: NavItem[] = [
     { to: '/', label: t('home') },
+    { to: '/faq', label: t('faq') },
     { label: darkMode ? <IoSunny size={20} /> : <IoIosMoon size={20} />, isToggle: true },
-    { to: '/login', label: <RiLoginBoxFill size={20} /> },
+    { to: '/login', label: "LOGIN" },
   ];
 
   const allLinks = isAuthenticated ? privateLinks : publicLinks;

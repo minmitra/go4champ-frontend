@@ -15,8 +15,8 @@ return (
               <button onClick={() => navigate('/my-friends')} className="navigation-button">
                 <FaAngleLeft className="left-icon" />Go to my friends
               </button>
-              <button onClick={() => navigate('/ranking')} className="navigation-button right-align">
-                Go to ranking <FaAngleRight className="right-icon" />
+              <button onClick={() => navigate('/challenges')} className="navigation-button right-align">
+                Go to challenges <FaAngleRight className="right-icon" />
               </button>
             </div>
     </div>

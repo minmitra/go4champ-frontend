@@ -182,14 +182,10 @@ const MyChallenges: React.FC = () => {
 };
 
 
-
-  return (
-    <main>
-      <div>
-        <h2>My Challenges</h2>
-
-        {/*Navigation zu MyFriends.tsx*/}
-        <button onClick={() => navigate("/my-friends")}>Go to Friends</button>
+    return(
+      <main>
+        <div>
+            <h1>My Challenges</h1>
 
         {error && <div style={{ color: "red" }}>{error}</div>}
         {success && <div style={{ color: "green" }}>{success}</div>}
