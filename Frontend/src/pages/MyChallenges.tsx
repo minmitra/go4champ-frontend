@@ -185,7 +185,11 @@ const MyChallenges: React.FC = () => {
     return(
       <main>
         <div>
-            <h1>My Challenges</h1>
+          <h1>My Challenges</h1>
+
+          <button onClick={() => navigate('/ranking-overview')} className="navigation-button">
+          Ranks
+          </button>
 
         {error && <div style={{ color: "red" }}>{error}</div>}
         {success && <div style={{ color: "green" }}>{success}</div>}
