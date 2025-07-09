@@ -2,14 +2,15 @@
   position: fixed;
   bottom: 34px;
   right: 50px;
-  width: 80px;
-  height: 80px;
-  background-color: white;
+  width: 48px;
+  height: 48px;
+  background-color: none ;
   border-radius: 50%;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   padding: 8px;
   cursor: pointer;
   z-index: 1000;
+    border: 2px solid #000000 ;
 }
 .chat-float-button img {
   width: 100%;
@@ -108,4 +109,9 @@
   0% { opacity: 0.3; }
   50% { opacity: 1; }
   100% { opacity: 0.3; }
+}
+
+
+body.dark .chat-float-button {
+      background-color: #ffffff ;
 }

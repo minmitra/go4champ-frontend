@@ -1,0 +1,44 @@
+.createworkout-button {
+  display: block;
+  width: 100%;
+  max-width: 400px;
+  margin: 16px auto 20px;
+  padding: 10px 16px;
+  font-size: 1rem;
+  font-weight: bold;
+  text-align: center;
+  background-color: #172554;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.createworkout-button:hover {
+  background-color: #1d4ed8;
+}
+
+
+.todaysworkout-card {
+  border-radius: 20px;
+  text-align: left;
+  transition: transform 0.1s ease;
+  cursor: pointer;
+ margin: 16px auto;
+   box-sizing: border-box;
+  width: 100% ;
+  max-width: none ;
+    border: 2px solid #ccc !important; 
+  background-color: none;
+  padding: 32px;
+}
+
+body.dark .todaysworkout-card {
+  background-color: #273449;
+}
+
+
+.todaysworkout-h3 {
+    text-align: center;
+}
+
