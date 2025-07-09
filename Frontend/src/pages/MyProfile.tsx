@@ -161,7 +161,7 @@ const MyProfile = () => {
         <div className="equipment-options">
           {Object.entries(availableEquipmentMap).map(([key, label]) => (
             <label key={key}>
-              <input className='checkbox'
+              <input
                 type="checkbox"
                 checked={formData.availableEquipment.includes(key)}
                 onChange={() => handleEquipmentChange(key)}

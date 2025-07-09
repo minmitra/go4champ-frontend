@@ -1,9 +1,4 @@
 
-.home-container {
-  width: 100%;
-  overflow-x: hidden;
-}
-
 /* ========================== */
 /* HERO-BEREICH               */
 /* ========================== */
@@ -29,7 +24,6 @@
   left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
-  color: white;
   z-index: 2;
   padding: 20px;
   width: 100%;
@@ -119,4 +113,10 @@ padding-right: 40px;
 .info-card.news-card {    
   border: 2px solid #ccc !important;         
   box-shadow: none;               
+}
+
+
+.card-link {
+  text-decoration: none;
+   color: inherit; 
 }

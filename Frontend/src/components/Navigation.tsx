@@ -6,6 +6,8 @@ import { IoSunny } from 'react-icons/io5';
 import { IoIosMoon } from 'react-icons/io';
 import { useAuthenti } from '../context/AuthentiContext';
 import { useTranslation } from 'react-i18next';
+import { FaHome } from "react-icons/fa";
+import { FaQuestionCircle } from "react-icons/fa";
 
 type NavItem = {
   to?: string;
@@ -45,21 +47,22 @@ const Navigation = () => {
   };
 
   const privateLinks: NavItem[] = [
-    { to: '/mainpage', label: t('home') },
+     { to: '/workouts', label: "Workouts" },
     { to: '/todaysworkout', label: t('todaysWorkout') },
     { to: '/myworkout', label: t('myWorkout.title') },
     { to: '/challenges', label: "Challenges" },
     { to: '/nutrition', label: t('nutrition') },
-    { to: '/faq', label: t('faq') },
     { label: darkMode ? <IoSunny size={20} /> : <IoIosMoon size={20} />, isToggle: true },
+     { to: '/faq', label:<FaQuestionCircle size={20} /> },
     { to: '/myprofile', label: <MdAccountCircle size={20} /> },
+         { to: '/mainpage', label: <FaHome size={20}  /> },
     { label: "LOGOUT" , isLogout: true },
   ];
 
   const publicLinks: NavItem[] = [
-    { to: '/', label: t('home') },
-    { to: '/faq', label: t('faq') },
+    { to: '/faq', label: <FaQuestionCircle size={20} /> },
     { label: darkMode ? <IoSunny size={20} /> : <IoIosMoon size={20} />, isToggle: true },
+     { to: '/', label:  <FaHome size={20} /> },
     { to: '/login', label: "LOGIN" },
   ];
 
@@ -107,7 +110,7 @@ const Navigation = () => {
 
   return (
     <nav ref={menuRef}> 
-      <Link to="/" className="title" tabIndex={0}>
+      <Link to={isAuthenticated ? "/mainpage" : "/"} className="title" tabIndex={0}>
         Go4Champion
       </Link>
 

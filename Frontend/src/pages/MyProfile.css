@@ -29,13 +29,6 @@ label {
   font-size: 14px;
 }
 
-.equipment-options {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 8px;
-}
-
 .equipment-options label {
   display: flex;
   align-items: center;
@@ -53,7 +46,6 @@ label {
   color: #d89c19;
 }
 
-
 input.editing, select.editing {
   border: 2px solid #d89c19;
   outline: none;
@@ -67,11 +59,20 @@ input{
   opacity: 70%;
 }
 
-
-
 body.dark input,
 body.dark select {
-  background-color: #000000; /* schwarz */
-  color: #ffffff;            /* weiß */
-  border: 1px solid #ffffff; /* weißer Rahmen */
+    background-color: #1e293b;   
+  color: #e5e7eb;              
+  border: 1px solid #334155;   
+}
+
+body.dark input.editing,
+body.dark select.editing,
+body.dark input:focus,
+body.dark select:focus {
+  border: 2px solid #d89c19 !important; 
+  outline: none;
+}
+body.dark .equipment-options label:hover {
+  color: #d89c19 !important;
 }

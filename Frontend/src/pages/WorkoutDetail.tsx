@@ -43,7 +43,7 @@ const WorkoutDetail = () => {
       } else {
         setIsRunning(false); 
         alert('Congratulations! You completed the workout!');
-        navigate('/todaysworkout'); 
+        navigate('/workouts'); 
       }
     }
   };
@@ -116,7 +116,7 @@ const WorkoutDetail = () => {
       else {
         setIsRunning(false);
         alert('Congratulations! You just completed the workout!');
-        navigate('/todaysworkout');
+        navigate('/workouts');
       }
     }
   };
@@ -126,12 +126,12 @@ const WorkoutDetail = () => {
       clearTimeout(timerIntervalRef.current);
       timerIntervalRef.current = null;
     }
-    navigate('/todaysworkout');
+    navigate('/workouts');
   };
 
   const promptExitWorkout = () => {
     if (!workoutStarted) {
-      navigate('/todaysworkout');
+      navigate('/workouts');
     } else {
       setIsRunning(false);
       setShowExitConfirmation(true);
@@ -148,7 +148,7 @@ const WorkoutDetail = () => {
     return (
       <div className="workout-detail-container">
         <h2>No exercises found for this workout.</h2>
-        <button className="workout-button" onClick={() => navigate('/todaysworkout')}>Go back</button>
+        <button className="workout-button" onClick={() => navigate('/workouts')}>Go back</button>
       </div>
     );
   }
@@ -156,7 +156,9 @@ const WorkoutDetail = () => {
   const currentExercise = exercises[currentExerciseIndex];
 
   return (
-    <div className="workout-detail-container">
+    <main>
+    <div >
+      
       <h1>{decodeURIComponent(workoutName || 'Workout Details')}</h1>
 
       {!workoutStarted ? (
@@ -167,10 +169,10 @@ const WorkoutDetail = () => {
             Total estimated time: {exercises.reduce((sum, ex) => sum + ex.duration, 0)} minutes.
           </p>
           <div className="initial-buttons">
-            <button className="workout-button primary-button" onClick={startWorkout}>
-              Start Workout
+            <button className="primary2-button" onClick={startWorkout}>
+              Start
             </button>
-            <button className='workout-button back-button-inline' onClick={() => navigate('/todaysworkout')} >
+            <button className='workout-button back-button-inline' onClick={() => navigate('/workouts')} >
               Back
             </button>
           </div>
@@ -213,10 +215,10 @@ const WorkoutDetail = () => {
             )}
           </div>
           <div className="workout-controls">
-            <button className="workout-button play-pause-button" onClick={toggleStartPause} disabled={currentExerciseIndex === exercises.length - 1 && timerSeconds === 0 && !isRunning}>
+            <button className="primary-button" onClick={toggleStartPause} disabled={currentExerciseIndex === exercises.length - 1 && timerSeconds === 0 && !isRunning}>
               {isRunning ? 'Pause' : 'Start Exercise'} 
             </button>
-            <button className="workout-button skip-exercise-button" onClick={handleSkipExercise}>
+            <button className="primary-button" onClick={handleSkipExercise}>
               Skip Exercise
             </button>               
           </div>
@@ -241,6 +243,7 @@ const WorkoutDetail = () => {
         </div>
       )}
     </div>
+    </main>
   );
 };
 

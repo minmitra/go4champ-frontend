@@ -79,7 +79,6 @@ button {
   border-radius: 10px;
   padding: 12px 24px;
   font-size: 1rem;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
   cursor: pointer;
   transition: background-color 0.2s ease;
 }
@@ -123,9 +122,7 @@ button {
 }
 
 .modal-content p {
-  font-size: 1.2rem;
   margin-bottom: 20px;
-  color: #333;
 }
 .modal-buttons {
   display: flex;
@@ -135,18 +132,23 @@ button {
 }
 
 .modal-buttons .exit-button {
-  background-color: #e53935;
+  background-color: #c32a27;
   color: white;
 }
 
 .modal-buttons .exit-button:hover {
-  background-color: #b71c1c;
+  background-color: #ec1717;
 }
 
 .modal-buttons button:not(.exit-button) {
   background-color: #3e6449;
   color: white;
 }
+
+.modal-buttons button:not(.exit-button):hover {
+  background-color: #5caa72;
+}
+
 
 
 /* NEUE STILE FÜR DIE PAUSE */

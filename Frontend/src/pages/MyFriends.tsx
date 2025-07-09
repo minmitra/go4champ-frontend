@@ -138,7 +138,6 @@ const MyFriends = () => {
   return (
     <main>
       <h1>My Friends</h1>
-
       <div className="wrapper">
         <input
           type="text"
@@ -212,10 +211,10 @@ const MyFriends = () => {
 
       <div className="navigation-buttons">
         <button onClick={() => navigate('/challenges')} className="navigation-button">
-          <FaAngleLeft className="left-icon" /><p>Go to challenges</p>
+          <FaAngleLeft className="left-icon" /><p>Challenges</p>
         </button>
         <button onClick={() => navigate('/ranking')} className="navigation-button right-align">
-          <p>Go to ranking </p><FaAngleRight className="right-icon" />
+          <p>Ranking </p><FaAngleRight className="right-icon" />
         </button>
       </div>
     </main>

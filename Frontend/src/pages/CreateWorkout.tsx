@@ -1,5 +1,6 @@
+import './Workouts.css';
 import React, { useEffect, useState } from 'react';
-import './MyWorkout.css';
+import './CreateWorkout.css';
 import { motion } from 'framer-motion';
 import avatar from '../assets/pixel.png';
 import { useNavigate } from 'react-router-dom';
@@ -29,9 +30,10 @@ const defaultDummyExercises: GeneratedExercise[] = [
   { title: 'Default Plank', duration: 60, difficulty: 4.0, typeString: 'Indoor', description: 'Hold plank for core strength.' }
 ];
 
-const MyWorkout = () => {
+const CreateWorkout = () => {
+    
   const navigate = useNavigate();
-  const [showForm, setShowForm] = useState(false);
+  const [showForm, setShowForm] = useState(true);
   const [step, setStep] = useState(0);
   const [formData, setFormData] = useState<WorkoutData>({
     bodyPart: '',
@@ -74,31 +76,6 @@ const MyWorkout = () => {
 
   const handleNext = () => setStep(prev => Math.min(prev + 1, steps.length - 1));
   const handleBack = () => setStep(prev => Math.max(prev - 1, 0));
-
-  const handleEditClick = (index: number) => {
-    setFormData(savedWorkouts[index]);
-    setStep(0);
-    setShowForm(true);
-    setEditingIndex(index);
-  };
-
-  const handleStartClick = (index: number) => {
-    const workout = savedWorkouts[index];
-    if (!workout.workoutName) return;
-    navigate(`/workoutdetail/${encodeURIComponent(workout.workoutName)}`, {
-      state: { exercises: workout.generatedExercises || defaultDummyExercises }
-    });
-  };
-
-  const handleDeleteClick = (index: number) => {
-    setSavedWorkouts(prev => prev.filter((_, i) => i !== index));
-    if (editingIndex === index) {
-      setShowForm(false);
-      setEditingIndex(null);
-      setFormData({ bodyPart: '', exercises: '', location: '', workoutName: '' });
-      setStep(0);
-    }
-  };
 
   const handleSubmit = async () => {
   if (!formData.workoutName.trim()) {
@@ -185,91 +162,16 @@ const MyWorkout = () => {
     setIsGenerating(false);
   }
 };
-
-
-  // const handleSubmit = async () => {
-  //   if (!formData.workoutName.trim()) return;
-  //   if (editingIndex !== null) {
-  //     setSavedWorkouts(prev => {
-  //       const copy = [...prev];
-  //       copy[editingIndex] = formData;
-  //       return copy;
-  //     });
-  //     setEditingIndex(null);
-  //     setFormData({ bodyPart: '', exercises: '', location: '', workoutName: '' });
-  //     setStep(0);
-  //     setShowForm(false);
-  //     return;
-  //   }
-  //   setIsGenerating(true);
-  //   const token = localStorage.getItem('token');
-  //   if (!token) {
-  //     setIsGenerating(false);
-  //     return;
-  //   }
-  //   try {
-  //     const prompt = `Create a ${formData.exercises} exercises ${formData.bodyPart} workout plan for ${formData.location}.`;
-  //     const response = await apiFetch<{ antwort: string; plan: string }>(`/ai/chat-create-plan`, {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //         Authorization: `Bearer ${token}`
-  //       },
-  //       body: JSON.stringify({ prompt })
-  //     });
-  //     let parsedExercises: GeneratedExercise[] = [];
-  //     if (response.antwort) {
-  //       const jsonMatch = response.antwort.match(/\[\s*\{.*?\}\s*(?:,\s*\{.*?\}\s*)*\]/s);
-  //       if (jsonMatch && jsonMatch[0]) {
-  //         parsedExercises = JSON.parse(jsonMatch[0]);
-  //       } else {
-  //         parsedExercises = defaultDummyExercises;
-  //       }
-  //     } else {
-  //       parsedExercises = defaultDummyExercises;
-  //     }
-  //     const newWorkout: WorkoutData = {
-  //       ...formData,
-  //       generatedExercises: parsedExercises,
-  //       rawAiResponse: response.antwort
-  //     };
-  //     setSavedWorkouts(prev => [newWorkout, ...prev]);
-  //     setFormData({ bodyPart: '', exercises: '', location: '', workoutName: '' });
-  //     setStep(0);
-  //     setShowForm(false);
-  //   } catch {
-  //     // handle error
-  //   } finally {
-  //     setIsGenerating(false);
-  //   }
-  // };
-
-  return (
+return (
     <main>
       <div>
         <div>
-          <h2>Create your workout</h2>
-
+          <h1>Create your workout</h1>
           {!showForm && (
-            <button className="primary-button" onClick={() => setShowForm(true)}>
-              ✚ Create New Workout
-            </button>
-          )}
-
-          {!showForm && savedWorkouts.length > 0 && (
-            <ul className="todo-list">
-              {savedWorkouts.map((workout, index) => (
-                <li key={index} className="workout-item">
-                  <div className="workout-info" onClick={() => handleEditClick(index)} style={{ cursor: 'pointer' }}>
-                    <strong>{workout.workoutName}</strong> — {workout.bodyPart}, {workout.exercises} exercises, at {workout.location}
-                  </div>
-                  <button onClick={() => handleStartClick(index)} className="start-button">▶️ Start</button>
-                  <button onClick={() => handleDeleteClick(index)} className="delete-button">🗑️ Delete</button>
-                </li>
-              ))}
-            </ul>
-          )}
-
+  <button onClick={() => setShowForm(true)}>
+    Start Creating Workout
+  </button>
+)}
           {showForm && (
             <div >
               <div className="question-header">
@@ -349,9 +251,13 @@ const MyWorkout = () => {
 
               <div className="navigation-buttons">
                   {step === 0 ? (
-                    <button className="navigation-button" onClick={() => setShowForm(false)} disabled={isGenerating}>
-                       <FaAngleLeft className="left-icon" />Exit
-                    </button>
+                  <button
+                        className="navigation-button"
+                        onClick={() => navigate('/workouts')}
+                        disabled={isGenerating}
+                            >   
+                        <FaAngleLeft className="left-icon" />Exit
+                 </button>
                   ) : (
                     <button className="navigation-button" onClick={handleBack} disabled={isGenerating}>
                        <FaAngleLeft className="left-icon" />Back
@@ -375,5 +281,5 @@ const MyWorkout = () => {
   );
 };
 
-export default MyWorkout;
+export default CreateWorkout;
 

@@ -14,7 +14,7 @@ h3 {
   flex-direction: row;
   justify-content: center;
   gap: 40px;
-  padding: 0 40px;
+
   flex-wrap: wrap;
   font-family: 'Segoe UI', sans-serif;
   color: #333;
@@ -47,7 +47,6 @@ h3 {
 
 .nutrition-sidebar button.selected {
   background-color: #cdd8f0;
-  font-weight: bold;
 }
 
 .nutrition-sidebar button:hover {
@@ -68,7 +67,7 @@ h3 {
   height: 150px;
   padding: 16px;
   font-size: 1rem;
-  border: 1px solid #ccc;
+  border: 2px solid #ccc;
   border-radius: 10px;
   margin-bottom: 20px;
   resize: vertical;
@@ -77,30 +76,18 @@ h3 {
 }
 
 
-/* .primary-button {
-  background-color: #0a1d45;
-  color: white;
-  border: none;
-  padding: 10px 18px;
-  font-size: 1rem;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  width: 100%;
-}
-
-.primary-button:hover {
-  background-color: #06112f;
-} */
-
 .my-recipes {
   margin: 40px;
 }
 
+.recipes-h2{
+  margin-top: 40px;
+}
+
 .recipe-card {
   background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 10px;
+  border: 2px solid #ccc; 
+  border-radius: 20px;
   padding: 20px;
   margin-bottom: 30px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
@@ -187,4 +174,42 @@ h2{
 
 .delete-btn:hover {
   color: darkred;
+}
+
+
+body.dark .nutrition-container {
+  color: #e5e7eb;
+}
+
+body.dark .nutrition-sidebar h2,
+body.dark .recipe-card h3,
+body.dark .recipe-card summary {
+  color: #e5e7eb;
+}
+
+body.dark .nutrition-sidebar button {
+  background-color: #1f2937;
+  color: #e5e7eb;
+}
+
+body.dark .nutrition-sidebar button.selected {
+  background-color: #1d4ed8;
+}
+
+body.dark .nutrition-sidebar button:hover {
+  background-color: #1d4ed8;
+}
+
+
+body.dark .recipe-card {
+  background-color: #273449;   
+  border: 1px solid #334155;   
+  color: #e5e7eb;
+}
+
+
+body.dark .input-box {
+  background-color: #1e293b;   
+  color: #e5e7eb;              
+  border: 1px solid #334155;   
 }

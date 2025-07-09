@@ -22,8 +22,27 @@ import MyChallenges from './pages/MyChallenges';
 import CoachChat from './components/CoachChat';
 import Ranking from './pages/Ranking';
 import FAQ from './pages/FAQ';
+import { useLocation } from 'react-router-dom';
+import Workouts from './pages/Workouts';
+import CreateWorkout from './pages/CreateWorkout';
+
 
 function App() {
+  const privateRoutes = [
+    '/mainpage',
+    '/nutrition',
+    '/myworkout',
+    '/my-friends',
+    '/challenges',
+    '/myprofile',
+    '/todaysworkout',
+    '/ranking',
+  ];
+
+  const shouldShowCoachChat =
+    privateRoutes.includes(location.pathname) ||
+    location.pathname.startsWith('/workoutdetail/');
+
   return (
     <div style={{ 
       display: 'flex', 
@@ -50,6 +69,8 @@ function App() {
 
             {/* PRIVATE ROUTE, nach dem login */}
             <Route path='/mainpage' element={<PrivateRoute><Mainpage /></PrivateRoute>} />
+            <Route path="/workouts" element={<PrivateRoute><Workouts/></PrivateRoute>} />
+             <Route path="/CreateWorkout" element={<PrivateRoute><CreateWorkout /></PrivateRoute>} />
             <Route path="/nutrition" element={<PrivateRoute><Nutrition /></PrivateRoute>} />
             <Route path="/myworkout" element={<PrivateRoute><MyWorkout /></PrivateRoute>}/>
             <Route path="/my-friends" element={<PrivateRoute><MyFriends/></PrivateRoute>}/>
@@ -62,7 +83,7 @@ function App() {
           </Routes>
         </div>
         <Footer />
-      <CoachChat />
+       {shouldShowCoachChat && <CoachChat />}
     </div>
   );
 }

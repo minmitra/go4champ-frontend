@@ -42,13 +42,14 @@ const Nutrition = () => {
 
   return (
     <main>
+
       <div className="nutrition-header">
         <h1>Nutrition</h1>
       </div>
 
       <div className="nutrition-container">
         <div className="nutrition-sidebar">
-          <h2>Meal Type</h2>
+          <h2 className='h2-nonetop '>Meal Type</h2>
           {['Breakfast', 'Lunch', 'Dinner'].map(type => (
             <button
               key={type}
@@ -59,7 +60,7 @@ const Nutrition = () => {
             </button>
           ))}
 
-          <h2>Diet</h2>
+          <h2 className='h2-nonetop'> Diet</h2>
           {['Vegan', 'Vegetarian', 'Low Carb', 'High Protein'].map(diet => (
             <button
               key={diet}
@@ -86,8 +87,8 @@ const Nutrition = () => {
       </div>
 
       {recipes.length > 0 && (
-        <div className="my-recipes">
-          <h2>My Recipes</h2>
+        <div className="nutrition-input">
+          <h2 className='recipes-h2'>My Recipes</h2>
           {recipes.map((recipe, idx) => (
             <div key={idx} className="recipe-card">
               <div className="recipe-header">

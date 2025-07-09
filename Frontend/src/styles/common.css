@@ -28,14 +28,14 @@ html, body {
 .info-card {
   border-radius: 20px;
   text-align: center;
-  transition: transform 0.1s ease;
+ transition: transform 0.1s ease;
   cursor: pointer;
  margin: 16px auto;
    box-sizing: border-box;
   width: calc(100% - 32px);
   max-width: none ;
-  background-color: rgb(255, 255, 255) !important;
-  border: 2px solid #ccc !important; 
+    border: 2px solid #ccc !important; 
+  background-color: none;
   padding: 32px;
 
 }
@@ -60,9 +60,21 @@ strong {
 h1 {
   text-align: center;   
    margin-bottom: 60px;
+
+}    
+h2 {
+   margin-top: 70px !important;
+   margin-bottom: 30px !important;
 }    
 
+.h2-nonetop {
+   margin-top: 0px !important;
+   margin-bottom: 30px !important;
+}    
 
+h3 {
+   margin-bottom: 15px;
+}    
 
 
 /* ========================== */
@@ -70,10 +82,11 @@ h1 {
 /* ========================== */
 main {
 display: block;
- padding: 80px 40px 20px 40px;
-  max-width: 100%;
+  max-width: 90%;
   margin: 0 auto;
   box-sizing: border-box;
+  margin: 5rem auto;
+   padding: 0 40px;
 }
 
 /* ========================== */
@@ -86,6 +99,8 @@ display: block;
 body.dark .navlink-like {
   color: #ddd;
 }
+
+
 
 /* ========================== */
 /* FORMULARE                  */
@@ -125,12 +140,7 @@ form {
   justify-content: center; 
   align-items: center;  
    margin-bottom: 12px;  
-   
 }
-
-
-
-
 .primary-button:hover {
   background-color: #3b82f6;
   border: 2px solid #3b82f6 !important;
@@ -143,6 +153,38 @@ form {
 }
 
 
+.primary2-button {
+  font-weight: normal;
+  width: 100%;
+  margin: 12px auto 0;
+  padding: 14px 20px;
+  font-size: 16px;
+  text-align: center;
+  background-color: #172554;
+  color: white;
+   border: 1px solid #000000 !important;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  height: 38px;
+   display: flex; 
+  justify-content: center; 
+  align-items: center;  
+   margin-bottom: 12px;  
+   max-width: 320px;    
+}
+
+
+.primary2-button:hover {
+  background-color: #3b82f6;
+  border: 2px solid #3b82f6 !important;
+  box-shadow: inset 0 0 0 2px white;
+}
+
+.primary2-button:active {
+   border: 1px solid #000000;
+  transform: scale(0.98);
+}
 
 /* ========================== */
 /* VALIDIERUNGSZUSTÄNDE       */
@@ -205,7 +247,7 @@ footer {
 .navigation-button {
   display: flex;
   align-items: center;
-  background: #0f172a;
+  background: none;
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -214,18 +256,16 @@ footer {
   transition: background 0.2s ease;
   padding: 12px 20px;
   flex: 1;
-color: white;
+color: rgb(0, 0, 0);
 }
 
 .navigation-button:hover {
-  background: #3b82f6; 
-  color:rgb(255, 255, 255);
+  color:#3b82f6;
 }
 
 
 body.dark .navigation-button:hover {
-  background: #3b82f6; 
-  color:white;
+  color:#3b82f6;
 }
 
 
@@ -263,9 +303,11 @@ body.dark strong {
 }
 
 body.dark {
-  background-color: #021a55;
+  background-color: #0d0d0e;
   color: #ffffff;
 }
+
+
 body.dark form {
   background: #000000 !important;  
 }
@@ -318,11 +360,9 @@ body.dark .primary-button:hover {
 
 
 body.dark .navigation-button {
-  background: #000000;
-  border: 1px solid #ffffff;
+  background: none;
     color: white;
 }
-
 
 
   body {

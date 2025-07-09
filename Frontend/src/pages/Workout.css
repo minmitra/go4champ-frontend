@@ -20,13 +20,25 @@
 }
 
 .todo-list li {
+  display: flex; 
+  align-items: center; 
+  justify-content: space-between; 
   margin-bottom: 10px;
-  padding: 10px;
+  margin-top: 10px;
+  padding: 16px;
   background-color: #eaf4ea;
-  border-radius: 66px; 
+  border-radius: 20px;
   color: #2e7d32;
   font-weight: 500;
 }
+
+
+.todo-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 
 .form-nav {
   display: flex;
@@ -118,6 +130,7 @@
   margin-bottom: 10px;
   color: white; 
   font-weight: 500;
+   border-radius: 10px;
 }
 
 .workout-info {
@@ -129,6 +142,7 @@
   min-width: 40px;
   width: auto;
   font-size: 1rem;
+  border-radius: 20px;
 }
 
 .start-button:hover {
@@ -142,6 +156,7 @@
   background-color: #c9302c;
   transition: background-color 0.3s ease;
   margin-left: 8px;
+  border-radius: 20px;
 }
 
 .delete-button:hover {
