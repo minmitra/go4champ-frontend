@@ -47,10 +47,9 @@ const Navigation = () => {
   };
 
   const privateLinks: NavItem[] = [
-     { to: '/workouts', label: "Workouts" },
-    { to: '/todaysworkout', label: t('todaysWorkout') },
-    { to: '/myworkout', label: t('myWorkout.title') },
+     { to: '/workouts', label: "My Workouts" },
     { to: '/challenges', label: "Challenges" },
+     { to: '/mycoach', label: "My Coach" },
     { to: '/nutrition', label: t('nutrition') },
     { label: darkMode ? <IoSunny size={20} /> : <IoIosMoon size={20} />, isToggle: true },
      { to: '/faq', label:<FaQuestionCircle size={20} /> },

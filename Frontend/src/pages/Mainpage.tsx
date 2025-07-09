@@ -80,10 +80,10 @@ const today = new Intl.DateTimeFormat(i18n.language, {
             </p>
           </div>
 
-          {/* Gamification */}
+          {/* Challenges */}
           <div className="info-card ">
               <h2 className='h2-nonetop'>Challenges</h2>
-            <Link to="/gamification">
+            <Link to="/challenges">
               <img src={challenges} alt="Gamification" className="card-image" />
              
             </Link>

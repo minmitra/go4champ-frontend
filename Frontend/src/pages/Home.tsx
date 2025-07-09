@@ -39,8 +39,8 @@ const Home = () => {
 
         {/* Workouts */}
         <div className="info-card">
-          <h2>My Workouts</h2>
-          <Link to="/myworkout">
+          <h2 className='h2-nonetop'>My Workouts</h2>
+          <Link to="/workouts">
             <img src={hantel} alt="Workout" className="card-image" />
           </Link>
           <p className="card-text">{t('createYourWorkouts')}</p>
@@ -48,17 +48,17 @@ const Home = () => {
 
         {/* Nutrition */}
         <div className="info-card">
-           <h2>Nutrition</h2>
+           <h2 className='h2-nonetop'>Nutrition</h2>
           <Link to="/nutrition">
             <img src={ernaehrung} alt="Nutrition" className="card-image" />
           </Link>
           <p className="card-text">{t('nutritionText')}</p>
         </div>
 
-        {/* Gamification */}
+        {/* Challenges */}
         <div className="info-card">
-           <h2>Challenges</h2>
-          <Link to="/gamification">
+           <h2 className='h2-nonetop'>Challenges</h2>
+          <Link to="/challenges">
             <img src={challenges} alt="Gamification" className="card-image" />
           </Link>
           <p className="card-text">{t('gamificationText')}</p>
