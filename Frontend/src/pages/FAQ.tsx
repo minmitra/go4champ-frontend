@@ -28,21 +28,20 @@ const faqs = [
   {
     category: "Challenges",
     questions: [
-      { q: "Gibt es Challenges mit Freunden?", a: "Ja, du kannst Freunde hinzufügen und Challenges starten, zum Beispiel wer mehr Workouts, mehr Wiederholungen macht oder schneller ist. Deine Challenges werden automatisch gespeichert, sodass du jederzeit sehen kannst, wer wie oft gewonnen hat." },
+      { q: "Gibt es Challenges mit Freunden?", a: "Ja, du kannst Freunde hinzufügen und Challenges starten, zum Beispiel wer mehr Workouts, mehr Wiederholungen macht oder schneller ist. Die Ergebnisse werden im Ranking angezeigt und deine Challenges werden automatisch gespeichert, sodass du jederzeit sehen kannst, wer momentan auf welchem Platz ist und wie oft gewonnen hat." },
       { q: "Wo finde ich meine Challenge-Historie?", a: "Unter 'Challenges' findest du eine Übersicht über alle bisherigen Duelle mit Freunden, inklusive Sieg/Niederlage, Zeit und Workout." },
     ]
   },
   {
     category: "Ernährung",
     questions: [
-      { q: "Wie kann ich meine Ernährung tracken?", a: "Im Bereich 'Ernährung' kannst du mithilfe unserer KI-Funktion Mahlzeiten eingeben und analysieren lassen." },
-      { q: "Werden Allergien oder Vorlieben bei der Planung berücksichtigt?", a: "Ja, bei der Erstellung deines Ernährungsplans berücksichtigt unsere KI deine Allergien und Vorlieben." },
+      { q: "Wie kann ich meine Ernährung tracken?", a: "Im Bereich 'Ernährung' kannst du mithilfe unserer KI-Funktion Mahlzeiten eingeben lassen." },
+      { q: "Werden Diäten oder Vorlieben bei der Planung berücksichtigt?", a: "Ja, bei der Erstellung deines Ernährungsplans berücksichtigt unsere KI sowohl deine Diätwünsche als auch persönliche Vorlieben. Du wirst nach deinen Essenswünschen gefragt und kannst auch Allergien oder Unverträglichkeiten angeben." },
     ]
   },
   {
     category: "KI & virtueller Coach",
     questions: [
-      { q: "Wie funktioniert mein virtueller Coach?", a: "Dein virtueller Coach begleitet dich durch dein Training und motiviert dich mit individuellen Hinweisen. Je aktiver du bist, desto mehr entwickelt sich dein virtueller Coach weiter." },
       { q: "Wie funktioniert die KI in der App?", a: "Unsere KI erstellt personalisierte Trainings- und Ernährungsvorschläge basierend auf deinen Zielen, Vorlieben und Angaben wie Allergien oder Fitnesslevel." },
     ]
   },
@@ -56,9 +55,8 @@ const faqs = [
 
 const FAQ = () => {
   return (
-    <main>
     <div className="faq-container">
-      <h1 >Häufig gestellte Fragen (FAQ)</h1>
+      <h1 className="faq-title">Häufig gestellte Fragen (FAQ)</h1>
       {faqs.map((section, index) => (
         <div key={index} className="faq-section">
           <h2 className="faq-category">{section.category}</h2>
@@ -71,9 +69,7 @@ const FAQ = () => {
         </div>
       ))}
     </div>
-    </main>
   );
 };
 
 export default FAQ;
-
