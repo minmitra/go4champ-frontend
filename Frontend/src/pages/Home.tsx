@@ -14,7 +14,8 @@ const Home = () => {
 
 
   return (
-    <div className="home-container">
+   
+    <div >
 
 <section className="hero-image-container">
   <img src={go4} alt="gochampion" className="gochampion-hero" />
@@ -26,7 +27,6 @@ const Home = () => {
   </div>
 </section>
      
-
       {/* CARDS-BEREICH */}
       <section id="membership-section" className="card-container">
 
@@ -74,8 +74,10 @@ const Home = () => {
 
       </section>
     </div>
+   
   );
 };
 
 export default Home;
+
 

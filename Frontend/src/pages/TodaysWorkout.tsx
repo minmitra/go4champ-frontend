@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import './TodaysWorkout.css'
 
 
 // Definiere die Struktur der gespeicherten Workouts
@@ -102,17 +103,17 @@ const TodaysWorkout = () => {
 
     return (
         <main>
-        <div className="workout-wrapper">
+        <div >
                 <h1>Today's Workout</h1>
-                <div className="workout-form">
+                <div className="todaysworkout-card">
                     {todaysWorkout ? (
                         <>
-                            <h2>{todaysWorkout.workoutName}</h2>
+                            <h2 className='todaysworkout-h2'>{todaysWorkout.workoutName}</h2>
                             <p>Body Part: {todaysWorkout.bodyPart}</p>
                             <p>Exercises: {todaysWorkout.exercises}</p>
                             <p>Location: {todaysWorkout.location}</p>
                             <p>Get ready for your daily session. Stay consistent!</p>
-                            <button className="workout-button" onClick={handleStart}>
+                            <button className="primary-button" onClick={handleStart}>
                                 Start Workout
                             </button>
                         </>

@@ -122,8 +122,7 @@ const Workouts = () => {
             </>
           ) : (
             <>
-              <p>No workout available for today.</p>
-              <button className="primary-button" onClick={() => navigate('/create-workout')}>Create Workout</button>
+              <p>No workout available for today.To continue, first create a new workout.</p>
             </>
           )}
         </div>
@@ -133,3 +132,5 @@ const Workouts = () => {
 };
 
 export default Workouts;
+
+

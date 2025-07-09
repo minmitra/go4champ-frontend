@@ -1,1 +1,23 @@
 
+.todaysworkout-card {
+  border-radius: 20px;
+  text-align: left;
+  transition: transform 0.1s ease;
+  cursor: pointer;
+ margin: 16px auto;
+   box-sizing: border-box;
+  width: calc(100% - 32px);
+  max-width: none ;
+    border: 2px solid #ccc !important; 
+  background-color: none;
+  padding: 32px;
+}
+
+body.dark .todaysworkout-card {
+  background-color: #273449;
+}
+
+
+.todaysworkout-h2 {
+    text-align: center;
+}

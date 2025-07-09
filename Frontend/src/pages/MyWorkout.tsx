@@ -133,7 +133,7 @@ const MyWorkout = () => {
     const prompt = `Create a ${formData.exercises} exercises ${formData.bodyPart} workout plan for ${formData.location}.`;
     console.log('Prompt sent to AI:', prompt);
 
-    const response = await apiFetch<{ antwort: string; plan: string }>(`/ai/chat-create-plan`, {
+    const response = await apiFetch<{ antwort: string; plan: string }>(`/api/training-plans`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -248,11 +248,11 @@ const MyWorkout = () => {
     <main>
       <div>
         <div>
-          <h1>My Workout</h1>
+          <h2>Create your workout</h2>
 
           {!showForm && (
-            <button className="createworkout-button" onClick={() => setShowForm(true)}>
-              ➕ Create New Workout
+            <button className="primary-button" onClick={() => setShowForm(true)}>
+              ✚ Create New Workout
             </button>
           )}
 
@@ -362,7 +362,7 @@ const MyWorkout = () => {
                      Next <FaAngleRight className="right-icon" />
                     </button>
                   ) : (
-                    <button className="navigation-button" onClick={handleSubmit} disabled={isGenerating}>
+                    <button className="primary-button" onClick={handleSubmit} disabled={isGenerating}>
                       {isGenerating ? 'Generating...' : (editingIndex !== null ? 'Save Changes' : 'Create Workout')}
                     </button>
                   )}

@@ -46,7 +46,7 @@ const Navigation = () => {
     navigate('/login');
   };
 
-    const privateLinks: NavItem[] = [
+  const privateLinks: NavItem[] = [
      { to: '/workouts', label: "Workouts" },
     { to: '/todaysworkout', label: t('todaysWorkout') },
     { to: '/myworkout', label: t('myWorkout.title') },
@@ -110,7 +110,7 @@ const Navigation = () => {
 
   return (
     <nav ref={menuRef}> 
-      <Link to="/" className="title" tabIndex={0}>
+      <Link to={isAuthenticated ? "/mainpage" : "/"} className="title" tabIndex={0}>
         Go4Champion
       </Link>
 

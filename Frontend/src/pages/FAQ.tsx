@@ -56,8 +56,9 @@ const faqs = [
 
 const FAQ = () => {
   return (
+    <main>
     <div className="faq-container">
-      <h1 className="faq-title">Häufig gestellte Fragen (FAQ)</h1>
+      <h1 >Häufig gestellte Fragen (FAQ)</h1>
       {faqs.map((section, index) => (
         <div key={index} className="faq-section">
           <h2 className="faq-category">{section.category}</h2>
@@ -70,7 +71,9 @@ const FAQ = () => {
         </div>
       ))}
     </div>
+    </main>
   );
 };
 
 export default FAQ;
+
