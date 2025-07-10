@@ -182,20 +182,27 @@ const MyChallenges: React.FC = () => {
 };
 
 
-    return(
+    return(  
       <main>
         <div>
-          <h1>My Challenges</h1>
-
-          <button onClick={() => navigate('/ranking-overview')} className="navigation-button">
-          Ranks
+            <div className="navigation-buttons">
+          <button onClick={() => navigate('/my-friends')} className="navigation-button">
+           Friends 
           </button>
+          <button onClick={() => navigate('/ranking')} className="navigation-button">
+          Ranks 
+          </button>
+        </div>
+   
+          <h1>Challenges</h1>
+
 
         {error && <div style={{ color: "red" }}>{error}</div>}
         {success && <div style={{ color: "green" }}>{success}</div>}
 
         <section>
-          <h3>Create new Challenge</h3>
+          <h2>Challenge your friends</h2>
+          <p>Create a new Challenge:</p>
           <select value={opponentUsername} onChange={(e) => setOpponentUsername(e.target.value)}>
             <option value="">Choose Friend</option>
             {friends.map((f) => (
@@ -212,11 +219,11 @@ const MyChallenges: React.FC = () => {
             <option value="WEIGHT">Weight</option>
           </select>
           <input type="datetime-local" value={deadline} onChange={(e) => setDeadline(e.target.value)} />
-          <button onClick={handleCreateChallenge}>Send</button>
+          <button className="primary-button" onClick={handleCreateChallenge}>Send</button>
         </section>
 
         <section>
-          <h3>Open Challenges</h3>
+          <h2>Open Challenges</h2>
           {challenges.length === 0 ? (
             <p>No Challenges.</p>
           ) : (
@@ -291,14 +298,7 @@ const MyChallenges: React.FC = () => {
           )}
         </section>
 
-        <div className="navigation-buttons">
-          <button onClick={() => navigate('/my-friends')} className="navigation-button">
-            <FaAngleLeft className="left-icon" />Go to my friends
-          </button>
-          <button onClick={() => navigate('/ranking')} className="navigation-button right-align">
-            Go to ranking <FaAngleRight className="right-icon" />
-          </button>
-        </div>
+        
       </div>
     </main>
   );

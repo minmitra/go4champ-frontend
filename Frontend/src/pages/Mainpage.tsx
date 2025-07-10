@@ -50,7 +50,7 @@ const today = new Intl.DateTimeFormat(i18n.language, {
           {/* Today's workout */}
           <div className="info-card">
             <Link className="card-link" to="/workouts">
-  <h2 className='h2-nonetop'>{today}: {t('todaysWorkout')}</h2>
+  <h2 className='card-text-h2 '>{today}: {t('todaysWorkout')}</h2>
 </Link>
     
         </div>
@@ -58,7 +58,7 @@ const today = new Intl.DateTimeFormat(i18n.language, {
 
           {/* Workouts */}
           <div className="info-card">
-             <h2 className='h2-nonetop'>Challenges</h2>
+             <h2 className='h2-nonetop'>My Workouts</h2>
             <Link className='card-link' to="/workouts">
               <img src={hantel} alt="Workouts" className="card-image" />
             </Link>

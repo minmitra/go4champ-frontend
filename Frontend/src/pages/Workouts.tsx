@@ -77,7 +77,27 @@ const Workouts = () => {
   return (
     <main>
       <h1>My Workouts</h1>
-
+         {/* Today's Workout Section */}
+      <section>
+        <h2>Today's Workout</h2>
+        <p>Start your workout:</p>
+        <div className="todaysworkout-card">
+          {todaysWorkout ? (
+            <>
+              <h3 className='todaysworkout-h3'>{todaysWorkout.workoutName}</h3>
+              <p><strong>Details:</strong></p>
+              <p>Body Part: {todaysWorkout.bodyPart}</p>
+              <p>Exercises: {todaysWorkout.exercises}</p>
+              <p>Location: {todaysWorkout.location}</p>
+              <button className="primary-button" onClick={() => handleStartClick(todaysWorkout)}>Start</button>
+            </>
+          ) : (
+            <>
+              <p>No workout available for today.To continue, first create a new workout.</p>
+            </>
+          )}
+        </div>
+      </section>
       {/* My Workouts Section */}
       <section>
         <h2>Create your workout</h2>
@@ -104,28 +124,6 @@ const Workouts = () => {
         ) : (
           <p>No workouts saved yet.</p>
         )}
-      </section>
-
-      {/* Today's Workout Section */}
-      <section>
-        <h2>Today's Workout</h2>
-        <p>Start your workout:</p>
-        <div className="todaysworkout-card">
-          {todaysWorkout ? (
-            <>
-              <h3 className='todaysworkout-h3'>{todaysWorkout.workoutName}</h3>
-              <p><strong>Details:</strong></p>
-              <p>Body Part: {todaysWorkout.bodyPart}</p>
-              <p>Exercises: {todaysWorkout.exercises}</p>
-              <p>Location: {todaysWorkout.location}</p>
-              <button className="primary-button" onClick={() => handleStartClick(todaysWorkout)}>Start</button>
-            </>
-          ) : (
-            <>
-              <p>No workout available for today.To continue, first create a new workout.</p>
-            </>
-          )}
-        </div>
       </section>
     </main>
   );

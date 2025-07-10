@@ -125,7 +125,7 @@ form {
 .primary-button {
   font-weight: normal;
   width: 100%;
-  margin: 12px auto 0;
+  margin: 30px auto 0;
   padding: 14px 20px;
   font-size: 16px;
   text-align: center;
@@ -156,7 +156,7 @@ form {
 .primary2-button {
   font-weight: normal;
   width: 100%;
-  margin: 12px auto 0;
+  margin: 30px auto 0;
   padding: 14px 20px;
   font-size: 16px;
   text-align: center;
@@ -232,19 +232,19 @@ footer {
 
 
 /* ========================== */
-/* In page right-left*/
+/* In page right-left-nav*/
 /* ========================== */
-.navigation-buttons {
+.navigation-buttons-pages {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 24px auto 0 auto; 
+  margin-bottom: 40px;
   max-width: 1200px;
   width: 100%; 
   gap: 1px !important;
 }
 
-.navigation-button {
+.navigation-button-pages {
   display: flex;
   align-items: center;
   background: none;
@@ -254,21 +254,19 @@ footer {
   font-weight: 500;
   font-size: 16px;
   transition: background 0.2s ease;
-  padding: 12px 20px;
+  padding: 12px ;
   flex: 1;
 color: rgb(0, 0, 0);
 }
 
-.navigation-button:hover {
+.navigation-button-pages:hover {
   color:#3b82f6;
 }
 
 
-body.dark .navigation-button:hover {
-  color:#3b82f6;
+body.dark .navigation-button-pages:hover {
+   color:#3b82f6;
 }
-
-
 .navigation-button .left-icon {
   margin-right: 8px;
 }
@@ -281,6 +279,53 @@ body.dark .navigation-button:hover {
 .navigation-button.right-align {
   justify-content: flex-end;
 }
+
+
+/* ========================== */
+/* buttons for challenges-nav*/
+/* ========================== */
+
+.navigation-buttons {
+  display: flex;
+align-items: center; 
+  justify-content: center; 
+  margin-bottom: 40px;
+  max-width: 1200px;
+  width: 100%; 
+  gap: 1px !important;
+}
+
+.navigation-button {
+  display: flex;
+  align-items: center;
+  background: #0f172a;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 16px;
+  transition: background 0.2s ease;
+  padding: 12px ;
+  flex: 1;
+color: rgb(255, 255, 255);
+align-items: center; 
+  justify-content: center; 
+}
+
+body.dark .navigation-button {
+ border: 1px solid #ffffff !important;
+}
+
+
+.navigation-button:hover {
+  background-color:#3b82f6;
+}
+
+
+body.dark .navigation-button:hover {
+   background-color:#3b82f6;
+}
+
 
 /* ========================== */
 /* DARK MODE OVERRIDES        */

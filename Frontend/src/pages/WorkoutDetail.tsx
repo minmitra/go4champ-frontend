@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useLocation, useParams, useNavigate } from 'react-router-dom';
 import './WorkoutDetail.css'; 
-
+import {FaAngleLeft } from 'react-icons/fa';
 
 interface GeneratedExercise {
   title: string;
@@ -169,12 +169,14 @@ const WorkoutDetail = () => {
             Total estimated time: {exercises.reduce((sum, ex) => sum + ex.duration, 0)} minutes.
           </p>
           <div className="initial-buttons">
-            <button className="primary2-button" onClick={startWorkout}>
+            <button className="primary-button" onClick={startWorkout}>
               Start
             </button>
-            <button className='workout-button back-button-inline' onClick={() => navigate('/workouts')} >
-              Back
+             <div className='navigation-buttons-pages'>
+            <button className='navigation-button-pages' onClick={() => navigate('/workouts')} >
+              <FaAngleLeft className="left-icon" />Back
             </button>
+              </div>
           </div>
         </div>
       ) : (
@@ -222,9 +224,9 @@ const WorkoutDetail = () => {
               Skip Exercise
             </button>               
           </div>
-          <div className='exit-button-workout'>
-            <button className='workout-button exit-button-inline' onClick={promptExitWorkout}>
-              Exit Workout
+          <div className='navigation-buttons-pages'>
+            <button className='navigation-button-pages' onClick={promptExitWorkout}>
+               <FaAngleLeft className="left-icon" />Exit Workout
             </button>
           </div>
         </div>

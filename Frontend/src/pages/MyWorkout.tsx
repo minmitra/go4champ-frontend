@@ -347,18 +347,18 @@ const MyWorkout = () => {
                 )}
               </motion.div>
 
-              <div className="navigation-buttons">
+              <div className="navigation-buttons-pages">
                   {step === 0 ? (
-                    <button className="navigation-button" onClick={() => setShowForm(false)} disabled={isGenerating}>
+                    <button className="navigation-button-pages" onClick={() => setShowForm(false)} disabled={isGenerating}>
                        <FaAngleLeft className="left-icon" />Exit
                     </button>
                   ) : (
-                    <button className="navigation-button" onClick={handleBack} disabled={isGenerating}>
+                    <button className="navigation-button-pages" onClick={handleBack} disabled={isGenerating}>
                        <FaAngleLeft className="left-icon" />Back
                     </button>
                   )}
                   {step < steps.length - 1 ? (
-                    <button  className="navigation-button right-align" onClick={handleNext} disabled={isGenerating}>
+                    <button  className="navigation-button-pages right-align" onClick={handleNext} disabled={isGenerating}>
                      Next <FaAngleRight className="right-icon" />
                     </button>
                   ) : (

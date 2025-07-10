@@ -110,6 +110,15 @@ export const Ranking: React.FC = () => {
 
   return (
     <main>
+       <div className="navigation-buttons">
+          <button onClick={() => navigate('/my-friends')} className="navigation-button">
+           Friends 
+          </button>
+          <button onClick={() => navigate('/challenges')} className="navigation-button">
+          Challenges 
+          </button>
+        </div>
+         <h1>Ranks</h1>
       {stats && (
         <section>
           <h2>My Statistics</h2>
@@ -223,21 +232,6 @@ export const Ranking: React.FC = () => {
             )}
           </div>
       </section>
-
-      <div className="navigation-buttons" style={{ marginTop: 20 }}>
-        <button
-          onClick={() => navigate("/my-friends")}
-          className="navigation-button"
-        >
-          <FaAngleLeft className="left-icon" /> Go to my friends
-        </button>
-        <button
-          onClick={() => navigate("/challenges")}
-          className="navigation-button right-align"
-        >
-          Go to challenges <FaAngleRight className="right-icon" />
-        </button>
-      </div>
     </main>
   );
 };
