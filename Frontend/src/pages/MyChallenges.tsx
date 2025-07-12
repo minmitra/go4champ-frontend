@@ -14,11 +14,10 @@ import {
 import { getFriend } from "../api/friendship";
 import { useNavigate } from "react-router-dom";
 import { FaAngleRight, FaAngleLeft } from 'react-icons/fa';
+import './MyChallenges.css'
 
 const MyChallenges: React.FC = () => {
-  /* ---------------------------------------------------------------- */
-  /*  STATE                                                           */
-  /* ---------------------------------------------------------------- */
+  const [activeMainTab, setActiveMainTab] = useState<"challenges" | "friends" | "ranks">("challenges");
   const [challenges, setChallenges] = useState<ChallengeResponse[]>([]);
   const [friends, setFriends] = useState<string[]>([]);
   const [opponentUsername, setOpponentUsername] = useState('');
@@ -34,14 +33,18 @@ const MyChallenges: React.FC = () => {
   const [resultValues, setResultValues] = useState<Record<number,{ reps?: string; weight?: string; note?: string }>>({}); 
   const navigate = useNavigate();
 
-  /* ---------- Haupt-Tab-Leiste ---------- */
-  const [activeMainTab, setActiveMainTab] =
-    useState<'challenges' | 'friends' | 'ranks'>('challenges');
+  //DEBUG
+  const username = localStorage.getItem('username');
+  console.log("Current username:", username);
+  console.log("Current Opponent", opponentUsername);
 
-  /* ---------------------------------------------------------------- */
-  /*  FETCH                                                           */
-  /* ---------------------------------------------------------------- */
-  useEffect(() => { loadData(); }, []);
+  const roleLabel = (role: string) => {
+  switch(role) {
+    case "CHALLENGER": return "Challenger";
+    case "CHALLENGED": return "Challenged";
+    default: return role;
+  }
+};
 
   const loadData = async () => {
     try {
@@ -49,26 +52,32 @@ const MyChallenges: React.FC = () => {
         getMyChallenges(),
         getFriend(),
       ]);
+
+      console.log("Challenges from backend:", challengeData);
+
       setChallenges(challengeData);
       setFriends(friendsData.map((f: any) => f.username));
-    } catch {
+    } catch (error) {
       setError('Error loading the data');
     }
   };
 
-  /* ---------------------------------------------------------------- */
-  /*  TIMEOUT für Meldungen                                           */
-  /* ---------------------------------------------------------------- */
   useEffect(() => {
-    if (error || success) {
-      const timer = setTimeout(() => { setError(null); setSuccess(null); }, 3000);
-      return () => clearTimeout(timer);
-    }
-  }, [error, success]);
+    loadData();
+  }, []);
 
-  /* ---------------------------------------------------------------- */
-  /*  HANDLER (Create / Accept / …)                                   */
-  /* ---------------------------------------------------------------- */
+
+  useEffect(() => {
+  if (error || success) {
+    const timer = setTimeout(() => {
+      setError(null);
+      setSuccess(null);
+    }, 3000);
+    return () => clearTimeout(timer);
+  }
+}, [error, success]);
+
+
   const handleCreateChallenge = async () => {
   setError(null);
   setSuccess(null);
@@ -102,7 +111,7 @@ const MyChallenges: React.FC = () => {
     challengedUsername: opponentUsername,
     title,
     description,
-    type,
+    type: type as ChallengeType,
     targetValue: Number(targetValue),
     targetUnit,
     deadline: new Date(deadline).toISOString(),
@@ -127,10 +136,34 @@ const MyChallenges: React.FC = () => {
   };
 
 
+  const handleAccept = async (id: number) => {
+    try {
+      const updated = await acceptChallenge(id);
+      setChallenges((prev) => prev.map((c) => (c.id === id ? updated : c)));
+    } catch {
+      setError('Error accepting challenge');
+    }
+  };
 
-  const handleAccept  = async (id: number) => { try { const u = await acceptChallenge(id);  setChallenges(p => p.map(c => c.id === id ? u : c)); } catch { setError('Error accepting challenge'); } };
-  const handleReject  = async (id: number) => { try { await rejectChallenge(id); setChallenges(p => p.filter(c => c.id !== id)); setSuccess('Challenge rejected and removed.'); } catch { setError('Error rejecting challenge'); } };
-  const handleCancel  = async (id: number) => { try { await cancelChallenge(id); setChallenges(p => p.filter(c => c.id !== id)); setSuccess('Challenge canceled.'); } catch { setError('Error canceling challenge'); } };
+  const handleReject = async (id: number) => {
+    try {
+      await rejectChallenge(id);
+      setChallenges((prev) => prev.filter((c) => (c.id !== id)));
+      setSuccess("Challenge rejected and removed.")
+    } catch {
+      setError('Error rejecting challenge');
+    }
+  };
+
+  const handleCancel = async (id: number) => {
+    try {
+      await cancelChallenge(id);
+      setChallenges((prev) => prev.filter((c) => c.id !== id));
+      setSuccess("Challenge canceled.");
+    } catch {
+      setError("Error canceling challenge");
+    }
+  };
 
   const handleDeclareWinner = async (
     c: ChallengeResponse,
@@ -239,17 +272,42 @@ const MyChallenges: React.FC = () => {
 
   return(  
     <main>
+      <div className="top-tabbar">
+  <button
+    className={`top-tab ${activeMainTab === "challenges" ? "is-active" : ""}`}
+    onClick={() => setActiveMainTab("challenges")}
+  >
+    Challenges
+  </button>
+  <button
+    className={`top-tab ${activeMainTab === "friends" ? "is-active" : ""}`}
+    onClick={() => {
+      setActiveMainTab("friends");
+      navigate("/my-friends");
+    }}
+  >
+    Friends
+  </button>
+  <button
+    className={`top-tab ${activeMainTab === "ranks" ? "is-active" : ""}`}
+    onClick={() => {
+      setActiveMainTab("ranks");
+      navigate("/ranking");
+    }}
+  >
+    Ranks
+  </button>
+</div>
+
       <div>
-        <div className="navigation-buttons">
+        {/* <div className="navigation-buttons">
           <button onClick={() => navigate('/my-friends')} className="navigation-button">
             Friends 
           </button>
           <button onClick={() => navigate('/ranking')} className="navigation-button">
             Ranks 
           </button>
-        </div>
-   
-        <h1>Challenges</h1>
+        </div> */}
 
         {error && <div style={{ color: "red" }}>{error}</div>}
         {success && <div style={{ color: "green" }}>{success}</div>}
@@ -316,13 +374,13 @@ const MyChallenges: React.FC = () => {
                   <p>Status: <em>{c.status}</em></p>
                   <p>Type: {c.type}</p>
 
-                {/* Buttons für PENDING */}
-                {c.status === "PENDING" && c.myRole === "CHALLENGED" && (
-                  <div>
-                    <button onClick={() => handleAccept(c.id)}>Accept</button>
-                    <button onClick={() => handleReject(c.id)}>Reject</button>
-                  </div>
-                )}
+                  {/* Buttons für PENDING */}
+                  {c.status === "PENDING" && c.myRole === "CHALLENGED" && (
+                    <div>
+                      <button onClick={() => handleAccept(c.id)}>Accept</button>
+                      <button onClick={() => handleReject(c.id)}>Reject</button>
+                    </div>
+                  )}
 
                   {c.status === "PENDING" && c.myRole === "CHALLENGER" && (
                     <button onClick={() => handleCancel(c.id)}>Cancel</button>
