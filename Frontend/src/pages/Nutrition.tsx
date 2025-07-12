@@ -44,7 +44,6 @@ const Nutrition = () => {
     <main>
 
       <div className="nutrition-header">
-        <h1>Nutrition</h1>
       </div>
 
       <div className="nutrition-container">

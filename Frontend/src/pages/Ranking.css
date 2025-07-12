@@ -1,0 +1,207 @@
+/* ========================================================= */
+/*  GLOBAL FONT                                              */
+/* ========================================================= */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+body {
+  font-family: 'Inter', sans-serif;
+}
+
+/* ========================================================= */
+/*  MAIN LAYOUT                                              */
+/* ========================================================= */
+main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 24px;
+}
+
+h1 {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #1f2937;
+  text-align: center;
+  margin: 0 0 40px;
+}
+
+h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0 0 24px;
+}
+
+/* ========================================================= */
+/*  QUICK-NAV BUTTONS                                        */
+/* ========================================================= */
+.navigation-buttons {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  margin-bottom: 32px;
+}
+
+.navigation-button {
+  padding: 10px 24px;
+  background: #1e293b;
+  color: #ffffff;
+  border: none;
+  border-radius: 9999px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  cursor: pointer;
+  transition: background 0.25s ease, transform 0.25s ease;
+}
+
+.navigation-button:hover {
+  background: #334155;
+  transform: translateY(-2px);
+}
+
+/* ========================================================= */
+/*  STATISTICS CARD                                          */
+/* ========================================================= */
+section > ul {
+  background: #ffffff;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  padding: 32px 24px;
+  margin-bottom: 48px;
+  list-style: none;
+}
+
+section > ul li {
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: #374151;
+}
+
+section > ul li strong {
+  color: #1f2937;
+}
+
+/* ========================================================= */
+/*  TAB BAR                                                  */
+/* ========================================================= */
+.tab-bar {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  margin-bottom: 32px;
+}
+
+.ranking-tab {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+
+  background: none;
+  border: none;
+  padding: 8px 4px;
+  font-size: 0.95rem;
+  color: #64748b;
+  cursor: pointer;
+  transition: color 0.25s ease;
+}
+
+.ranking-tab svg {
+  font-size: 1.25rem;
+  transition: transform 0.25s;
+}
+
+.ranking-tab:hover {
+  color: #1f2937;
+}
+
+.ranking-tab[aria-selected='true'] {
+  color: #1f2937;
+  font-weight: 600;
+}
+
+.ranking-tab[aria-selected='true'] svg {
+  transform: scale(1.1);
+}
+
+/* Indikator */
+.ranking-tab::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -10px;
+  width: 100%;
+  height: 3px;
+  background: transparent;
+  border-radius: 3px;
+  transition: background 0.25s ease;
+}
+
+.ranking-tab[aria-selected='true']::after {
+  background: #ed9108; /* Markenorange */
+}
+
+.tab-label {
+  line-height: 1;
+}
+
+/* ========================================================= */
+/*  RANKING LIST                                             */
+/* ========================================================= */
+.ranking-list {
+  counter-reset: item;
+  background: #ffffff;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  padding: 32px 24px;
+  list-style: none;
+  margin: 0 0 16px;
+}
+
+.ranking-list li {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.05rem;
+  line-height: 2;
+  color: #374151;
+  border-bottom: 1px solid #f1f5f9;
+  padding: 4px 0;
+}
+
+.ranking-list li:last-child {
+  border-bottom: none;
+}
+
+/* automatische Nummerierung */
+.ranking-list li::before {
+  content: counter(item) '.';
+  counter-increment: item;
+  font-weight: 700;
+  margin-right: 8px;
+}
+
+/* ========================================================= */
+/*  INFO / ERROR / LOADING                                   */
+/* ========================================================= */
+.info-text,
+.error-text {
+  text-align: center;
+  font-size: 1rem;
+  margin-bottom: 16px;
+}
+
+.error-text {
+  color: #dc2626;
+}
+
+/* ========================================================= */
+/*  RESPONSIVE                                               */
+/* ========================================================= */
+@media (min-width: 768px) {
+  h1 {
+    font-size: 2.4rem;
+  }
+  h2 {
+    font-size: 1.75rem;
+  }
+}

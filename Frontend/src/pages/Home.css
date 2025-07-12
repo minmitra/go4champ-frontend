@@ -85,6 +85,10 @@ body {
   text-decoration: none;
   transition: transform 0.25s ease, background-color 0.25s ease;
   z-index: 2;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .hero-cta-fixed:hover {
@@ -193,4 +197,31 @@ body.dark .hero-cta-fixed {
 
 body.dark .hero-cta-fixed:hover {
   background-color: #2563eb;
+}
+
+/* Overrides für volle Breite */
+.card-container        { align-items: stretch !important; }
+.card-container .info-card {
+  width: 100%  !important;
+  max-width: 100% !important;
+}
+
+/* ---------- FORCE SINGLE COLUMN on ALL screens ---------- */
+.card-container {
+  display: block !important;   /* kein Flex/Gitter mehr */
+}
+
+.card-container .info-card {
+  margin-bottom: 40px;         /* Abstand zwischen Karten */
+  width: 100% !important;      /* volle Zeile */
+  max-width: none !important;
+}
+
+@media (max-width: 480px) {
+  .hero-cta-fixed {
+    width: 80%;
+    max-width: 280px;
+    padding: 12px 0;
+    font-size: 1rem;
+  }
 }

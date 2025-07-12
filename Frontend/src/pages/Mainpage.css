@@ -2,30 +2,19 @@
 /* GLOBAL FONT                                                        */
 /* ------------------------------------------------------------------ */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
-
-body {
-  font-family: 'Inter', sans-serif;
-}
+body { font-family: 'Inter', sans-serif; }
 
 /* ------------------------------------------------------------------ */
-/* CARD SECTION (Flex-Grid)                                           */
+/* CARD CONTAINER – EINSPALTIG, VOLLE BREITE                          */
 /* ------------------------------------------------------------------ */
 .card-container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-direction: column;     /* immer untereinander */
+  align-items: stretch;       /* Karten füllen 100 % Breite */
   gap: 40px;
   padding: 60px 40px;
-  max-width: 1200px;
+  max-width: 100%;            /* kein fixer Rahmen mehr */
   margin: 0 auto;
-}
-
-@media (min-width: 1024px) {
-  .card-container {
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
 }
 
 /* ------------------------------------------------------------------ */
@@ -34,16 +23,14 @@ body {
 .info-card {
   background: #ffffff;
   border-radius: 16px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
   padding: 32px 24px;
   text-align: center;
-  width: 100%;
-  max-width: 800px;
+  width: 100%;                /* volle Breite */
+  max-width: 100%;            /* auf Desktop ebenfalls */
   transition: transform 0.3s ease;
 }
-.info-card:hover {
-  transform: translateY(-6px);
-}
+.info-card:hover { transform: translateY(-6px); }
 
 /* ------------------------------------------------------------------ */
 /* HEADLINES & TEXT                                                   */
@@ -57,9 +44,7 @@ body {
 }
 
 /* Orange Akzent für Today’s Workout */
-.info-card:first-of-type .card-headline {
-  color: #d97706;                 /* leichtes Orange */
-}
+.info-card:first-of-type .card-headline { color: #d97706; }
 
 .card-text {
   font-size: 1.1rem;
@@ -81,51 +66,52 @@ body {
 }
 
 /* ------------------------------------------------------------------ */
-/* LINKS & BUTTONS                                                    */
+/* LINKS & CTA-BUTTON                                                 */
 /* ------------------------------------------------------------------ */
 .card-link,
 .card-link:visited,
-.primary2-button {
-  color: inherit;
-  text-decoration: none;
-}
+.primary2-button { color: inherit; text-decoration: none; }
 
-/* CTA-Button – identisch zum Hero-Button */
 .primary2-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   padding: 14px 32px;
-  background-color: #ed9108;
-  color: #ffffff;
+  background: #ed9108;
+  color: #fff;
   font-size: 1rem;
   font-weight: 700;
   border: none;
   border-radius: 9999px;
-  text-decoration: none;
-  letter-spacing: 0.3px;
-  box-shadow: none;
-  outline: none;
-  transition: background-color 0.25s ease, transform 0.25s ease;
+  transition: background 0.25s ease, transform 0.25s ease;
 }
-.primary2-button:hover {
-  background: #e07b00;
-  transform: translateY(-3px) scale(1.03);
-}
+.primary2-button:hover { background:#e07b00; transform:translateY(-3px) scale(1.03); }
 
 /* ------------------------------------------------------------------ */
 /* NEWS-CARD – Feintuning                                             */
 /* ------------------------------------------------------------------ */
 .info-card.news-card {
-  background: #f8fafc;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-  padding: 40px 32px;             /* mehr Luft */
+  background:#f8fafc;
+  box-shadow:0 2px 10px rgba(0,0,0,0.05);
+  padding:40px 32px;
 }
-.info-card.news-card .card-headline {
-  margin-bottom: 24px; 
+.info-card.news-card .card-headline { margin-bottom:24px; }
+.info-card.news-card .card-text     { margin-bottom:0; }
 
+/* Overrides für volle Breite */
+.card-container        { align-items: stretch !important; }
+.card-container .info-card {
+  width: 100%  !important;
+  max-width: 100% !important;
 }
-.info-card.news-card .card-text {
-  margin-bottom: -22px;  
-   
+
+/* ---------- FORCE SINGLE COLUMN on ALL screens ---------- */
+.card-container {
+  display: block !important;   /* kein Flex/Gitter mehr */
+}
+
+.card-container .info-card {
+  margin-bottom: 40px;         /* Abstand zwischen Karten */
+  width: 100% !important;      /* volle Zeile */
+  max-width: none !important;
 }

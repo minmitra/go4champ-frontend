@@ -1,174 +1,188 @@
-.createworkout-button {
-  display: block;
-  width: 100%;
-  max-width: 400px;
-  margin: 16px auto 20px;
-  padding: 10px 16px;
-  font-size: 1rem;
-  font-weight: bold;
-  text-align: center;
-  background-color: #172554;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+/* =======================================================
+   GLOBAL + TYPO
+======================================================= */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+body{font-family:'Inter',sans-serif;background:#f9fafb;color:#1f2937;}
+
+/* =======================================================
+   PRIMARY CTA (“Create New Workout”)
+======================================================= */
+.primary-button,
+.createworkout-button{                         /* beide Klassen angleichen */
+  display:block;
+  width:100%;
+  max-width:420px;
+  margin:1.25rem auto 2rem;
+  padding:.8rem 1.25rem;
+  font-size:1rem;
+  font-weight:700;
+  text-align:center;
+  background:#1e293b;
+  color:#fff;
+  border:none;
+  border-radius:.75rem;
+  cursor:pointer;
+  transition:background .2s ease,transform .2s ease;
 }
-.createworkout-button:hover {
-  background-color: #1d4ed8;
+.primary-button:hover,
+.createworkout-button:hover{background:#334155;transform:translateY(-2px);}
+
+/* =======================================================
+   QUESTION ➜ AVATAR + SPEECH BUBBLE
+======================================================= */
+.question-header{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:1rem;
+  margin-bottom:3rem;
+}
+.avatar-image{
+  width:140px;
+  height:auto;
+  border-radius:.75rem;
+  box-shadow:0 4px 12px rgba(0,0,0,.08);
+}
+.speech-bubble{
+  max-width:480px;
+  background:#fff;
+  border:1px solid #d1d5db;
+  border-radius:1rem;
+  padding:1rem 1.25rem;
+  position:relative;
+  font-weight:600;
+  line-height:1.5;
+}
+.speech-bubble:after{
+  content:'';
+  position:absolute;
+  bottom:-12px;
+  left:50%;
+  transform:translateX(-50%);
+  border:12px solid transparent;
+  border-top-color:#d1d5db;
 }
 
-
-
-
-.question-header {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
-  margin-bottom: 60px;
-   flex-direction: column;
+/* =======================================================
+   MULTI-CHOICE OPTIONS (Radio Buttons)
+======================================================= */
+.options{
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:.75rem;
+  margin:2.5rem 0 1.25rem;
 }
-
-.options {
-  display: flex;
-  justify-content: center;
-  gap: 16px;
-  flex-wrap: wrap;
-  margin: 40px 0 20px;
+.options label{
+  display:flex;
+  align-items:center;
+  gap:.5rem;
+  padding:.6rem 1rem;
+  background:#e0e7ff;
+  color:#172554;
+  border-radius:.5rem;
+  cursor:pointer;
+  transition:background .15s ease,color .15s ease,transform .15s ease;
 }
+.options label:hover{background:#c7d2fe;transform:translateY(-2px);}
+.options input[type="radio"]{accent-color:#1d4ed8;}
 
-.todo-list {
-  list-style: none;
-  padding: 0;
-  margin: 0 0 20px;
+/* =======================================================
+   SUMMARY STEP
+======================================================= */
+.summary-container{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:.75rem;
 }
-
-.todo-list li {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px;
-  background-color: #e0e7ff;
-  border-radius: 6px;
-  margin-bottom: 10px;
-  color: #172554;
-  font-weight: 500;
+.summary-container input{
+  width:100%;
+  max-width:320px;
+  padding:.65rem 1rem;
+  border:1px solid #d1d5db;
+  border-radius:.5rem;
+  font-size:1rem;
 }
+.summary-container label{font-size:1.1rem;font-weight:700;}
 
-.form-nav button:hover {
-  background-color: #1d4ed8;
+/* =======================================================
+   FORM NAV BUTTONS (Back / Next)
+======================================================= */
+.navigation-buttons-pages{
+  display:flex;
+  justify-content:space-between;
+  max-width:420px;
+  margin:2rem auto 0;
 }
+.navigation-button-pages{
+  flex:1 1 0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:.5rem;
+  padding:.65rem .75rem;
+  background:#e5e7eb;
+  color:#1e293b;
+  border:none;
+  border-radius:.5rem;
+  font-weight:600;
+  cursor:pointer;
+  transition:background .15s ease,transform .15s ease;
+}
+.navigation-button-pages:hover{background:#d1d5db;transform:translateY(-2px);}
+.navigation-button-pages.right-align{margin-left:.75rem;}
+.left-icon,.right-icon{pointer-events:none;}
 
+/* =======================================================
+   SAVED WORKOUT LIST
+======================================================= */
+.todo-list{list-style:none;margin:0 0 1.5rem;padding:0;}
+.workout-item{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:.75rem;
+  padding:1rem 1.25rem;
+  background:#e0e7ff;
+  border-radius:.75rem;
+  margin-bottom:.75rem;
+  color:#172554;
+  font-weight:500;
+  transition:background .15s ease;
+}
+.workout-item:hover{background:#c7d2fe;}
+
+/* Buttons in list */
 .start-button,
-.delete-button {
-  padding: 6px 10px;
-  font-size: 0.9rem;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+.delete-button{
+  padding:.45rem .9rem;
+  font-size:.9rem;
+  border:none;
+  border-radius:.5rem;
+  cursor:pointer;
+  transition:background .15s ease,transform .15s ease;
 }
+.start-button{background:#1e293b;color:#fff;}
+.start-button:hover{background:#334155;transform:translateY(-2px);}
+.delete-button{background:#ef4444;color:#fff;}
+.delete-button:hover{background:#b91c1c;transform:translateY(-2px);}
 
-.start-button {
-  background-color: #172554;
-  color: white;
-}
-
-.start-button:hover {
-  background-color: #1d4ed8;
-}
-
-.delete-button {
-  background-color: #c9302c;
-  color: white;
-}
-
-.delete-button:hover {
-  background-color: #8b201c;
-}
-
-.options label {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 12px;
-  color: #172554;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.options label:hover {
-  color: #d89c19; 
-}
-
-body.dark .options label:hover {
-  color: #d89c19 !important; 
-}
-
-.options input[type="radio"] {
-  accent-color: #1d4ed8;
-}
-.summary-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: 12px;
-  margin: auto 0;
-}
-
-.summary-container label {
-  font-size: 1.2rem;
-  font-weight: bold;
-}
-
-.summary-container input {
-  width: 100%;
-  max-width: 300px;
-  padding: 8px 12px;
-  font-size: 1rem;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-}
-
-
-.dark .todo-list li,
-.dark .workout-item {
-  background-color: #1f2937;    
-  color: #fff;
-  border: 1px solid #ccc !important;
-}
-
-
-
-.dark .form-nav button,
-.dark .start-button,
-.dark .delete-button,
-.dark .createworkout-button {
-  border: 1px solid #ffffff !important;
-  background-color: #000000 !important;
-}
-
-.dark .form-nav button:hover,
-.dark .start-button:hover,
-.dark .delete-button:hover,
-.dark .createworkout-button:hover {
- background-color: #1d4ed8 !important;
-  border-color: #1d4ed8 !important;
-}
-
-
-body.dark .workout-form {
-  background-color: #000000 !important;
-
-}
-
-.avatar-image {
-  display: block;
-  margin: 16px auto;    
-  width: 150px;         
-  height: auto;
-  border-radius: 8px;   
-}
+/* =======================================================
+   DARK MODE
+======================================================= */
+body.dark{background:#0f172a;color:#e2e8f0;}
+body.dark .primary-button,
+body.dark .createworkout-button{background:#ed9108;color:#000;}
+body.dark .options label{background:#334155;color:#e2e8f0;}
+body.dark .options label:hover{background:#475569;}
+body.dark .navigation-button-pages{background:#334155;color:#e2e8f0;}
+body.dark .navigation-button-pages:hover{background:#475569;}
+body.dark .workout-item{background:#334155;color:#e2e8f0;}
+body.dark .workout-item:hover{background:#475569;}
+body.dark .start-button{background:#ed9108;color:#000;}
+body.dark .start-button:hover{background:#fbbf24;}
+body.dark .delete-button{background:#ef4444;}
+body.dark .delete-button:hover{background:#b91c1c;}
+body.dark .speech-bubble{background:#1e293b;border-color:#475569;color:#e2e8f0;}
+body.dark .speech-bubble:after{border-top-color:#475569;}

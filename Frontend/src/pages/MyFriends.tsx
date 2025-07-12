@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import React from 'react';
 import './MyFriends.css';
-import { FaXmark } from "react-icons/fa6";
-import { GiCheckMark } from "react-icons/gi";
+import { FaXmark } from 'react-icons/fa6';
+import { GiCheckMark } from 'react-icons/gi';
 import { useNavigate } from 'react-router-dom';
 
 import {
@@ -17,22 +17,36 @@ import {
   cancelFriendRequest,
   type Friend,
   type FriendshipStatus,
-  type FriendRequest
+  type FriendRequest,
 } from '../api/friendship';
 
 const MyFriends = () => {
+  /* ---------------------------------------------------------------- */
+  /*  STATE                                                           */
+  /* ---------------------------------------------------------------- */
   const [friends, setFriends] = useState<Friend[]>([]);
   const [incomingRequests, setIncomingRequests] = useState<FriendRequest[]>([]);
   const [outgoingRequests, setOutgoingRequests] = useState<FriendRequest[]>([]);
   const [newFriendName, setNewFriendName] = useState('');
-  const [friendshipStatus, setFriendshipStatus] = useState<FriendshipStatus | null>(null);
+  const [friendshipStatus, setFriendshipStatus] =
+    useState<FriendshipStatus | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<'friends' | 'incoming' | 'outgoing'>('friends');
   const [actionInProgress, setActionInProgress] = useState(false);
+
+  /* ---------- Haupt-Tab-Leiste ---------- */
+  const [activeMainTab, setActiveMainTab] =
+    useState<'challenges' | 'friends' | 'ranks'>('friends');
+
   const navigate = useNavigate();
 
-  useEffect(() => { loadData(); }, []);
+  /* ---------------------------------------------------------------- */
+  /*  FETCH                                                           */
+  /* ---------------------------------------------------------------- */
+  useEffect(() => {
+    loadData();
+  }, []);
 
   const loadData = async () => {
     setLoading(true);
@@ -41,7 +55,7 @@ const MyFriends = () => {
       const [friendsData, incomingData, outgoingData] = await Promise.all([
         getFriend(),
         getIncomingRequests(),
-        getOutgoingRequests()
+        getOutgoingRequests(),
       ]);
       setFriends(Array.isArray(friendsData) ? friendsData : []);
       setIncomingRequests(Array.isArray(incomingData) ? incomingData : []);
@@ -56,11 +70,16 @@ const MyFriends = () => {
     }
   };
 
+  /* ---------------------------------------------------------------- */
+  /*  HANDLER                                                         */
+  /* ---------------------------------------------------------------- */
   const handleFriendInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const username = e.target.value;
     setNewFriendName(username);
     if (username.trim()) {
-      getFriendshipStatus(username.trim()).then(setFriendshipStatus).catch(() => setFriendshipStatus(null));
+      getFriendshipStatus(username.trim())
+        .then(setFriendshipStatus)
+        .catch(() => setFriendshipStatus(null));
     } else {
       setFriendshipStatus(null);
     }
@@ -80,6 +99,7 @@ const MyFriends = () => {
     }
   };
 
+  /* ---------- Card Component ---------- */
   const UserCard = ({
     name,
     points,
@@ -100,11 +120,13 @@ const MyFriends = () => {
     variant?: 'incoming';
   }) => (
     <div className="user-card">
-      <p><strong className="username-underline">{name}</strong></p>
+      <p>
+        <strong className="username-underline">{name}</strong>
+      </p>
       {points !== undefined && <p>{points} points</p>}
       <div className="button-group">
-        {onAction && (
-          variant === "incoming" ? (
+        {onAction &&
+          (variant === 'incoming' ? (
             <span onClick={onAction} className="incoming-accept">
               {actionLabel}
             </span>
@@ -112,10 +134,9 @@ const MyFriends = () => {
             <button onClick={onAction} className={buttonClass || ''}>
               {actionLabel}
             </button>
-          )
-        )}
-        {secondaryAction && (
-          variant === "incoming" ? (
+          ))}
+        {secondaryAction &&
+          (variant === 'incoming' ? (
             <span onClick={secondaryAction} className="incoming-reject">
               {secondaryActionLabel}
             </span>
@@ -123,22 +144,51 @@ const MyFriends = () => {
             <button onClick={secondaryAction} className={buttonClass || ''}>
               {secondaryActionLabel}
             </button>
-          )
-        )}
+          ))}
       </div>
     </div>
   );
 
+  /* ---------------------------------------------------------------- */
+  /*  RENDER                                                          */
+  /* ---------------------------------------------------------------- */
   return (
     <main>
-      <div className="navigation-buttons">
-        <button onClick={() => navigate('/challenges')} className="navigation-button">Challenges</button>
-        <button onClick={() => navigate('/ranking')} className="navigation-button">Ranks</button>
+      {/* ======= HORIZONTALE HAUPT-TABBAR ======= */}
+      <div className="top-tabbar">
+        <button
+          className={`top-tab ${activeMainTab === 'challenges' ? 'is-active' : ''}`}
+          onClick={() => {
+            setActiveMainTab('challenges');
+            navigate('/challenges');
+          }}
+        >
+          Challenges
+        </button>
+
+        <button
+          className={`top-tab ${activeMainTab === 'friends' ? 'is-active' : ''}`}
+          onClick={() => setActiveMainTab('friends')}
+        >
+          Friends
+        </button>
+
+        <button
+          className={`top-tab ${activeMainTab === 'ranks' ? 'is-active' : ''}`}
+          onClick={() => {
+            setActiveMainTab('ranks');
+            navigate('/ranking');
+          }}
+        >
+          Ranks
+        </button>
       </div>
 
-      <h1>Friends</h1>
+      {/* ---------------------------------------- */}
 
-      <div className="wrapper">
+
+      {/* Search + Add */}
+      <div className="search-add-wrapper">
         <input
           type="text"
           placeholder="Add a Friend..."
@@ -147,62 +197,93 @@ const MyFriends = () => {
           disabled={actionInProgress}
         />
         <button
-          className="search-button"
+          className="add-btn"
           onClick={handleSendRequest}
-          disabled={actionInProgress || !newFriendName.trim() || friendshipStatus?.areFriends || friendshipStatus?.status === 'PENDING'}
+          disabled={
+            actionInProgress ||
+            !newFriendName.trim() ||
+            friendshipStatus?.areFriends ||
+            friendshipStatus?.status === 'PENDING'
+          }
         >
-          {friendshipStatus?.status === 'PENDING' ? 'Pending' : friendshipStatus?.areFriends ? 'Added' : 'Add'}
+          {friendshipStatus?.status === 'PENDING'
+            ? 'Pending'
+            : friendshipStatus?.areFriends
+            ? 'Added'
+            : 'Add'}
         </button>
       </div>
 
+      {/* Status / Errors */}
       {loading && <p className="center-text">Loading data...</p>}
       {error && <p className="center-text error">{error}</p>}
       {friendshipStatus && newFriendName.trim() && (
         <p className="center-text">
-          Status for <strong>{friendshipStatus.otherUser}</strong>: {friendshipStatus.areFriends ? "You're friends already!" : "You aren't friends yet!"}
+          Status for <strong>{friendshipStatus.otherUser}</strong>:{' '}
+          {friendshipStatus.areFriends ? "You're friends already!" : "You aren't friends yet!"}
         </p>
       )}
 
+      {/* Unter-Tabs (Friends | Incoming | Outgoing) */}
       <div className="tab-bar">
-        <button className={activeTab === 'friends' ? 'active-tab' : ''} onClick={() => setActiveTab('friends')}><p>Friends</p></button>
-        <button className={activeTab === 'incoming' ? 'active-tab' : ''} onClick={() => setActiveTab('incoming')}><p>Incoming requests</p></button>
-        <button className={activeTab === 'outgoing' ? 'active-tab' : ''} onClick={() => setActiveTab('outgoing')}><p>Outgoing requests</p></button>
+        <button
+          className={activeTab === 'friends' ? 'active-tab' : ''}
+          onClick={() => setActiveTab('friends')}
+        >
+          Friends
+        </button>
+        <button
+          className={activeTab === 'incoming' ? 'active-tab' : ''}
+          onClick={() => setActiveTab('incoming')}
+        >
+          Incoming
+        </button>
+        <button
+          className={activeTab === 'outgoing' ? 'active-tab' : ''}
+          onClick={() => setActiveTab('outgoing')}
+        >
+          Outgoing
+        </button>
       </div>
 
+      {/* Tab Content */}
       <div className="tab-content-wrapper">
-        <div className="card-c">
-          {activeTab === 'friends' && friends.map(friend => (
-            <UserCard
-              key={friend.username}
-              name={friend.username}
-              points={friend.points}
-              onAction={() => deleteFriend(friend.username).then(loadData)}
-              actionLabel="Remove"
-              buttonClass="reject-cancel-remove-button"
-            />
-          ))}
+        <div className="card-grid">
+          {activeTab === 'friends' &&
+            friends.map((friend) => (
+              <UserCard
+                key={friend.username}
+                name={friend.username}
+                points={friend.points}
+                onAction={() => deleteFriend(friend.username).then(loadData)}
+                actionLabel="Remove"
+                buttonClass="remove-btn"
+              />
+            ))}
 
-          {activeTab === 'incoming' && incomingRequests.map(req => (
-            <UserCard
-              key={req.id}
-              name={req.sender.username}
-              onAction={() => acceptFriendRequest(req.id).then(loadData)}
-              actionLabel={<GiCheckMark size={24} />}
-              secondaryAction={() => rejectFriendRequest(req.id).then(loadData)}
-              secondaryActionLabel={<FaXmark size={24} />}
-              variant="incoming"
-            />
-          ))}
+          {activeTab === 'incoming' &&
+            incomingRequests.map((req) => (
+              <UserCard
+                key={req.id}
+                name={req.sender.username}
+                onAction={() => acceptFriendRequest(req.id).then(loadData)}
+                actionLabel={<GiCheckMark size={24} />}
+                secondaryAction={() => rejectFriendRequest(req.id).then(loadData)}
+                secondaryActionLabel={<FaXmark size={24} />}
+                variant="incoming"
+              />
+            ))}
 
-          {activeTab === 'outgoing' && outgoingRequests.map(req => (
-            <UserCard
-              key={req.id}
-              name={req.receiver.username || 'Unknown'}
-              onAction={() => cancelFriendRequest(req.id).then(loadData)}
-              actionLabel="Cancel"
-              buttonClass="reject-cancel-remove-button"
-            />
-          ))}
+          {activeTab === 'outgoing' &&
+            outgoingRequests.map((req) => (
+              <UserCard
+                key={req.id}
+                name={req.receiver.username || 'Unknown'}
+                onAction={() => cancelFriendRequest(req.id).then(loadData)}
+                actionLabel="Cancel"
+                buttonClass="remove-btn"
+              />
+            ))}
         </div>
       </div>
     </main>

@@ -1,37 +1,57 @@
-import { useNavigate } from "react-router-dom";
-import { FaAngleRight, FaAngleLeft } from "react-icons/fa";
-import React, { useEffect, useState } from "react";
+/* ------------------------------------------------------------------ */
+/*  IMPORTS                                                           */
+/* ------------------------------------------------------------------ */
+import './Ranking.css';
+import React, { useEffect, useState, type JSX } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+
 import {
   getRankingOverview,
   getGlobalTrainingRanking,
   getMonthlyTrainingRanking,
   getStreakRanking,
   getFriendStreakRanking,
+  isRankingResponse,
   type UserStats,
   type RankingResponse,
   type FriendRankingResponse,
-  type RankingEntry,
   type FriendRankingEntry,
-  isRankingResponse
-} from "../api/rankings";
+} from '../api/rankings';
 
-type TabId = "trainings" | "monthly" | "streaks" | "friends";
+import { FaGlobe, FaCalendarAlt, FaFire, FaUserFriends } from 'react-icons/fa';
 
-const tabs: { id: TabId; label: string }[] = [
-  { id: "trainings", label: "Global" },
-  { id: "monthly", label: "Monthly" },
-  { id: "streaks", label: "Streaks" },
-  { id: "friends", label: "Friends" },
+/* ------------------------------------------------------------------ */
+/*  TYPES + TAB CONFIG                                                */
+/* ------------------------------------------------------------------ */
+type TabId = 'trainings' | 'monthly' | 'streaks' | 'friends';
+
+const tabs: { id: TabId; label: string; icon: JSX.Element }[] = [
+  { id: 'trainings', label: 'Global',   icon: <FaGlobe /> },
+  { id: 'monthly',   label: 'Monthly',  icon: <FaCalendarAlt /> },
+  { id: 'streaks',   label: 'Streaks',  icon: <FaFire /> },
+  { id: 'friends',   label: 'Friends',  icon: <FaUserFriends /> },
 ];
 
-export const Ranking: React.FC = () => {
+/* ------------------------------------------------------------------ */
+/*  COMPONENT                                                         */
+/* ------------------------------------------------------------------ */
+const Ranking: React.FC = () => {
+  const { t } = useTranslation();
+  const navigate = useNavigate();
+
+  /* Top-Tabbar */
+  const [activeMainTab, setActiveMainTab] =
+    useState<'challenges' | 'friends' | 'ranks'>('ranks');
+
+  /* ---------- Overview & Stats ---------- */
   const [overviewData, setOverviewData] = useState<{
     recentAchievements: any[];
     upcomingMilestones: any[];
     currentUserStats: UserStats;
   } | null>(null);
 
-  // Rankings: Trainings, Monthly, Streaks use RankingResponse, Friends uses FriendRankingResponse
+  /* ---------- Rankings per Tab ---------- */
   const [rankings, setRankings] = useState<
     Partial<Record<TabId, RankingResponse | FriendRankingResponse>>
   >({});
@@ -50,188 +70,179 @@ export const Ranking: React.FC = () => {
     friends: null,
   });
 
-  const [activeTab, setActiveTab] = useState<TabId>("trainings");
-  const navigate = useNavigate();
+  const [activeTab, setActiveTab] = useState<TabId>('trainings');
 
-  // Übersicht laden
+  /* ---------- Fetch Overview (once) ---------- */
   useEffect(() => {
-    async function fetchOverview() {
+    (async () => {
       try {
         const overview = await getRankingOverview();
         setOverviewData(overview);
       } catch (err) {
-        console.error("Error fetching overview:", err);
+        console.error('Error fetching overview:', err);
       }
-    }
-    fetchOverview();
+    })();
   }, []);
 
-  // Ranking für aktiven Tab laden
+  /* ---------- Fetch Ranking for Active Tab ---------- */
   useEffect(() => {
-    async function fetchRanking(tabId: TabId) {
-      setLoadingTabs((prev) => ({ ...prev, [tabId]: true }));
-      setErrorTabs((prev) => ({ ...prev, [tabId]: null }));
+    if (rankings[activeTab]) return; // already loaded
+
+    (async () => {
+      setLoadingTabs((prev) => ({ ...prev, [activeTab]: true }));
+      setErrorTabs((prev) => ({ ...prev, [activeTab]: null }));
 
       try {
         let data: RankingResponse | FriendRankingResponse;
-
-        switch (tabId) {
-          case "trainings":
+        switch (activeTab) {
+          case 'trainings':
             data = await getGlobalTrainingRanking(10);
             break;
-          case "monthly":
+          case 'monthly':
             data = await getMonthlyTrainingRanking(10);
             break;
-          case "streaks":
+          case 'streaks':
             data = await getStreakRanking(10);
             break;
-          case "friends":
+          case 'friends':
             data = await getFriendStreakRanking();
             break;
           default:
-            throw new Error("Unknown tab");
+            throw new Error('Unknown tab');
         }
-
-        setRankings((prev) => ({ ...prev, [tabId]: data }));
+        setRankings((prev) => ({ ...prev, [activeTab]: data }));
       } catch (err) {
-        setErrorTabs((prev) => ({ ...prev, [tabId]: (err as Error).message }));
+        setErrorTabs((prev) => ({
+          ...prev,
+          [activeTab]: (err as Error).message,
+        }));
       } finally {
-        setLoadingTabs((prev) => ({ ...prev, [tabId]: false }));
+        setLoadingTabs((prev) => ({ ...prev, [activeTab]: false }));
       }
-    }
-
-    // Wenn noch keine Daten für den aktiven Tab, lade sie
-    if (!rankings[activeTab]) {
-      fetchRanking(activeTab);
-    }
+    })();
   }, [activeTab, rankings]);
 
+  /* ---------- Render ---------- */
   const stats = overviewData?.currentUserStats;
 
   return (
     <main>
-       <div className="navigation-buttons">
-          <button onClick={() => navigate('/my-friends')} className="navigation-button">
-           Friends 
-          </button>
-          <button onClick={() => navigate('/challenges')} className="navigation-button">
-          Challenges 
-          </button>
-        </div>
-         <h1>Ranks</h1>
+      {/* ======= HORIZONTALE HAUPT-TABBAR ======= */}
+      <div className="top-tabbar">
+        <button
+          className={`top-tab ${activeMainTab === 'challenges' ? 'is-active' : ''}`}
+          onClick={() => {
+            setActiveMainTab('challenges');
+            navigate('/challenges');
+          }}
+        >
+          Challenges
+        </button>
+
+        <button
+          className={`top-tab ${activeMainTab === 'friends' ? 'is-active' : ''}`}
+          onClick={() => {
+            setActiveMainTab('friends');
+            navigate('/my-friends');
+          }}
+        >
+          Friends
+        </button>
+
+        <button
+          className={`top-tab ${activeMainTab === 'ranks' ? 'is-active' : ''}`}
+          onClick={() => setActiveMainTab('ranks')}
+        >
+          Ranks
+        </button>
+      </div>
+
+      {/* ---------------------------------------- */}
+
+
       {stats && (
         <section>
-          <h2>My Statistics</h2>
+          <h2>{t('myStatistics') || 'My Statistics'}</h2>
           <ul>
-            <li>
-              <strong>Name:</strong> {stats.name}
-            </li>
-            <li>
-              <strong>Total Trainings:</strong> {stats.totalTrainings}
-            </li>
-            <li>
-              <strong>Challenge Win Rate:</strong>{" "}
-              {(stats.challengeWinRate * 100).toFixed(1)}%
-            </li>
-            <li>
-              <strong>Longest Streak:</strong> {stats.longestStreak} Tage
-            </li>
-            <li>
-              <strong>Current Streak:</strong> {stats.currentStreak} Tage
-            </li>
-            <li>
-              <strong>Durchschnittliche Schwierigkeit:</strong>{" "}
-              {stats.averageDifficulty.toFixed(2)}
-            </li>
-            <li>
-              <strong>Total Training time:</strong> {stats.totalTrainingTime} Minuten
-            </li>
+            <li><strong>Name:</strong> {stats.name}</li>
+            <li><strong>Total Trainings:</strong> {stats.totalTrainings}</li>
+            <li><strong>Challenge Win Rate:</strong> {(stats.challengeWinRate * 100).toFixed(1)}%</li>
+            <li><strong>Longest Streak:</strong> {stats.longestStreak} {t('days') || 'days'}</li>
+            <li><strong>Current Streak:</strong> {stats.currentStreak} {t('days') || 'days'}</li>
+            <li><strong>{t('averageDifficulty') || 'Average Difficulty'}:</strong> {stats.averageDifficulty.toFixed(2)}</li>
+            <li><strong>Total Training Time:</strong> {stats.totalTrainingTime} {t('minutes') || 'minutes'}</li>
           </ul>
         </section>
       )}
 
-      <section>
-        <div style={{ marginBottom: 16 }}>
-          {tabs.map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              style={{
-                fontWeight: activeTab === tab.id ? "bold" : "normal",
-                marginRight: 12,
-                padding: "8px 16px",
-                cursor: "pointer",
-                borderBottom:
-                  activeTab === tab.id ? "3px solid blue" : "3px solid transparent",
-                background: "none",
-                borderTop: "none",
-                borderLeft: "none",
-                borderRight: "none",
-                outline: "none",
-              }}
-              aria-selected={activeTab === tab.id}
-              role="tab"
-              id={`tab-${tab.id}`}
-              aria-controls={`tabpanel-${tab.id}`}
-            >
-              {tab.label}
-            </button>
-          ))}
-        </div>
+      {/* ---------- Tabs ---------- */}
+      <div className="tab-bar">
+        {tabs.map((tab) => (
+          <button
+            key={tab.id}
+            onClick={() => setActiveTab(tab.id)}
+            className="ranking-tab"
+            aria-selected={activeTab === tab.id}
+            role="tab"
+            id={`tab-${tab.id}`}
+            aria-controls={`tabpanel-${tab.id}`}
+          >
+            {tab.icon}
+            <span className="tab-label">{tab.label}</span>
+          </button>
+        ))}
+      </div>
 
-        <div
-          role="tabpanel"
-          id={`tabpanel-${activeTab}`}
-          aria-labelledby={`tab-${activeTab}`}
-          tabIndex={0}
-        >
-          {loadingTabs[activeTab] && (
-            <p>Loading {tabs.find((t) => t.id === activeTab)?.label}...</p>
-          )}
-          {errorTabs[activeTab] && (
-            <p style={{ color: "red" }}>Error: {errorTabs[activeTab]}</p>
-          )}
+      {/* ---------- Tab Panel ---------- */}
+      <div
+        role="tabpanel"
+        id={`tabpanel-${activeTab}`}
+        aria-labelledby={`tab-${activeTab}`}
+        tabIndex={0}
+      >
+        {loadingTabs[activeTab] && (
+          <p className="info-text">{t('loading') || 'Loading'}…</p>
+        )}
+        {errorTabs[activeTab] && (
+          <p className="error-text">Error: {errorTabs[activeTab]}</p>
+        )}
 
-          {!loadingTabs[activeTab] &&
-            !errorTabs[activeTab] &&
-            isRankingResponse(rankings[activeTab]) && (
-              <>
-                <ol>
-                  {rankings[activeTab].entries.map((entry) => (
+        {/* Global / Monthly / Streaks */}
+        {!loadingTabs[activeTab] && !errorTabs[activeTab] && isRankingResponse(rankings[activeTab]) && (
+          <>
+            <ol className="ranking-list">
+              {rankings[activeTab]!.entries.map((entry) => (
+                <li key={entry.username}>
+                  <span>{entry.displayName ?? entry.username}</span>
+                  <span>{entry.score} {t('points') || 'points'}</span>
+                </li>
+              ))}
+            </ol>
+            <p className="info-text">
+              {t('lastUpdate') || 'Last Update'}:{' '}
+              {new Date(rankings[activeTab]!.lastUpdated).toLocaleString()}
+            </p>
+          </>
+        )}
+
+        {/* Friends Tab */}
+        {!loadingTabs[activeTab] && !errorTabs[activeTab] && activeTab === 'friends' &&
+          (rankings.friends as FriendRankingResponse)?.friends?.length > 0 && (
+            <>
+              <ol className="ranking-list">
+                {(rankings.friends as FriendRankingResponse).friends.map(
+                  (entry: FriendRankingEntry) => (
                     <li key={entry.username}>
-                      <strong>{entry.displayName ?? entry.username}</strong> – Points:{" "}
-                      {entry.score}
+                      <span>{entry.displayName ?? entry.username}</span>
+                      <span>{entry.score} {t('days') || 'days'}</span>
                     </li>
-                  ))}
-                </ol>
-                <p>
-                  Last Update:{" "}
-                  {new Date(rankings[activeTab].lastUpdated).toLocaleString()}
-                </p>
-              </>
-            )}
-
-
-            {!loadingTabs[activeTab] &&
-            !errorTabs[activeTab] &&
-            activeTab === "friends" &&
-            (rankings.friends as FriendRankingResponse)?.friends?.length > 0 && (
-              <>
-                <ol>
-                  {(rankings.friends as FriendRankingResponse).friends.map(
-                    (entry: FriendRankingEntry) => (
-                      <li key={entry.username}>
-                        <strong>{entry.displayName ?? entry.username}</strong> – Streak:{" "}
-                        {entry.score} Tage
-                      </li>
-                    )
-                  )}
-                </ol>
-                <p>Last Update: n/a</p>
-              </>
-            )}
-          </div>
-      </section>
+                  )
+                )}
+              </ol>
+              <p className="info-text">{t('lastUpdate') || 'Last Update'}: n/a</p>
+            </>
+          )}
+      </div>
     </main>
   );
 };

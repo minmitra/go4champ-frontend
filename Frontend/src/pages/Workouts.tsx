@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Workouts.css';
 import './Workout.css';
 
 
@@ -76,11 +75,11 @@ const Workouts = () => {
 
   return (
     <main>
-      <h1>My Workouts</h1>
+      
          {/* Today's Workout Section */}
       <section>
         <h2>Today's Workout</h2>
-        <p>Start your workout:</p>
+        <p>Here’s your personalized workout for today – let’s crush it!</p>
         <div className="todaysworkout-card">
           {todaysWorkout ? (
             <>
@@ -102,11 +101,11 @@ const Workouts = () => {
       <section>
         <h2>Create your workout</h2>
 
-        <p>Create your personal fitness exercise with the help of AI:</p>
+        <p>Use AI to instantly generate workouts tailored to your goals and location.</p>
         <button className="primary-button" onClick={() => navigate('/CreateWorkout')}>
-          ✚ Create New Workout
+          Create New Workout
         </button>
-         <p>Created fitness exercise, start or delete training:</p>
+         <p>Manage or start your saved workouts:</p>
         {savedWorkouts.length > 0 ? (
           <ul className="todo-list">
             {savedWorkouts.map((workout, index) => (

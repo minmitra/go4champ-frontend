@@ -1,43 +1,335 @@
+/* =========================================
+   FONT & BASE
+========================================= */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+body {
+  font-family: 'Inter', sans-serif;
+  background: #f9fafb;
+  color: #1f2937;
+}
+
+/* =========================================
+   PRIMARY BUTTON
+========================================= */
+.primary-button,
 .createworkout-button {
   display: block;
   width: 100%;
-  max-width: 400px;
-  margin: 16px auto 20px;
-  padding: 10px 16px;
+  max-width: 420px;
+  margin: 1.25rem auto 2rem;
+  padding: 0.8rem 1.25rem;
   font-size: 1rem;
-  font-weight: bold;
+  font-weight: 700;
   text-align: center;
-  background-color: #172554;
+  background-color: #1e293b;
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: 0.75rem;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.25s ease, transform 0.2s ease;
 }
+.primary-button:hover,
 .createworkout-button:hover {
-  background-color: #1d4ed8;
+  background-color: #334155;
+  transform: translateY(-2px);
 }
 
+/* =======================================================
+   Today’s Workout Card – Facelift
+======================================================= */
+.todaysworkout-card{
+  background:#f1f5f9 !important;            /* helles Grau statt Weiß */
+  border:1px solid #e2e8eb !important;
+  border-radius:20px !important;
+  max-width:760px !important;               /* etwas breiter */
+  margin:2rem auto !important;
+  padding:2.5rem 3rem !important;
+  text-align:center !important;
+  box-shadow:0 6px 18px rgba(0,0,0,.06) !important;
+  display:flex !important;
+  flex-direction:column !important;
+  gap:1.25rem !important;
+}
 
-.todaysworkout-card {
-  border-radius: 20px;
-  text-align: left;
-  transition: transform 0.1s ease;
+.todaysworkout-card p{
+  margin:.25rem 0 !important;
+  line-height:1.45 !important;
+  color:#1e293b !important;
+}
+
+.todaysworkout-h3{
+  font-size:1.5rem !important;
+  font-weight:700 !important;
+  letter-spacing:.3px !important;
+  margin-bottom:.5rem !important;
+  text-transform:capitalize !important;     /* “back” → “Back” */
+}
+
+/* Start-Button in der Card */
+.todaysworkout-card .primary-button{
+  max-width:280px !important;
+  margin:0 auto !important;
+  background:#1e293b !important;
+  color:#fff !important;
+  border-radius:9999px !important;
+  padding:.8rem 1.5rem !important;
+  transition:background .2s ease,transform .2s ease !important;
+}
+.todaysworkout-card .primary-button:hover{
+  background:#334155 !important;
+  transform:translateY(-2px) !important;
+}
+
+/* Dark-Mode */
+body.dark .todaysworkout-card{
+  background:#1e293b !important;
+  border-color:#334155 !important;
+  color:#e2e8f0 !important;
+}
+body.dark .todaysworkout-card p{color:#e2e8f0 !important;}
+
+
+/* =========================================
+   WORKOUT LIST
+========================================= */
+/* =======================================================
+   FORCE NEW CARD STYLE (überschreibt ältere Definitionen)
+======================================================= */
+.todo-list {
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 2rem auto !important;
+  max-width: 720px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 20px !important;
+}
+
+.workout-item {
+  background: #f8fafc !important;          /* helles Grau, kein Weißblick */
+  border: none !important;                 /* Rahmen weg */
+  border-radius: 16px !important;
+  padding: 24px !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  gap: 20px !important;
+  box-shadow: 0 3px 10px rgba(0,0,0,.06) !important;
+  transition: transform .18s ease !important;
+}
+.workout-item:hover {
+  transform: translateY(-3px) !important;
+}
+
+.workout-item > div:first-child {
+  font-size: 1.05rem !important;
+  font-weight: 600 !important;
+  color: #0f172a !important;
+  flex: 1 1 auto !important;
+}
+
+/* Buttons */
+.todo-actions{display:flex !important;gap:12px !important;}
+
+.start-button,
+.delete-button{
+  padding: 10px 22px !important;
+  font-weight: 600 !important;
+  font-size: .9rem !important;
+  border-radius: 9999px !important;
+  border:none !important;
+  cursor:pointer !important;
+  transition: background .18s ease, transform .18s ease !important;
+}
+.start-button{background:#0d9488 !important;color:#fff !important;}
+.start-button:hover{background:#0f766e !important;transform:translateY(-1px) !important;}
+
+.delete-button{background:#dc2626 !important;color:#fff !important;}
+.delete-button:hover{background:#b91c1c !important;transform:translateY(-1px) !important;}
+
+/* Dark Mode */
+body.dark .workout-item{
+  background:#1e293b !important;
+  box-shadow: 0 3px 10px rgba(0,0,0,.3) !important;
+}
+body.dark .workout-item > div:first-child{color:#e2e8f0 !important;}
+body.dark .start-button{background:#14b8a6 !important;color:#0f172a !important;}
+body.dark .start-button:hover{background:#0d9488 !important;}
+body.dark .delete-button{background:#f87171 !important;color:#0f172a !important;}
+body.dark .delete-button:hover{background:#ef4444 !important;}
+
+
+/* Button area */
+.todo-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+.start-button,
+.delete-button {
+  padding: 0.45rem 0.9rem;
+  font-size: 0.9rem;
+  border: none;
+  border-radius: 0.5rem;
   cursor: pointer;
- margin: 16px auto;
-   box-sizing: border-box;
-  width: 100% ;
-  max-width: none ;
-    border: 2px solid #ccc !important; 
-  background-color: none;
-  padding: 32px;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+.start-button {
+  background-color: #1e293b;
+  color: #fff;
+}
+.start-button:hover {
+  background-color: #334155;
+  transform: translateY(-2px);
+}
+.delete-button {
+  background-color: #ef4444;
+  color: #fff;
+}
+.delete-button:hover {
+  background-color: #b91c1c;
+  transform: translateY(-2px);
 }
 
+/* =========================================
+   DARK MODE
+========================================= */
+body.dark {
+  background-color: #0f172a;
+  color: #e2e8f0;
+}
+body.dark .primary-button,
+body.dark .createworkout-button {
+  background-color: #ed9108;
+  color: #000;
+}
+body.dark .primary-button:hover,
+body.dark .createworkout-button:hover {
+  background-color: #fbbf24;
+}
 body.dark .todaysworkout-card {
-  background-color: #273449;
+  background-color: #1e293b;
+  border-color: #334155;
+  color: #e2e8f0;
+}
+body.dark .workout-item {
+  background-color: #334155;
+  color: #e2e8f0;
+}
+body.dark .workout-item:hover {
+  background-color: #475569;
+}
+body.dark .start-button {
+  background-color: #ed9108;
+  color: #000;
+}
+body.dark .start-button:hover {
+  background-color: #facc15;
+}
+body.dark .delete-button {
+  background-color: #ef4444;
+}
+body.dark .delete-button:hover {
+  background-color: #b91c1c;
 }
 
+/* ===============================
+   MODERNIZED: Today's Workout Card
+================================== */
+.todaysworkout-card {
+  background: #f8fafc !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 20px !important;
+  padding: 2.5rem 3rem !important;
+  max-width: 760px !important;
+  margin: 2.5rem auto !important;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.05) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  text-align: center !important;
+  gap: 1.2rem !important;
+  font-family: 'Inter', sans-serif !important;
+}
 
 .todaysworkout-h3 {
-    text-align: center;
+  font-size: 1.8rem !important;
+  font-weight: 800 !important;
+  margin-bottom: .3rem !important;
+  color: #0f172a !important;
+}
+
+.todaysworkout-card p {
+  font-size: 1rem !important;
+  color: #334155 !important;
+  line-height: 1.6 !important;
+  margin: 0 !important;
+}
+
+.todaysworkout-card p strong {
+  color: #0f172a !important;
+}
+
+/* Start Button: Clean & Centered */
+.todaysworkout-card .primary-button {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  width: 220px !important;
+  padding: 12px 20px !important;
+  background: #1e293b !important;
+  border: none !important;
+  border-radius: 9999px !important;
+  color: white !important;
+  margin-top: 1rem !important;
+  transition: background 0.25s ease, transform 0.25s ease !important;
+}
+
+.todaysworkout-card .primary-button:hover {
+  background: #334155 !important;
+  transform: translateY(-2px) !important;
+}
+
+/* ===============================
+   Dark Mode
+================================== */
+body.dark .todaysworkout-card {
+  background: #1e293b !important;
+  border-color: #334155 !important;
+}
+
+body.dark .todaysworkout-h3,
+body.dark .todaysworkout-card p,
+body.dark .todaysworkout-card p strong {
+  color: #e2e8f0 !important;
+}
+
+/* ===============================
+   Headings & Descriptions Modern
+================================== */
+section > h2 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-top: 2.5rem;
+  margin-bottom: 0.75rem;
+  color: #0f172a;
+  text-align: center;
+}
+
+section > p {
+  font-size: 1.05rem;
+  color: #475569;
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto 1.5rem;
+  line-height: 1.6;
+}
+
+body.dark section > h2 {
+  color: #e2e8f0;
+}
+
+body.dark section > p {
+  color: #94a3b8;
 }
