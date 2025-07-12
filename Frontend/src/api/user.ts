@@ -86,7 +86,7 @@ export const removeEquipment = async(name: string): Promise<void> => {
 };
 
 export const getAvailableEquipment = async (): Promise<Record<string, string>> => {
-  const res = await fetch('http://localhost:8080/api/equipment/available');
+  const res = await fetchWithAuth('http://localhost:8080/api/equipment/available');
   
   if (!res.ok){
     throw new Error('Could not fetch equipment');
