@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react';
 import React from 'react';
 import './MyFriends.css';
-import { FaAngleRight, FaAngleLeft } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
 import { FaXmark } from "react-icons/fa6";
 import { GiCheckMark } from "react-icons/gi";
+import { useNavigate } from 'react-router-dom';
 
 import {
   getFriend,
@@ -33,6 +32,8 @@ const MyFriends = () => {
   const [actionInProgress, setActionInProgress] = useState(false);
   const navigate = useNavigate();
 
+  useEffect(() => { loadData(); }, []);
+
   const loadData = async () => {
     setLoading(true);
     setError(null);
@@ -54,8 +55,6 @@ const MyFriends = () => {
       setLoading(false);
     }
   };
-
-  useEffect(() => { loadData(); }, []);
 
   const handleFriendInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const username = e.target.value;
@@ -87,7 +86,6 @@ const MyFriends = () => {
     onAction,
     actionLabel,
     buttonClass,
-     actionType,  
     secondaryAction,
     secondaryActionLabel,
     variant,
@@ -95,18 +93,15 @@ const MyFriends = () => {
     name: string;
     points?: number;
     onAction?: () => void;
-    actionLabel?: React.ReactNode;    
+    actionLabel?: React.ReactNode;
     buttonClass?: string;
     secondaryAction?: () => void;
-   secondaryActionLabel?: React.ReactNode;
-   actionType?: 'accept' | 'reject';
-   variant?: 'incoming';
+    secondaryActionLabel?: React.ReactNode;
+    variant?: 'incoming';
   }) => (
     <div className="user-card">
       <p><strong className="username-underline">{name}</strong></p>
       {points !== undefined && <p>{points} points</p>}
-       {points !== undefined && <p>{points} points</p>}
-    <div style={{ display: 'flex', gap: '8px', justifyContent: 'center' }}>
       <div className="button-group">
         {onAction && (
           variant === "incoming" ? (
@@ -132,20 +127,17 @@ const MyFriends = () => {
         )}
       </div>
     </div>
-  </div>
-);
+  );
 
   return (
     <main>
-        <div className="navigation-buttons">
-        <button onClick={() => navigate('/challenges')} className="navigation-button">
-         Challenges 
-        </button>
-        <button onClick={() => navigate('/ranking')} className="navigation-button">
-          Ranks 
-        </button>
+      <div className="navigation-buttons">
+        <button onClick={() => navigate('/challenges')} className="navigation-button">Challenges</button>
+        <button onClick={() => navigate('/ranking')} className="navigation-button">Ranks</button>
       </div>
+
       <h1>Friends</h1>
+
       <div className="wrapper">
         <input
           type="text"
@@ -186,23 +178,21 @@ const MyFriends = () => {
               points={friend.points}
               onAction={() => deleteFriend(friend.username).then(loadData)}
               actionLabel="Remove"
-               actionType="reject" 
-               buttonClass="reject-cancel-remove-button"
+              buttonClass="reject-cancel-remove-button"
             />
           ))}
-         
-          {activeTab === 'incoming' && incomingRequests.map(req => (
-<UserCard
-  key={req.id}
-  name={req.sender.username}
-  onAction={() => acceptFriendRequest(req.id).then(loadData)}
-  actionLabel={<span className="incoming-accept"><GiCheckMark size={32} /></span>}
-  secondaryAction={() => rejectFriendRequest(req.id).then(loadData)}
-  secondaryActionLabel={<span className="incoming-reject"><FaXmark size={32}  /></span>}
-  variant="incoming"
-/>
 
-))}
+          {activeTab === 'incoming' && incomingRequests.map(req => (
+            <UserCard
+              key={req.id}
+              name={req.sender.username}
+              onAction={() => acceptFriendRequest(req.id).then(loadData)}
+              actionLabel={<GiCheckMark size={24} />}
+              secondaryAction={() => rejectFriendRequest(req.id).then(loadData)}
+              secondaryActionLabel={<FaXmark size={24} />}
+              variant="incoming"
+            />
+          ))}
 
           {activeTab === 'outgoing' && outgoingRequests.map(req => (
             <UserCard
@@ -211,7 +201,6 @@ const MyFriends = () => {
               onAction={() => cancelFriendRequest(req.id).then(loadData)}
               actionLabel="Cancel"
               buttonClass="reject-cancel-remove-button"
-               actionType="reject" 
             />
           ))}
         </div>
@@ -221,69 +210,3 @@ const MyFriends = () => {
 };
 
 export default MyFriends;
-
-
-
-
-// import React, { useState } from 'react';
-// import './Gamification.css';
-
-// const Gamification = () => {
-//   const [friends, setFriends] = useState([
-//     { name: 'Anna', points: 1200 },
-//     { name: 'Lukas', points: 950 },
-//     { name: 'Mia', points: 800 },
-//   ]);
-//   const [newFriend, setNewFriend] = useState('');
-//   const [userLevel, setUserLevel] = useState(5);
-//   const [userPoints, setUserPoints] = useState(1050);
-
-//   const handleAddFriend = () => {
-//     if (newFriend.trim()) {
-//       setFriends([...friends, { name: newFriend.trim(), points: 0 }]);
-//       setNewFriend('');
-//     }
-//   };
-
-//   const sortedFriends = [...friends].sort((a, b) => b.points - a.points);
-
-//   return (
-//     <div className="gamification-page">
-//       <h1>Gamification</h1>
-
-//     <div className="coming-soon-fullscreen">
-//     <span>Coming Soon</span>
-//     </div>
-
-//       <div className="stats-card">
-//         <h2>Your Stats</h2>
-//         <p>Level: <strong>{userLevel}</strong></p>
-//         <p>Points: <strong>{userPoints}</strong></p>
-//       </div>
-
-//       <div className="friends-section">
-//         <h2>Friends Leaderboard</h2>
-//         <ul className="friends-list">
-//           {sortedFriends.map((friend, index) => (
-//             <li key={index}>
-//               <span className="friend-name">{friend.name}</span>
-//               <span className="friend-points">{friend.points} pts</span>
-//             </li>
-//           ))}
-//         </ul>
-
-//         <div className="add-friend">
-//           <input
-//             type="text"
-//             value={newFriend}
-//             onChange={(e) => setNewFriend(e.target.value)}
-//             placeholder="Add a friend"
-//           />
-//           <button onClick={handleAddFriend}>Add</button>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default Gamification;

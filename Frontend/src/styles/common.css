@@ -1,6 +1,10 @@
 /* ========================== */
 /* GLOBAL BODY UND THEMEN     */
 /* ========================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+
 html, body {
   height: 100%;
   margin: 0;
@@ -9,9 +13,9 @@ html, body {
   flex-direction: column;
   background-color: rgb(255, 255, 255);
   color: rgb(52, 50, 50);
-  font-family: Suisse,sans-serif;
+ 
   overflow-x: hidden;
-  
+  font-family: 'Inter', sans-serif;
 }
 
 

@@ -179,7 +179,7 @@ const MyProfile = () => {
             <button className="primary-button"onClick={handleCancel}>Abbrechen</button>
           </div>
         ) : (
-          <button className="primary-button" onClick={() => setIsEditing(true)}>✏️Edit</button>
+          <button className="primary-button" onClick={() => setIsEditing(true)}>Edit</button>
         )}
       </div>
     </main>

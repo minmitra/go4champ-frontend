@@ -1,197 +1,196 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+
+body {
+  font-family: 'Inter', sans-serif;
+}
 
 /* ========================== */
-/* HERO-BEREICH               */
+/* HERO SECTION               */
 /* ========================== */
 .hero-image-container {
   position: relative;
   width: 100%;
-  height: 93vh !important; 
+  height: 93vh;
   overflow: hidden;
-  padding-top: 0px; 
 }
 
+/* Hintergrundbild */
 .gochampion-hero {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
-   z-index: 1;
 }
 
-.hero-text-overlay {
+/* Hellerer Gradient-Overlay */
+.hero-image-container::after {
+  content: "";
   position: absolute;
-  top: 30%;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.25),
+    rgba(0, 0, 0, 0.55)
+  );
+  z-index: 1;
+}
+
+/* Headline + Slogan */
+.hero-copy {
+  position: absolute;
+  top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
   z-index: 2;
-  padding: 20px;
-  width: 100%;
+  color: #ffffff;
+  padding: 0 20px;
   max-width: 700px;
 }
 
-
-.hero-text-overlay h1 {
-  font-size: 2.6rem;
-  font-weight: 900;
+.hero-copy h1 {
+  font-size: clamp(2.8rem, 6vw, 4rem);
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  color: #ffffff;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
   margin-bottom: 20px;
+  margin-top: -50px;
+  line-height: 1.2;
 }
 
-.hero-text-overlay p {
-  font-size: 20px;
-  color: rgb(0, 0, 0);
+.hero-copy p {
+  font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+  font-weight: 400;
+  letter-spacing: 0.5px;
+  color: #f3f4f6;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
 }
 
+/* Button – separat, absolut */
+.hero-cta-fixed {
+  position: absolute;
+  left: 50%;
+  bottom: 12%; /* tiefer = kleiner Wert, höher = größer Wert */
+  transform: translateX(-50%);
+  background-color: #ed9108;
+  color: #ffffff;
+  padding: 14px 32px;
+  border-radius: 999px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: transform 0.25s ease, background-color 0.25s ease;
+  z-index: 2;
+}
 
-
+.hero-cta-fixed:hover {
+  background-color: #e07b00;
+  transform: translateX(-50%) translateY(-3px) scale(1.03);
+}
 
 /* ========================== */
-/* KARTENBEREICH (Cards)      */
+/* CARD SECTION               */
 /* ========================== */
-
-
-
-/* Container  Karten */
 .card-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
-  margin-top: 40px;
-padding-left: 40px;
-padding-right: 40px;
+  gap: 40px;
+  padding: 60px 40px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
+.info-card {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  padding: 32px 24px;
+  text-align: center;
+  width: 100%;
+  max-width: 800px;
+  transition: transform 0.3s ease;
+}
+
+.info-card:hover {
+  transform: translateY(-6px);
+}
+
+.info-card h2 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #1f2937; /* dunkelgrau statt rein schwarz */
+  margin-bottom: 16px;
+  letter-spacing: -0.5px;
+  font-family: 'Inter', sans-serif;
+}
 
 .card-image {
   width: 100%;
   max-height: 200px;
   object-fit: contain;
-  margin-bottom: 0px;
-  pad: 20px;
-
+  margin-bottom: 16px;
 }
 
 .card-text {
-  font-weight: 600;
-  line-height: 1.6;
-   font-weight: normal
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #374151;  /* dunkler, eleganter */
+  max-width: 600px;
+  margin: 0 auto;
+  letter-spacing: 0.2px;
+  font-family: 'Inter', sans-serif;
+  text-align: center;
 }
 
-
-
+.card-text-shadow {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
 
 /* ========================== */
-/* RESPONSIVE                 */
+/* RESPONSIVE BREAKPOINTS     */
 /* ========================== */
 @media (min-width: 1024px) {
+  .card-container {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
   .info-card {
-    width: 100%;
-  max-width: 100vw !important;
-  padding: 16px 16px !important;
-  }
-
-  .pixel-hero {
-    max-width: 150px;
-    width: 100%;
-    height: auto;
-    margin-bottom: 250px;
-    margin-top: -100px;
-    
+    flex: 1 1 calc(33.333% - 40px);
+    max-width: calc(33.333% - 40px);
   }
 }
-
-.section-wrapper {
-  background-color:   #1d4ed8;
-}
-
-.gamification-section {
-  margin-bottom: 60px;
-}
-
-.info-card.news-card {    
-  border: 2px solid #ccc !important;         
-  box-shadow: none;               
-}
-
-
-
-
-
-/* ========================== */
-/* MEMBER-BUTTON              */
-/* ========================== */
-.becomeMember-box {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 2px solid #ed9108;
-  border-radius: 50px;
-  padding: 10px 16px;
-  cursor: pointer;
-  text-decoration: none;
-   color: #ed9108 !important;
-  transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 1000;
-}
-
-.becomeMember-box:hover {
-   border-color: #ffc982;
-   color: #ffc982 !important;
-  transform: scale(1.05);
-}
-
-.avatar-circle {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background-color: #172554;
-  color: white;
-  font-weight: bold;
-  font-size: 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-right: 10px;
-}
-
-.becomeMember-text {
-  font-size: 1rem;
-  font-weight: 600;
-  margin: 0;
-}
-
 
 /* ========================== */
 /* DARK MODE (optional)       */
 /* ========================== */
-body.dark .card-text,
-body.dark .info-card,
-body.dark .becomeMember-box {
-  color: white;
-}
-
 body.dark .info-card {
-  background-color: #000 !important;
+  background-color: #1f2937;
+  color: #f3f4f6;
 }
 
-body.dark .becomeMember-box {
-  background-color: transparent;
-  border: 2px solid white;
+body.dark .card-text {
+  color: #d1d5db;
 }
 
-body.dark .becomeMember-box:hover {
-  border-color: #1d4ed8;
-  color: #1d4ed8 !important;
+body.dark .hero-image-container::after {
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.6),
+    rgba(0, 0, 0, 0.8)
+  );
 }
 
-body.dark .avatar-circle {
-  background-color: #000000;
-  color: #ffffff;
+body.dark .hero-cta-fixed {
+  background-color: #1d4ed8;
 }
 
-
-
+body.dark .hero-cta-fixed:hover {
+  background-color: #2563eb;
+}

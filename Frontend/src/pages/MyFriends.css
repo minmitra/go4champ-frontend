@@ -1,275 +1,184 @@
+/* ───────────────────────────────────────────
+   GLOBAL HELPERS
+   ─────────────────────────────────────────── */
+.center-text        { text-align: center; }
+.center-text.error  { color: #dc2626; }   /* red */
+
+/* ───────────────────────────────────────────
+   SEARCH / ADD-FRIEND INPUT + BUTTON
+   ─────────────────────────────────────────── */
 .wrapper {
-  width: 400px;
-  max-width: 100%;
+  display: flex;
+  justify-content: center;
+  margin: 20px auto 0;
+  max-width: 400px;
   position: relative;
-  margin: 0 auto;        
-  display: flex;          
-  flex-direction: column; 
-  align-items: center;  
-  gap: 8px;              
 }
 
 .wrapper input {
-  background: rgb(255, 255, 255);
-  border: 1px solid rgb(10, 10, 10);
- border-radius: 50px;
- padding: 0.4rem 3rem 0.4rem 1rem;
   width: 100%;
   height: 45px;
-  
+  padding: 0 130px 0 16px; /* rechts Platz für Button */
+  border: 1px solid #0a0a0a;
+  border-radius: 50px;
+  background: #ffffff;
+  font-size: 16px;
+  box-sizing: border-box;
 }
 
-
 .wrapper button {
-  background-color:#d89c19;
-border-radius: 50px;
   position: absolute;
-   padding: 0.3rem 1rem 0.3rem 1rem;
-  right: 3px;            
-  top: 50%;                
-  transform: translateY(-50%);
+  top: 11px;
+  right: 1px;
+  height: 43px;
+  padding: 0 24px;
+  border: none;
+  border-radius: 0 50px 50px 0;
+  background: #d89c19;
+  color: #ffffff;
+  font-size: 16px;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: aliceblue;
-  height: 40px;
+  transition: background 0.2s ease;
 }
 
 .wrapper button:hover {
-  background-color: #3b82f6; 
-}
-
-.center-text {
-  text-align: center;
+  background: #a76b08;
 }
 
 
+/* ───────────────────────────────────────────
+   TAB BAR  (Friends / Incoming / Outgoing)
+   ─────────────────────────────────────────── */
 .tab-bar {
   display: flex;
-  gap: 1px;
-  margin: 0 auto;
-  max-width: 1200px;            
   width: 100%;
-   border-radius: 12px  12px 0 0;   
-  overflow: hidden;          
+  max-width: 900px;
+  margin: 24px auto 0;
+  border-radius: 12px 12px 0 0;
+  overflow: hidden;
+  background: #acb1c4;
 }
-
-.tab-bar button:hover {
-  background:#0f172a; 
-  color:white;
-}
-
 
 .tab-bar button {
-  flex: 1; 
- padding: 16px;
-  cursor: pointer;
-  background-color: #acb1c4;
-  border-radius: 0px;
-  border: none;
+  flex: 1;
+  padding: 14px 0;
   font-size: 16px;
-  font-weight: 500;
+  font-weight: 600;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.tab-bar button:hover     { background:#0f172a; color:#ffffff; }
+.tab-bar .active-tab      { background:#0f172a; color:#ffffff; }
 
+/* ───────────────────────────────────────────
+   TAB CONTENT PANEL
+   ─────────────────────────────────────────── */
+.tab-content-wrapper {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  background: #e0e7ff;
+  border-radius: 0 0 12px 12px;
+  padding: 24px;
+  min-height: 220px;
+  box-sizing: border-box;
 }
 
-
-.tab-bar .active-tab {
-  background: #0f172a;
-  color: white;
-}
-
+/* ───────────────────────────────────────────
+   CARD GRID
+   ─────────────────────────────────────────── */
 .card-c {
   display: flex;
-  gap: 12px;
-  justify-content: flex-end;
-   width: fit-content;      
-  flex-direction: row;      /* nebeneinander */
-  flex-wrap: nowrap;        /* kein Umbruch */
-   margin: 0;
-    padding: 8px;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
 }
 
 .user-card {
-  background: none;
-   border: 1px solid #0f172a;
-  border-radius: 12px;
-  width: 200px;
-  text-align: center;
-  color:black !important;
-   padding: 16px 24px;
-    width: 300px;
+  width: 260px;
+  background:#ffffff;
+  border:1px solid #0f172a;
+  border-radius:12px;
+  padding:20px;
+  text-align:center;
+  box-shadow:0 2px 6px rgba(0,0,0,0.05);
 }
 
-
-.tab-content-wrapper {
-  background-color: none;        
-  border-radius: 0 0 12px 12px;      
-  padding: 16px;                     
-  max-width: 1200px;
-   min-height: 200px;                    
-  margin: 0px;                   
-   background-color: #e0e7ff;
-    padding: 0px 0px 0px 0px; 
-
+.user-card p strong.username-underline {
+  border-bottom:1px solid #0f172a;
+  padding-bottom:4px;
 }
 
-
-.user-card p strong {
-  border-bottom: 1px solid black; 
-  padding-bottom: 4px;          
-  display: inline-block;     
-   margin-bottom: 12px;       
-}
-
-
-/* ========================== */
-/* Mobile*/
-/* ========================== */
-@media (max-width: 768px) {
-  .card-c {
-    flex-direction: column;
-    align-items: flex-end;   
-    width: 100%;
-    margin: 0;
-    padding: 8px;
-  }
-
-  .user-card {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    height: auto;
-    padding: 8px 12px;
-  }
-
-  .user-card p {
-    display: flex;
-    margin: 0;
-    height: auto;
-  }
-
-  .button-group {
-    display: flex;
-    justify-content: flex-end;
-    gap: 6px;
-    margin: 0;
-
-  }
-
-  .button-group button {
-   display: flex;
-    justify-content: flex-end;
-    gap: 4px;              
-    margin: 0;
-    padding: 6px 12px;
-  }
-
-.incoming-accept,.incoming-reject {
-     position: static;
-  }
-}
-
-/* ========================== */
-/* Accept-Remove-reject-button*/
-/* ========================== */
+/* ───────────────────────────────────────────
+   BUTTON GROUP (Accept / Reject / Remove)
+   ─────────────────────────────────────────── */
 .button-group {
-  display: flex;
-  margin: 16px;
-  gap: 8px;               
-  justify-content: center; 
-   padding: 0 12px;   
+  display:flex;
+  justify-content:center;
+  gap:8px;
+  margin-top:12px;
 }
 
-.button-group button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  border-radius: 20px;
-  cursor: pointer;
-  color: white;
-  font-size: 16px;
-  transition: background-color 0.3s ease;
-   flex: none;     
-    padding: 8px 16px;  
+.button-group button,
+.reject-cancel-remove-button {
+  padding:8px 16px;
+  border:none;
+  border-radius:20px;
+  font-size:15px;
+  cursor:pointer;
+  color:#ffffff;
+  transition:background 0.2s ease;
 }
 
-.accept-button {
-  background-color: #22c55e;
-   padding: 8px 16px; 
-    width: auto;
-}
+.reject-cancel-remove-button,
+.button-group button.reject-cancel-remove-button { background:#ef4444; }
+.reject-cancel-remove-button:hover,
+.button-group button.reject-cancel-remove-button:hover { background:#b91c1c; }
 
-.accept-button:hover {
-  background-color: #15803d; 
+/* Icons in incoming tab */
+.incoming-accept,
+.incoming-reject {
+  display:flex;
+  align-items:center;
+  cursor:pointer;
+  font-size:0;           /* removes inline-space */
 }
+.incoming-accept { color:#22c55e; }
+.incoming-reject { color:#ef4444; }
+.incoming-accept:hover { color:rgba(34,197,94,0.4); }
+.incoming-reject:hover { color:rgba(239,68,68,0.4); }
 
-button.reject-cancel-remove-button {
-   background-color: #ef4444 !important;
-  color: white !important;
-  padding: 8px 16px !important;
-  border: none;
-  border-radius: 20px;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-button.reject-cancel-remove-button:hover {
- background-color: #b91c1c !important;
-}
-
-
-
-/* ========================== */
-/* incomming-icon*/
-/* ========================== */
-.incoming-accept{
-  color: #22c55e;
-  
-}
-.incoming-reject{
-  color: #ef4444;
-}
-.incoming-accept:hover {
-  color: rgba(34, 197, 94, 0.2);
-   border-radius: 20px;
-}
-
-.incoming-reject:hover {
-  color: rgba(239, 68, 68, 0.2);
-   border-radius: 20px;
-}
-
-/* ========================== */
-/* Dark-mode*/
-/* ========================== */
+/* ───────────────────────────────────────────
+   DARK MODE
+   ─────────────────────────────────────────── */
 body.dark .wrapper input {
-  background: rgb(0, 0, 0);
-  border: 0.1px solid rgb(255, 255, 255);
-  color: white;
+  background:#000000;
+  border:0.1px solid #ffffff;
+  color:#ffffff;
 }
 
-
-body.dark .user-card, body.dark .tab-content-wrapper ,body.dark .tab-bar button {
-  background-color: #000000;
-  border: 0.1px solid rgb(255, 255, 255);
+body.dark .tab-bar button,
+body.dark .user-card,
+body.dark .tab-content-wrapper {
+  background:#000000;
+  border:0.1px solid #ffffff;
+  color:#ffffff;
 }
 
-body.dark .tab-bar .active-tab {
-  background:  #3b82f6;
-  color: white;
-}
-
+body.dark .tab-bar .active-tab,
 body.dark .tab-bar button:hover {
-  background:#3b82f6; 
-  color:white;
-}
-body.dark .user-card p strong {
-   border-bottom: 1px solid rgb(255, 255, 255); 
-     
-
+  background:#3b82f6;
+  color:#ffffff;
 }
 
+body.dark .user-card p strong.username-underline { border-bottom:1px solid #ffffff; }
 
+/* ───────────────────────────────────────────
+   RESPONSIVE (MOBILE)
+   ─────────────────────────────────────────── */
+@media (max-width:600px) {
+  .user-card { width:100%; }
+  .tab-bar   { flex-direction:column; }
+}
