@@ -7,10 +7,10 @@ export interface CreateChallengeRequest{
     challengedUsername: string;
     type: ChallengeType;
     title: string;
-    description?: string;
-    targetValue?: number;
-    targetUnit?: string;
-    deadline?: string;
+    description: string;
+    targetValue: number;
+    targetUnit: string;
+    deadline: string;
 }
 
 export interface ChallengeResponse {
@@ -59,6 +59,7 @@ export const getMyChallenges = async (): Promise<ChallengeResponse[]> => {
 }
 
 export const createChallenge = async (challenge: CreateChallengeRequest): Promise<ChallengeResponse> => {
+    console.log("createChallenge payload:", challenge);
     const res = await fetchWithAuth('http://localhost:8080/api/challenges', {
         method: 'POST',
         headers: {
@@ -105,21 +106,25 @@ export const cancelChallenge = async (challengeId: number): Promise<void> => {
     }
 };
 
-export const submitChallengeResult = async (
-    challengeId: number,
-    myScore: number,
-): Promise<ChallengeResponse> => {
-    const res = await fetchWithAuth(`http://localhost:8080/api/challenges/${challengeId}/submit-result`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ result: myScore }), // 🟢 changed from resultValue to result
-    });
-    if (!res.ok) {
-        const errorText = await res.text(); // Optional: get backend message
-        throw new Error(`Failed to submit result: ${errorText}`);
-    }
-    return await res.json();
-};
+export async function submitChallengeResult(
+  challengeId: number,
+  data: { result: number; comment?: string }
+) {
+  const res = await fetchWithAuth(`http://localhost:8080/api/challenges/${challengeId}/submit-result`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(error?.error || "Submit failed");
+  }
+
+  return await res.json();
+}
+
+
 
 
 export async function declareWinner(
@@ -132,7 +137,7 @@ export async function declareWinner(
   const body = JSON.stringify({ winnerUsername, reason });
   console.log("declareWinner body:", body);  // Zum Debuggen
 
-  const res = await fetch(`/api/challenges/${challengeId}/declare-winner`, {
+  const res = await fetch(`http://localhost:8080/api/challenges/${challengeId}/declare-winner`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
