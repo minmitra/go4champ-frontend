@@ -25,7 +25,7 @@ import FAQ from './pages/FAQ';
 import { useLocation } from 'react-router-dom';
 import Workouts from './pages/Workouts';
 import CreateWorkout from './pages/CreateWorkout';
-import MyCoach from './pages/MyCoach';
+// import MyCoach from './pages/MyCoach';
 
 
 function App() {
@@ -70,7 +70,7 @@ function App() {
             <Route path="/faq" element={<FAQ />} />
 
             {/* PRIVATE ROUTE, nach dem login */}
-            <Route path='/MyCoach' element={<PrivateRoute><MyCoach /></PrivateRoute>} />
+            {/* <Route path='/MyCoach' element={<PrivateRoute><MyCoach /></PrivateRoute>} /> */}
             <Route path='/mainpage' element={<PrivateRoute><Mainpage /></PrivateRoute>} />
             <Route path="/workouts" element={<PrivateRoute><Workouts/></PrivateRoute>} />
             <Route path="/CreateWorkout" element={<PrivateRoute><CreateWorkout /></PrivateRoute>} />

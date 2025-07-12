@@ -155,6 +155,8 @@ const CreateWorkout = () => {
 
     alert('Workout plan successfully generated and saved!');
 
+    navigate('/Workouts'); //neu wegen link zu workout
+
   } catch (error) {
     console.error('Error generating workout plan:', error);
     alert('An error occurred while generating your workout. Please try again.');
@@ -253,7 +255,7 @@ return (
                   {step === 0 ? (
                   <button
                         className="navigation-button-pages"
-                        onClick={() => navigate('/workouts')}
+                        onClick={() => navigate('/Workouts')}
                         disabled={isGenerating}
                             >   
                         <FaAngleLeft className="left-icon" />Exit
