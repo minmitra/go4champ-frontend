@@ -62,6 +62,7 @@
 
 .start-button,
 .delete-button {
+  min-width: 95px;
   padding: 6px 10px;
   font-size: 0.9rem;
   border: none;

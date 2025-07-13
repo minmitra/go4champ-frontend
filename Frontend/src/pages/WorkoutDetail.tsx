@@ -236,8 +236,8 @@ const WorkoutDetail = () => {
           <div className='modal-content'>
             <p>Are you sure you want to exit the workout? All progress will be lost.</p>
             <div className='modal-buttons'>
-              <button className='workout-button exit-button' onClick={confirmExitWorkout}>Yes</button>
-              <button className='workout-button' onClick={() => {setShowExitConfirmation(false); setIsRunning(isExercisePhase);}}>
+              <button className='start-button exit-button' onClick={confirmExitWorkout}>Yes</button>
+              <button className='delete-button' onClick={() => {setShowExitConfirmation(false); setIsRunning(isExercisePhase);}}>
                 No
               </button>
             </div>

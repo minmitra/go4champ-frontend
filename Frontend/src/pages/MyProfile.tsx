@@ -175,8 +175,8 @@ const MyProfile = () => {
 
         {isEditing ? (
           <div>
-            <button className="primary-button"onClick={handleSave}>Speichern</button>
-            <button className="primary-button"onClick={handleCancel}>Abbrechen</button>
+            <button className="primary-button"onClick={handleSave}>Save</button>
+            <button className="primary-button"onClick={handleCancel}>Cancel</button>
           </div>
         ) : (
           <button className="primary-button" onClick={() => setIsEditing(true)}>Edit</button>

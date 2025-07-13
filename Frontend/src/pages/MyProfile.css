@@ -56,6 +56,15 @@ input.readonly{
 }
 
 input{
+  display: block;
+  margin: 0.75rem auto;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  background: #f9fafb;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  color: #1f2937;
+  transition: border 150ms ease;
   opacity: 70%;
 }
 

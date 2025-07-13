@@ -271,16 +271,16 @@ color: rgb(0, 0, 0);
 body.dark .navigation-button-pages:hover {
    color:#3b82f6;
 }
-.navigation-button .left-icon {
+.navigation-button-pages .left-icon {
   margin-right: 8px;
 }
 
-.navigation-button .right-icon {
+.navigation-button-pages .right-icon {
   margin-left: 8px;
 }
 
 
-.navigation-button.right-align {
+.navigation-button-pages.right-align {
   justify-content: flex-end;
 }
 
