@@ -34,3 +34,13 @@ input[type="submit"]:hover {
 }
 
 
+.p-link-login{
+  text-decoration: none;
+  display: block;
+  text-align: center;
+  color:#172554; 
+}
+
+body.dark .p-link-login{
+  color:#dadbdd; 
+}

@@ -74,7 +74,7 @@ const Login = () => {
        {t('login')}
        </button>
 
-        <Link className="primary-button" to="/register">
+        <Link className="p-link-login" to="/register">
           {t('noAccount')}
         </Link>
       </form>

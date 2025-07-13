@@ -184,7 +184,7 @@ const Register = () => {
 
           <input type="submit" value="Register" className="primary-button" />
           {/* ABSCHNITT GEÄNDERT: className des Links von "register-link" zu "register" geändert, um ihrer Version zu entsprechen. */}
-          <Link className="primary-button" to="/login">
+          <Link className="p-link-login" to="/login">
             Already have an account? Login here
           </Link>
         </form>
