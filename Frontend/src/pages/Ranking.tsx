@@ -12,14 +12,17 @@ import {
   getMonthlyTrainingRanking,
   getStreakRanking,
   getFriendStreakRanking,
+  getFriendMonthlyRanking,
   isRankingResponse,
   type UserStats,
   type RankingResponse,
   type FriendRankingResponse,
   type FriendRankingEntry,
+  getMyStats,
 } from '../api/rankings';
 
 import { FaGlobe, FaCalendarAlt, FaFire, FaUserFriends } from 'react-icons/fa';
+import { t } from 'i18next';
 
 /* ------------------------------------------------------------------ */
 /*  TYPES + TAB CONFIG                                                */
@@ -32,6 +35,28 @@ const tabs: { id: TabId; label: string; icon: JSX.Element }[] = [
   { id: 'streaks',   label: 'Streaks',  icon: <FaFire /> },
   { id: 'friends',   label: 'Friends',  icon: <FaUserFriends /> },
 ];
+
+function formatLastUpdated(dateString?: string | null): string {
+  if (!dateString) return t('updated');
+  const d = new Date(dateString);
+  if (isNaN(d.getTime())) return t('updated');
+
+  return (
+    d.toLocaleDateString(undefined, {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    }) +
+    ' ' +
+    d.toLocaleTimeString(undefined, {
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+    })
+  );
+}
+
+
 
 /* ------------------------------------------------------------------ */
 /*  COMPONENT                                                         */
@@ -71,18 +96,23 @@ const Ranking: React.FC = () => {
   });
 
   const [activeTab, setActiveTab] = useState<TabId>('trainings');
+  const [myStats, setMyStats] = useState<UserStats | null>(null);
+
 
   /* ---------- Fetch Overview (once) ---------- */
   useEffect(() => {
-    (async () => {
-      try {
-        const overview = await getRankingOverview();
-        setOverviewData(overview);
-      } catch (err) {
-        console.error('Error fetching overview:', err);
-      }
-    })();
-  }, []);
+  (async () => {
+    try {
+      const overview = await getRankingOverview();
+      const stats = await getMyStats(); // 👈 hier hinzufügen
+      setOverviewData(overview);
+      setMyStats(stats); // 👈 speichern
+    } catch (err) {
+      console.error('Error fetching overview:', err);
+    }
+  })();
+}, []);
+
 
   /* ---------- Fetch Ranking for Active Tab ---------- */
   useEffect(() => {
@@ -97,9 +127,10 @@ const Ranking: React.FC = () => {
         switch (activeTab) {
           case 'trainings':
             data = await getGlobalTrainingRanking(10);
+            console.log("Global Trainings Ranking data:", data);
             break;
           case 'monthly':
-            data = await getMonthlyTrainingRanking(10);
+            data = await getFriendMonthlyRanking();
             break;
           case 'streaks':
             data = await getStreakRanking(10);
@@ -110,6 +141,7 @@ const Ranking: React.FC = () => {
           default:
             throw new Error('Unknown tab');
         }
+        console.log(`Data for tab ${activeTab}:`, data);
         setRankings((prev) => ({ ...prev, [activeTab]: data }));
       } catch (err) {
         setErrorTabs((prev) => ({
@@ -162,14 +194,13 @@ const Ranking: React.FC = () => {
 
       {stats && (
         <section>
-          <h2>{t('myStatistics') || 'My Statistics'}</h2>
+          <h2>Statistics</h2>
           <ul>
             <li><strong>Name:</strong> {stats.name}</li>
             <li><strong>Total Trainings:</strong> {stats.totalTrainings}</li>
             <li><strong>Challenge Win Rate:</strong> {(stats.challengeWinRate * 100).toFixed(1)}%</li>
             <li><strong>Longest Streak:</strong> {stats.longestStreak} {t('days') || 'days'}</li>
             <li><strong>Current Streak:</strong> {stats.currentStreak} {t('days') || 'days'}</li>
-            <li><strong>{t('averageDifficulty') || 'Average Difficulty'}:</strong> {stats.averageDifficulty.toFixed(2)}</li>
             <li><strong>Total Training Time:</strong> {stats.totalTrainingTime} {t('minutes') || 'minutes'}</li>
           </ul>
         </section>
@@ -207,41 +238,73 @@ const Ranking: React.FC = () => {
           <p className="error-text">Error: {errorTabs[activeTab]}</p>
         )}
 
-        {/* Global / Monthly / Streaks */}
+        {/* Global / Streaks */}
         {!loadingTabs[activeTab] && !errorTabs[activeTab] && isRankingResponse(rankings[activeTab]) && (
-          <>
+        <>
+          {rankings[activeTab]!.entries.length === 0 ? (
+            <p className="info-text">No entry yet!</p>
+          ) : (
             <ol className="ranking-list">
               {rankings[activeTab]!.entries.map((entry) => (
-                <li key={entry.username}>
+                <li key={entry.username} className={entry.username === myStats?.username ? 'highlight-me' : ''}>
                   <span>{entry.displayName ?? entry.username}</span>
-                  <span>{entry.score} {t('points') || 'points'}</span>
+                  <span>{entry.score}</span>
+                </li>
+              ))}
+            </ol>
+          )}
+          <p className="info-text">
+            {'last update'}: {formatLastUpdated(rankings[activeTab]?.lastUpdated)}
+          </p>
+
+        </>
+      )}
+
+
+        {/* Monthly Tab */}
+        {!loadingTabs[activeTab] && !errorTabs[activeTab] && activeTab === 'monthly' && (rankings[activeTab] as any)?.friendEntries?.length > 0 && (
+          <>
+            <ol className="ranking-list">
+              {(rankings[activeTab] as any).friendEntries.map((entry: any) => (
+                <li key={entry.username} className={entry.username === myStats?.username ? 'highlight-me' : ''}>
+                  <span>{entry.name && entry.name.length > 0 ? entry.name : entry.username}</span>
+                  <span>{entry.value} {t('points') || 'points'}</span>
                 </li>
               ))}
             </ol>
             <p className="info-text">
-              {t('lastUpdate') || 'Last Update'}:{' '}
-              {new Date(rankings[activeTab]!.lastUpdated).toLocaleString()}
+              {(formatLastUpdated((rankings[activeTab] as any)?.lastUpdated) || (rankings[activeTab] as any)?.period) ?? 'n/a' }
             </p>
+
           </>
         )}
 
+
+
         {/* Friends Tab */}
-        {!loadingTabs[activeTab] && !errorTabs[activeTab] && activeTab === 'friends' &&
-          (rankings.friends as FriendRankingResponse)?.friends?.length > 0 && (
+        {!loadingTabs[activeTab] &&
+          !errorTabs[activeTab] &&
+          activeTab === 'friends' &&
+          (rankings[activeTab] as any)?.friendEntries?.length > 0 && (
             <>
               <ol className="ranking-list">
-                {(rankings.friends as FriendRankingResponse).friends.map(
-                  (entry: FriendRankingEntry) => (
-                    <li key={entry.username}>
-                      <span>{entry.displayName ?? entry.username}</span>
-                      <span>{entry.score} {t('days') || 'days'}</span>
-                    </li>
-                  )
-                )}
+                {(rankings[activeTab] as any).friendEntries.map((entry: any) => (
+                  <li key={entry.username} className={entry.username === myStats?.username ? 'highlight-me' : ''}>
+                    <span>{entry.name?.length > 0 ? entry.name : entry.username}</span>
+                    <span>{entry.value} {t('days') || 'days'}</span>
+                  </li>
+                ))}
               </ol>
-              <p className="info-text">{t('lastUpdate') || 'Last Update'}: n/a</p>
+              <p className="info-text">
+                {(formatLastUpdated((rankings[activeTab] as any)?.lastUpdated) || (rankings[activeTab] as any)?.period) ?? 'n/a' }
+              </p>
+
+
             </>
-          )}
+        )}
+
+
+
       </div>
     </main>
   );

@@ -180,6 +180,11 @@ section > ul li strong {
   margin-right: 8px;
 }
 
+.highlight-me {
+  font-weight: bold;
+  color: #ed9108,
+}
+
 /* ========================================================= */
 /*  INFO / ERROR / LOADING                                   */
 /* ========================================================= */

@@ -1,5 +1,9 @@
 import { fetchWithAuth } from "../utils/fetchWithAuth";
 
+// =======================
+// Interfaces / Types
+// =======================
+
 export interface UserStats {
   username: string;
   name: string;
@@ -58,6 +62,7 @@ export interface RankingResponse {
   lastUpdated: string;
   updateFrequency?: string;
 }
+
 export interface FriendRankingEntry {
   username: string;
   displayName: string;
@@ -76,113 +81,68 @@ export function isRankingResponse(
   return response !== undefined && "entries" in response;
 }
 
-
-
-
+// =======================
+// API Calls (Backend-Kompatibel)
+// =======================
 
 export const getRankingOverview = async (): Promise<{
-  recentAchievements: any[]; // Typ ggf. noch spezifizieren
+  recentAchievements: any[];
   upcomingMilestones: any[];
   currentUserStats: UserStats;
 }> => {
-  const res = await fetchWithAuth('http://localhost:8080/api/rankings/overview', {
-    method: 'GET',
-  });
-
-  if (!res.ok) {
-    throw new Error('Failed to fetch ranking overview');
-  }
-
+  const res = await fetchWithAuth("http://localhost:8080/api/rankings/overview");
+  if (!res.ok) throw new Error("Failed to fetch ranking overview");
   return await res.json();
 };
 
 export const getMyStats = async (): Promise<UserStats> => {
-  const res = await fetchWithAuth('http://localhost:8080/api/rankings/my-stats', {
-    method: 'GET',
-  });
-
-  if (!res.ok) {
-    throw new Error('Failed to fetch my stats');
-  }
-
-  return await res.json();
-};
-
-export const getGlobalTrainingRanking = async (limit: number = 10): Promise<RankingResponse> => {
-  const res = await fetchWithAuth(`http://localhost:8080/api/rankings/global/trainings?limit=${limit}`, {
-    method: 'GET',
-  });
-
-  if (!res.ok) {
-    throw new Error('Failed to fetch global training ranking');
-  }
-
-  return await res.json();
-};
-
-export const getMonthlyTrainingRanking = async (limit: number = 10): Promise<RankingResponse> => {
-  const res = await fetchWithAuth(`http://localhost:8080/api/rankings/global/monthly?limit=${limit}`, {
-    method: 'GET',
-  });
-
-  if (!res.ok) {
-    throw new Error('Failed to fetch monthly training ranking');
-  }
-
-  return await res.json();
-};
-
-export const getStreakRanking = async (limit: number = 10): Promise<RankingResponse> => {
-  const res = await fetchWithAuth(`http://localhost:8080/api/rankings/global/streaks?limit=${limit}`, {
-    method: 'GET',
-  });
-
-  if (!res.ok) {
-    throw new Error('Failed to fetch streak ranking');
-  }
-
-  return await res.json();
-};
-
-export const getFriendMonthlyRanking = async (): Promise<RankingResponse> => {
-  const res = await fetchWithAuth('http://localhost:8080/api/rankings/friends/monthly', {
-    method: 'GET',
-  });
-
-  if (!res.ok) {
-    throw new Error('Failed to fetch friend monthly ranking');
-  }
-
-  return await res.json();
-};
-
-export const getFriendStreakRanking = async (): Promise<FriendRankingResponse> => {
-  const res = await fetchWithAuth('http://localhost:8080/api/rankings/friends/streaks', {
-    method: 'GET',
-  });
-
-  if (!res.ok) {
-    throw new Error('Failed to fetch friend streak ranking');
-  }
-
+  const res = await fetchWithAuth("http://localhost:8080/api/rankings/my-stats");
+  if (!res.ok) throw new Error("Failed to fetch my stats");
   return await res.json();
 };
 
 export const getUserStats = async (targetUsername: string): Promise<UserStats> => {
-  const res = await fetchWithAuth(`http://localhost:8080/api/rankings/user/${targetUsername}/stats`, {
-    method: 'GET',
-  });
-
-  if (!res.ok) {
-    throw new Error('Failed to fetch user stats');
-  }
-
+  const res = await fetchWithAuth(`http://localhost:8080/api/rankings/user/${targetUsername}/stats`);
+  if (!res.ok) throw new Error("Failed to fetch user stats");
   return await res.json();
 };
 
+export const getGlobalTrainingRanking = async (limit: number = 10): Promise<RankingResponse> => {
+  const res = await fetchWithAuth(`http://localhost:8080/api/rankings/global/trainings?limit=${limit}`);
+  if (!res.ok) throw new Error("Failed to fetch global training ranking");
+  return await res.json();
+};
+
+export const getMonthlyTrainingRanking = async (limit: number = 10): Promise<RankingResponse> => {
+  const res = await fetchWithAuth(`http://localhost:8080/api/rankings/global/monthly?limit=${limit}`);
+  if (!res.ok) throw new Error("Failed to fetch monthly training ranking");
+  return await res.json();
+};
+
+export const getStreakRanking = async (limit: number = 10): Promise<RankingResponse> => {
+  const res = await fetchWithAuth(`http://localhost:8080/api/rankings/global/streaks?limit=${limit}`);
+  if (!res.ok) throw new Error("Failed to fetch streak ranking");
+  return await res.json();
+};
+
+// ✅ Wichtig: Rückgabetyp im Backend ist trotzdem RankingResponse!
+export const getFriendMonthlyRanking = async (): Promise<RankingResponse> => {
+  const res = await fetchWithAuth("http://localhost:8080/api/rankings/friends/monthly");
+  if (!res.ok) throw new Error("Failed to fetch friend monthly ranking");
+  return await res.json();
+};
+
+// ✅ Rückgabetyp korrekt: FriendRankingResponse
+export const getFriendStreakRanking = async (): Promise<FriendRankingResponse> => {
+  const res = await fetchWithAuth("http://localhost:8080/api/rankings/friends/streaks");
+  if (!res.ok) throw new Error("Failed to fetch friend streak ranking");
+  return await res.json();
+};
+
+// Leaderboard: dynamisch nach Kategorie und Scope
 export const getLeaderboard = async (
-  category: 'trainings' | 'total' | 'monthly' | 'streaks' | 'streak' = 'trainings',
-  scope: 'global' | 'friends' = 'global',
+  category: "trainings" | "total" | "monthly" | "streaks" | "streak" = "trainings",
+  scope: "global" | "friends" = "global",
   limit: number = 10
 ): Promise<{ category: string; scope: string; ranking: RankingResponse }> => {
   const params = new URLSearchParams({
@@ -191,14 +151,8 @@ export const getLeaderboard = async (
     limit: limit.toString(),
   });
 
-  const res = await fetchWithAuth(`http://localhost:8080/api/rankings/leaderboard?${params.toString()}`, {
-    method: 'GET',
-  });
-
-  if (!res.ok) {
-    throw new Error('Failed to fetch leaderboard');
-  }
-
+  const res = await fetchWithAuth(`http://localhost:8080/api/rankings/leaderboard?${params.toString()}`);
+  if (!res.ok) throw new Error("Failed to fetch leaderboard");
   return await res.json();
 };
 
@@ -213,14 +167,8 @@ export const getRankingSummary = async (): Promise<{
     streak: number;
   };
 }> => {
-  const res = await fetchWithAuth('http://localhost:8080/api/rankings/summary', {
-    method: 'GET',
-  });
-
-  if (!res.ok) {
-    throw new Error('Failed to fetch ranking summary');
-  }
-
+  const res = await fetchWithAuth("http://localhost:8080/api/rankings/summary");
+  if (!res.ok) throw new Error("Failed to fetch ranking summary");
   return await res.json();
 };
 
@@ -229,27 +177,15 @@ export const getAchievements = async (): Promise<{
   milestones: any[];
   userStats: UserStats;
 }> => {
-  const res = await fetchWithAuth('http://localhost:8080/api/rankings/achievements', {
-    method: 'GET',
-  });
-
-  if (!res.ok) {
-    throw new Error('Failed to fetch achievements');
-  }
-
+  const res = await fetchWithAuth("http://localhost:8080/api/rankings/achievements");
+  if (!res.ok) throw new Error("Failed to fetch achievements");
   return await res.json();
 };
 
 export const getRankingHistory = async (
-  period: string = 'monthly'
+  period: string = "monthly"
 ): Promise<{ message: string; currentStats: UserStats; period: string }> => {
-  const res = await fetchWithAuth(`http://localhost:8080/api/rankings/history?period=${period}`, {
-    method: 'GET',
-  });
-
-  if (!res.ok) {
-    throw new Error('Failed to fetch ranking history');
-  }
-
+  const res = await fetchWithAuth(`http://localhost:8080/api/rankings/history?period=${period}`);
+  if (!res.ok) throw new Error("Failed to fetch ranking history");
   return await res.json();
 };

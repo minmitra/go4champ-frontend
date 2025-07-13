@@ -370,9 +370,17 @@ const MyChallenges: React.FC = () => {
                     <strong>{c.challengerUsername}</strong> vs <strong>{c.challengedUsername}</strong>
                   </p>
                   <p>Title: {c.title ?? ""}</p>
+                  <p>Description: {c.description ?? ""}</p>
                   <p>My Role: {roleLabel(c.myRole)}</p>
-                  <p>Status: <em>{c.status}</em></p>
                   <p>Type: {c.type}</p>
+                  <p>My Score: {
+                    c.myRole === "CHALLENGER"
+                      ? c.challengerResult ?? "Not submitted yet"
+                      : c.challengedResult ?? "Not submitted yet"
+                    }
+                  </p>
+                  <p>Status: <em>{c.status}</em></p>
+                  
 
                   {/* Buttons für PENDING */}
                   {c.status === "PENDING" && c.myRole === "CHALLENGED" && (
@@ -466,10 +474,8 @@ const MyChallenges: React.FC = () => {
                   ) || (
                     <div>
                       {c.status === "COMPLETED" && (
-                        <div style={{ background: "#ffe0e0", padding: "0.5rem" }}>
-                          <p><strong>DEBUG</strong></p>
-                          <p>WinnerName: {String(c.winnerName)}</p>
-                          <p>WinnerUsername: {String(c.winnerUsername)}</p>
+                        <div style={{ background: "#d6fdcdff", padding: "0.5rem", borderRadius: "8px" }}>
+                          <p>Winner: {String(c.winnerUsername)}</p>
                         </div>
                       )}
                     </div>
