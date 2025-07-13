@@ -263,6 +263,10 @@ footer {
 color: rgb(0, 0, 0);
 }
 
+body.dark .navigation-button-pages {
+color: rgb(255, 255, 255);
+}
+
 .navigation-button-pages:hover {
   color:#3b82f6;
 }
