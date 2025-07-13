@@ -17,8 +17,10 @@ export interface User{
     verificationToken?: string | null;
 }
 
+const API_BASE_URL = 'http://localhost:8080';
+
 export const getMyProfile = async (): Promise<User> => {
-    const res = await fetchWithAuth('http://localhost:8080/api/me/profile', {
+    const res = await fetchWithAuth(`${API_BASE_URL}/api/me/profile`, {
         method: 'GET',
     });
 
@@ -29,7 +31,7 @@ export const getMyProfile = async (): Promise<User> => {
 }
 
 export const updateMyProfile = async (data: User): Promise<User> => {
-    const res = await fetchWithAuth('http://localhost:8080/api/me/profile', {
+    const res = await fetchWithAuth(`${API_BASE_URL}/api/me/profile`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -43,7 +45,7 @@ export const updateMyProfile = async (data: User): Promise<User> => {
 }
 
 export const getMyEquipment = async (): Promise<string[]> => {
-    const res = await fetchWithAuth('http://localhost:8080/api/me/equipment', {
+    const res = await fetchWithAuth(`${API_BASE_URL}/api/me/equipment`, {
         method: 'GET',
     });
     if(!res.ok){
@@ -54,7 +56,7 @@ export const getMyEquipment = async (): Promise<string[]> => {
 }
 
 export const updateMyEquipment = async (equipment: string[]): Promise<User> => {
-    const res = await fetchWithAuth('http://localhost:8080/api/me/equipment', {
+    const res = await fetchWithAuth(`${API_BASE_URL}/api/me/equipment`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -68,7 +70,7 @@ export const updateMyEquipment = async (equipment: string[]): Promise<User> => {
 }
 
 export const addEquipment = async (name: string): Promise<void> => {
-    const res = await fetchWithAuth(`http://localhost:8080/api/me/equipment/${name}`, {
+    const res = await fetchWithAuth(`${API_BASE_URL}/api/me/equipment/${name}`, {
         method: 'POST',
     });
     if (!res.ok){
@@ -77,7 +79,7 @@ export const addEquipment = async (name: string): Promise<void> => {
 };
 
 export const removeEquipment = async(name: string): Promise<void> => {
-    const res = await fetchWithAuth(`http://localhost:8080/api/me/equipment/${name}`, {
+    const res = await fetchWithAuth(`${API_BASE_URL}/api/me/equipment/${name}`, {
         method: 'DELETE',
     });
     if (!res.ok){
@@ -86,7 +88,7 @@ export const removeEquipment = async(name: string): Promise<void> => {
 };
 
 export const getAvailableEquipment = async (): Promise<Record<string, string>> => {
-  const res = await fetchWithAuth('http://localhost:8080/api/equipment/available');
+  const res = await fetchWithAuth(`${API_BASE_URL}/api/equipment/available`);
   
   if (!res.ok){
     throw new Error('Could not fetch equipment');

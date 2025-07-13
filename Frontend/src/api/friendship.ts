@@ -23,9 +23,10 @@ export interface FriendRequest {
     };
 }
 
+const API_BASE_URL = 'http://localhost:8080';
 
 export const getFriend = async (): Promise<Friend[]> => {
-    const res = await fetchWithAuth('http://localhost:8080/api/me/friends');
+    const res = await fetchWithAuth(`${API_BASE_URL}/api/me/friends`);
     if (!res.ok){
         throw new Error('Failed to fetch friends');
     }
@@ -34,7 +35,7 @@ export const getFriend = async (): Promise<Friend[]> => {
 };
 
 export const getFriendshipStatus = async (otherUsername: string): Promise<FriendshipStatus> => {
-    const res = await fetchWithAuth(`http://localhost:8080/api/me/friendship-status/${otherUsername}`);
+    const res = await fetchWithAuth(`${API_BASE_URL}/api/me/friendship-status/${otherUsername}`);
     if (!res.ok){
         throw new Error('Failed to fetch friendship status');
     }
@@ -42,7 +43,7 @@ export const getFriendshipStatus = async (otherUsername: string): Promise<Friend
 }
 
 export const getIncomingRequests = async(): Promise<FriendRequest[]> => {
-    const res = await fetchWithAuth('http://localhost:8080/api/me/friend-requests/incoming');
+    const res = await fetchWithAuth(`${API_BASE_URL}/api/me/friend-requests/incoming`);
     if (!res.ok){
         throw new Error('Failed to fetch incoming requests');
     }
@@ -51,7 +52,7 @@ export const getIncomingRequests = async(): Promise<FriendRequest[]> => {
 };
 
 export const getOutgoingRequests = async(): Promise<FriendRequest[]> => {
-    const res = await fetchWithAuth('http://localhost:8080/api/me/friend-requests/outgoing');
+    const res = await fetchWithAuth(`${API_BASE_URL}/api/me/friend-requests/outgoing`);
     if (!res.ok){
         throw new Error('Failed to fetch outgoing requests');
     }
@@ -60,7 +61,7 @@ export const getOutgoingRequests = async(): Promise<FriendRequest[]> => {
 };
 
 export const sendFriendRequest = async(receiverUsername: string): Promise<void> => {
-    const res = await fetchWithAuth('http://localhost:8080/api/me/friend-requests', {
+    const res = await fetchWithAuth(`${API_BASE_URL}/api/me/friend-requests`, {
         method: 'POST',
         body: JSON.stringify({receiverUsername}),
     });
@@ -70,7 +71,7 @@ export const sendFriendRequest = async(receiverUsername: string): Promise<void> 
 };
 
 export const acceptFriendRequest = async(id: string): Promise<void> => {
-    const res = await fetchWithAuth(`http://localhost:8080/api/me/friend-requests/${id}/accept`, {
+    const res = await fetchWithAuth(`${API_BASE_URL}/api/me/friend-requests/${id}/accept`, {
         method: 'POST',
         
     });
@@ -80,7 +81,7 @@ export const acceptFriendRequest = async(id: string): Promise<void> => {
 };
 
 export const rejectFriendRequest = async(id: string): Promise<void> => {
-    const res = await fetchWithAuth(`http://localhost:8080/api/me/friend-requests/${id}/reject`, {
+    const res = await fetchWithAuth(`${API_BASE_URL}/api/me/friend-requests/${id}/reject`, {
         method: 'POST',
     });
     if (!res.ok){
@@ -89,7 +90,7 @@ export const rejectFriendRequest = async(id: string): Promise<void> => {
 };
 
 export const cancelFriendRequest = async(id: string): Promise<void> => {
-    const res = await fetchWithAuth(`http://localhost:8080/api/me/friend-requests/${id}`, {
+    const res = await fetchWithAuth(`${API_BASE_URL}/api/me/friend-requests/${id}`, {
         method: 'DELETE',
     });
     if (!res.ok){
@@ -99,7 +100,7 @@ export const cancelFriendRequest = async(id: string): Promise<void> => {
 
 
 export const deleteFriend = async(friendUsername: string): Promise<void> => {
-    const res = await fetchWithAuth(`http://localhost:8080/api/me/friends/${friendUsername}`, {
+    const res = await fetchWithAuth(`${API_BASE_URL}/api/me/friends/${friendUsername}`, {
         method: 'DELETE',
     });
     if (!res.ok){

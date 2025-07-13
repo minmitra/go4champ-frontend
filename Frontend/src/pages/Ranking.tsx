@@ -10,7 +10,6 @@ import {
   getRankingOverview,
   getGlobalTrainingRanking,
   getMonthlyTrainingRanking,
-  getStreakRanking,
   getFriendStreakRanking,
   getFriendMonthlyRanking,
   isRankingResponse,
@@ -27,12 +26,11 @@ import { t } from 'i18next';
 /* ------------------------------------------------------------------ */
 /*  TYPES + TAB CONFIG                                                */
 /* ------------------------------------------------------------------ */
-type TabId = 'trainings' | 'monthly' | 'streaks' | 'friends';
+type TabId = 'trainings' | 'monthly' | 'friends';
 
 const tabs: { id: TabId; label: string; icon: JSX.Element }[] = [
   { id: 'trainings', label: 'Global',   icon: <FaGlobe /> },
   { id: 'monthly',   label: 'Monthly',  icon: <FaCalendarAlt /> },
-  { id: 'streaks',   label: 'Streaks',  icon: <FaFire /> },
   { id: 'friends',   label: 'Friends',  icon: <FaUserFriends /> },
 ];
 
@@ -84,14 +82,12 @@ const Ranking: React.FC = () => {
   const [loadingTabs, setLoadingTabs] = useState<Record<TabId, boolean>>({
     trainings: true,
     monthly: false,
-    streaks: false,
     friends: false,
   });
 
   const [errorTabs, setErrorTabs] = useState<Record<TabId, string | null>>({
     trainings: null,
     monthly: null,
-    streaks: null,
     friends: null,
   });
 
@@ -131,9 +127,6 @@ const Ranking: React.FC = () => {
             break;
           case 'monthly':
             data = await getFriendMonthlyRanking();
-            break;
-          case 'streaks':
-            data = await getStreakRanking(10);
             break;
           case 'friends':
             data = await getFriendStreakRanking();

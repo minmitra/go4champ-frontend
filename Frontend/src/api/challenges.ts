@@ -45,8 +45,11 @@ export interface ChallengeOverview {
     totalLosses: number;
 };
 
+
+const API_BASE_URL = 'http://localhost:8080';
+
 export const getMyChallenges = async (): Promise<ChallengeResponse[]> => {
-    const res = await fetchWithAuth('http://localhost:8080/api/challenges/my', {
+    const res = await fetchWithAuth(`${API_BASE_URL}/api/challenges/my`, {
         method: 'GET',
     });
 
@@ -60,7 +63,7 @@ export const getMyChallenges = async (): Promise<ChallengeResponse[]> => {
 
 export const createChallenge = async (challenge: CreateChallengeRequest): Promise<ChallengeResponse> => {
     console.log("createChallenge payload:", challenge);
-    const res = await fetchWithAuth('http://localhost:8080/api/challenges', {
+    const res = await fetchWithAuth(`${API_BASE_URL}/api/challenges`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -75,7 +78,7 @@ export const createChallenge = async (challenge: CreateChallengeRequest): Promis
 };
 
 export const acceptChallenge = async (challengeId:number): Promise<ChallengeResponse> => {
-    const res = await fetchWithAuth(`http://localhost:8080/api/challenges/${challengeId}/accept`, {
+    const res = await fetchWithAuth(`${API_BASE_URL}/api/challenges/${challengeId}/accept`, {
         method: 'POST',
     });
 
@@ -87,7 +90,7 @@ export const acceptChallenge = async (challengeId:number): Promise<ChallengeResp
 
 
 export const rejectChallenge = async (challengeId:number): Promise<void> => {
-    const res = await fetchWithAuth(`http://localhost:8080/api/challenges/${challengeId}/reject`, {
+    const res = await fetchWithAuth(`${API_BASE_URL}/api/challenges/${challengeId}/reject`, {
         method: 'POST',
     });
 
@@ -98,7 +101,7 @@ export const rejectChallenge = async (challengeId:number): Promise<void> => {
 
 
 export const cancelChallenge = async (challengeId: number): Promise<void> => {
-    const res = await fetchWithAuth(`http://localhost:8080/api/challenges/${challengeId}/cancel`, {
+    const res = await fetchWithAuth(`${API_BASE_URL}/api/challenges/${challengeId}/cancel`, {
         method: 'POST',
     });
     if (!res.ok){
@@ -110,7 +113,7 @@ export async function submitChallengeResult(
   challengeId: number,
   data: { result: number; comment?: string }
 ) {
-  const res = await fetchWithAuth(`http://localhost:8080/api/challenges/${challengeId}/submit-result`, {
+  const res = await fetchWithAuth(`${API_BASE_URL}/api/challenges/${challengeId}/submit-result`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
@@ -137,7 +140,7 @@ export async function declareWinner(
   const body = JSON.stringify({ winnerUsername, reason });
   console.log("declareWinner body:", body);  // Zum Debuggen
 
-  const res = await fetch(`http://localhost:8080/api/challenges/${challengeId}/declare-winner`, {
+  const res = await fetch(`${API_BASE_URL}/api/challenges/${challengeId}/declare-winner`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -159,7 +162,7 @@ export async function declareWinner(
 
 
 export const getChallengeDetails = async (challengeId: number): Promise<ChallengeResponse> => {
-    const res = await fetchWithAuth(`http://localhost:8080/api/challenges/${challengeId}`, {
+    const res = await fetchWithAuth(`${API_BASE_URL}/api/challenges/${challengeId}`, {
         method: 'GET',
     });
     if (!res.ok) {
@@ -169,7 +172,7 @@ export const getChallengeDetails = async (challengeId: number): Promise<Challeng
 };
 
 export const getIncomingChallenges = async (): Promise<ChallengeResponse[]> => {
-    const res = await fetchWithAuth('http://localhost:8080/api/challenges/incoming', {
+    const res = await fetchWithAuth(`${API_BASE_URL}/api/challenges/incoming`, {
         method: 'GET',
     });
     if (!res.ok) {
@@ -180,7 +183,7 @@ export const getIncomingChallenges = async (): Promise<ChallengeResponse[]> => {
 };
 
 export const getOutgoingChallenges = async (): Promise<ChallengeResponse[]> => {
-    const res = await fetchWithAuth('http://localhost:8080/api/challenges/outgoing', {
+    const res = await fetchWithAuth(`${API_BASE_URL}/api/challenges/outgoing`, {
         method: 'GET',
     });
     if (!res.ok) {
@@ -191,7 +194,7 @@ export const getOutgoingChallenges = async (): Promise<ChallengeResponse[]> => {
 };
 
 export const getActiveChallenges = async (): Promise<ChallengeResponse[]> => {
-    const res = await fetchWithAuth('http://localhost:8080/api/challenges/active', {
+    const res = await fetchWithAuth(`${API_BASE_URL}/api/challenges/active`, {
         method: 'GET',
     });
     if (!res.ok) {
@@ -202,7 +205,7 @@ export const getActiveChallenges = async (): Promise<ChallengeResponse[]> => {
 };
 
 export const getChallengeOverview = async (): Promise<ChallengeOverview> => {
-    const res = await fetchWithAuth('http://localhost:8080/api/challenges/overview', {
+    const res = await fetchWithAuth(`${API_BASE_URL}/api/challenges/overview`, {
         method: 'GET',
     });
     if (!res.ok) {
