@@ -46,7 +46,7 @@ export interface ChallengeOverview {
 };
 
 
-const API_BASE_URL = 'http://localhost:8080';
+const API_BASE_URL = 'https://go4champ-backend-x.onrender.com';
 
 export const getMyChallenges = async (): Promise<ChallengeResponse[]> => {
     const res = await fetchWithAuth(`${API_BASE_URL}/api/challenges/my`, {

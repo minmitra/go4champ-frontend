@@ -17,7 +17,7 @@ export interface User{
     verificationToken?: string | null;
 }
 
-const API_BASE_URL = 'http://localhost:8080';
+const API_BASE_URL = 'https://go4champ-backend-x.onrender.com';
 
 export const getMyProfile = async (): Promise<User> => {
     const res = await fetchWithAuth(`${API_BASE_URL}/api/me/profile`, {

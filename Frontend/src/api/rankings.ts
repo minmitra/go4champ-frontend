@@ -78,7 +78,7 @@ export function isRankingResponse(
 }
 
 
-const API_BASE_URL = 'http://localhost:8080';
+const API_BASE_URL = 'https://go4champ-backend-x.onrender.com';
 
 export const getRankingOverview = async (): Promise<{
   recentAchievements: any[];
