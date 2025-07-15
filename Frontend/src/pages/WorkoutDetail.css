@@ -1,153 +1,122 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap');
+
+:root {
+  --primary: #0f172a;           /* deep navy */
+  --primary-dark: #1e293b;
+  --accent: #032651;            /* soft cyan blue */
+  --bg-light: #f8fafc;
+  --text-dark: #1e293b;
+  --danger: #ef4444;
+  --danger-dark: #b91c1c;
+  --neutral: #e2e8f0;
+}
+
+body {
+  font-family: 'Space Grotesk', sans-serif;
+  background-color: var(--bg-light);
+  color: var(--text-dark);
+}
 
 .workout-detail-container {
-  background-color: #f8fafc;
+  background: white;
   border-radius: 20px;
   padding: 2.5rem;
   margin: 3rem auto;
-  font-family: 'Inter', sans-serif;
   max-width: 720px;
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
 }
 
 .workout-title {
-  font-size: 1.75rem;
+  font-size: 2rem;
   font-weight: 700;
-  color: #0f172a;
+  color: var(--primary);
   margin-bottom: 2rem;
   text-align: center;
 }
 
-.exercise-card {
-  background-color: #ecfdf5;
-  border: 1px solid #d1fae5;
+.current-exercise-card {
+  background: var(--card-bg);
   border-radius: 16px;
-  padding: 1.8rem;
-  color: #065f46;
-  margin-bottom: 1.5rem;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
-  transition: transform 0.2s ease;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  margin-top: 1rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3); /* stärkerer, gleichmäßiger Schatten */
 }
 
-.exercise-card:hover {
-  transform: translateY(-3px);
-}
 
-.exercise-card h2 {
-  font-size: 1.5rem;
-  font-weight: 600;
-  text-align: center;
-  color: #064e3b;
-  margin-bottom: 1rem;
-}
-
-.exercise-card ul {
-  list-style-type: disc;
-  padding-left: 1.5rem;
-  color: #1e293b;
-}
-
-.exercise-card li {
+.current-exercise-card h3 {
+  font-size: 1.6rem;
+  color: var(--primary);
   margin-bottom: 0.5rem;
-  font-size: 1rem;
-  line-height: 1.6;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
-.navigation-buttons {
+.current-exercise-card h3::before {
+  content: '';
+  display: inline-block;
+  background-image: url('https://cdn.jsdelivr.net/gh/lucide-icons/lucide/icons/dumbbell.svg');
+  background-size: contain;
+  width: 24px;
+  height: 24px;
+}
+
+.exercise-description-full {
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+
+.time-counter {
+  font-size: 1.4rem;
+  color: var(--accent);
+  font-weight: bold;
+}
+
+.primary-button {
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 9999px;
+  padding: 0.8rem 2rem;
+  font-weight: 600;
+  font-size: 1rem;
+  margin: 0.5rem;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+  height: center;
+}
+
+.primary-button:hover {
+  background-color: var(--primary-dark);
+  transform: scale(1.03);
+}
+
+.navigation-buttons-pages {
   display: flex;
   justify-content: center;
-  gap: 1.25rem;
   margin-top: 2rem;
 }
 
-button {
-  padding: 0.7rem 1.4rem;
-  font-size: 1rem;
+.navigation-button-pages {
+  background: none;
+  color: var(--primary);
   border: none;
-  border-radius: 9999px;
-  cursor: pointer;
   font-weight: 600;
-  transition: background-color 0.25s ease, transform 0.25s ease;
-}
-
-.exit-button-container {
+  font-size: 1rem;
   display: flex;
-  justify-content: center;
-  margin-top: 3rem;
+  align-items: center;
+  cursor: pointer;
 }
 
-.exit-button {
-  background-color: #ef4444;
-  color: white;
-  font-weight: 700;
-  padding: 0.9rem 2rem;
+.navigation-button-pages:hover {
+  text-decoration: underline;
 }
 
-.exit-button:hover {
-  background-color: #dc2626;
+.left-icon {
+  margin-right: 0.5rem;
 }
 
-.next-button {
-  background-color: #0f766e;
-  color: white;
-}
-
-.next-button:hover {
-  background-color: #0d9488;
-}
-
-.navigation-buttons .next-button:disabled {
-  background-color: #cbd5e1;
-  color: #64748b;
-  cursor: not-allowed;
-}
-
-.navigation-buttons .next-button:disabled:hover {
-  background-color: #cbd5e1;
-}
-
-/* Pause Card */
-.pause-card {
-  background-color: #f0fdf4;
-  border: 2px dashed #22c55e;
-  border-radius: 16px;
-  padding: 2rem;
-  text-align: center;
-  margin-bottom: 2rem;
-  color: #14532d;
-}
-
-.pause-card p {
-  font-size: 1.2rem;
-  color: #334155;
-  margin-bottom: 1rem;
-}
-
-.time-counter,
-.countdown {
-  font-size: 3rem;
-  font-weight: 800;
-  color: #15803d;
-  animation: pulse 1.5s infinite alternate;
-}
-
-.countdown {
-  font-size: 4rem;
-}
-
-@keyframes pulse {
-  from {
-    transform: scale(1);
-    opacity: 1;
-  }
-  to {
-    transform: scale(1.05);
-    opacity: 0.9;
-  }
-}
-
-/* Exit Modal */
-.exit-confirm-modal,
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -169,13 +138,7 @@ button {
   text-align: center;
   max-width: 420px;
   width: 90%;
-  font-family: 'Inter', sans-serif;
-}
-
-.modal-content p {
-  margin-bottom: 1.5rem;
-  color: #334155;
-  font-size: 1.05rem;
+  font-family: 'Space Grotesk', sans-serif;
 }
 
 .modal-buttons {
@@ -185,20 +148,24 @@ button {
   margin-top: 1.5rem;
 }
 
-.modal-buttons .exit-button {
-  background-color: #dc2626;
+.workout-button {
+  background-color: var(--primary);
   color: white;
+  padding: 0.7rem 1.5rem;
+  border-radius: 9999px;
+  font-weight: 600;
+  border: none;
+  transition: background-color 0.2s;
 }
 
-.modal-buttons .exit-button:hover {
-  background-color: #b91c1c;
+.exit-button {
+  background-color: var(--danger);
 }
 
-.modal-buttons button:not(.exit-button) {
-  background-color: #0f766e;
-  color: white;
+.exit-button:hover {
+  background-color: var(--danger-dark);
 }
 
-.modal-buttons button:not(.exit-button):hover {
-  background-color: #10b981;
+.workout-button:hover:not(.exit-button) {
+  background-color: var(--primary-dark);
 }
