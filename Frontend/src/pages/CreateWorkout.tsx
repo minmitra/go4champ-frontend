@@ -110,7 +110,7 @@ const CreateWorkout = () => {
     const prompt = `Create a ${formData.exercises} exercises ${formData.bodyPart} workout plan for ${formData.location}.`;
     console.log('Prompt sent to AI:', prompt);
 
-    const response = await apiFetch<{ antwort: string; plan: string }>(`/api/training-plans`, {
+    const response = await apiFetch<{ antwort: string; plan: string }>(`/api/ai/chat-create-plan`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
