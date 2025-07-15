@@ -205,7 +205,7 @@ return (
                 )}
 
                 {steps[step] === 'exercises' && (
-                  <div className="options">
+                  <div className="workout-options labelS">
                     {[1, 2, 3, 4, 5, 6, 7].map(num => (
                       <label key={num}>
                         <input
@@ -221,7 +221,7 @@ return (
                 )}
 
                 {steps[step] === 'location' && (
-                  <div className="options">
+                  <div className="workout-options labelS">
                     {['Home', 'Gym', 'Outdoor'].map(place => (
                       <label key={place}>
                         <input
