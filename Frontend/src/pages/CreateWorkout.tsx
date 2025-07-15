@@ -189,7 +189,7 @@ return (
                 transition={{ duration: 0.4 }}
               >
                 {steps[step] === 'bodyPart' && (
-                  <div className="options">
+                  <div className="workout-options labelS">
                     {['Arms', 'Back', 'Abs', 'Legs', 'Glutes', 'Full Body'].map(part => (
                       <label key={part}>
                         <input
